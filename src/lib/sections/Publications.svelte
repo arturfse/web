@@ -43,7 +43,7 @@
   <div class="container">
     <!-- Section Header -->
     <div class="section-header" class:visible>
-      <span class="section-badge">Writing</span>
+      <div class="section-badge">Writing</div>
       <h2>thoughts & insights</h2>
       <p>Sharing learnings from building products and leading teams</p>
     </div>
@@ -51,7 +51,7 @@
     <!-- Stats -->
     <div class="stats-row" class:visible>
       {#each stats as stat, i}
-        <div class="stat-item" style="--delay: {i * 0.1}s">
+        <div class="stat-card" style="--delay: {i * 0.1}s">
           <span class="stat-value">{stat.value}</span>
           <span class="stat-label">{stat.label}</span>
         </div>
@@ -59,18 +59,11 @@
     </div>
 
     <!-- Publications -->
-    <div class="publications-grid" class:visible>
+    <div class="publications-list" class:visible>
       {#each publications as pub, i}
-        <a
-          href={pub.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="pub-card"
-          class:featured={pub.featured}
-          style="--delay: {i * 0.1}s"
-        >
+        <a href={pub.link} target="_blank" rel="noopener noreferrer" class="pub-card" style="--delay: {i * 0.1}s">
           <div class="pub-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
           </div>
@@ -79,7 +72,7 @@
             <p>{pub.description}</p>
           </div>
           <div class="pub-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M7 17L17 7"/>
               <path d="M7 7h10v10"/>
             </svg>
@@ -92,34 +85,21 @@
 
 <style>
   .publications {
-    padding: 100px 0;
-    background: var(--bg-base);
+    padding: 120px 0;
+    background: var(--bg-muted);
     position: relative;
-    overflow: hidden;
-  }
-
-  .publications::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 70% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 30% 80%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
-    pointer-events: none;
   }
 
   .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 2rem;
-    position: relative;
-    z-index: 1;
   }
 
   /* Section Header */
   .section-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s ease;
@@ -131,27 +111,26 @@
   }
 
   .section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    display: inline-block;
+    padding: 10px 20px;
     background: var(--bg-subtle);
-    border: 2px solid var(--border-color);
+    border: 3px solid var(--color-primary);
     border-radius: 100px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    letter-spacing: 0.15em;
     color: var(--color-primary);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .section-header h2 {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     text-transform: lowercase;
   }
 
@@ -166,8 +145,8 @@
   .stats-row {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    margin-bottom: 40px;
+    gap: 24px;
+    margin-bottom: 60px;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease 0.2s;
@@ -178,23 +157,32 @@
     transform: translateY(0);
   }
 
-  .stats-row.visible .stat-item {
+  .stats-row.visible .stat-card {
     opacity: 1;
     transform: translateY(0);
     transition-delay: var(--delay);
   }
 
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+  .stat-card {
+    text-align: center;
+    padding: 24px 40px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
   }
 
+  .stat-card:hover {
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+  }
+
   .stat-value {
+    display: block;
     font-family: var(--font-display);
     font-size: var(--text-2xl);
     font-weight: 700;
@@ -202,29 +190,31 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    margin-bottom: 8px;
   }
 
   .stat-label {
     font-size: var(--text-xs);
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
 
-  /* Publications Grid */
-  .publications-grid {
+  /* Publications List */
+  .publications-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
     opacity: 0;
     transition: opacity 0.6s ease 0.3s;
   }
 
-  .publications-grid.visible {
+  .publications-list.visible {
     opacity: 1;
   }
 
-  .publications-grid.visible .pub-card {
+  .publications-list.visible .pub-card {
     opacity: 1;
     transform: translateY(0);
     transition-delay: var(--delay);
@@ -233,18 +223,18 @@
   .pub-card {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 24px;
-    background: var(--glass-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
+    gap: 24px;
+    padding: 28px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    box-shadow: var(--shadow-md);
     opacity: 0;
     transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
 
   .pub-card::before {
@@ -253,11 +243,12 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--gradient-primary);
+    border-radius: 20px 20px 0 0;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
   .pub-card:hover::before {
@@ -265,29 +256,32 @@
   }
 
   .pub-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), var(--glow-primary);
+    transform: translateY(-8px) rotate(-0.5deg);
+    box-shadow: var(--shadow-lg);
     border-color: var(--color-primary);
   }
 
   .pub-icon {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     background: var(--bg-subtle);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
+    border: 3px solid var(--border-color);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: all 0.3s ease;
     color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s ease;
   }
 
   .pub-card:hover .pub-icon {
     background: var(--gradient-primary);
     color: white;
-    transform: translateY(-2px) rotate(-3deg);
+    transform: translateY(-4px) rotate(-5deg);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
   }
 
   .pub-content {
@@ -297,9 +291,9 @@
   .pub-content h3 {
     font-family: var(--font-display);
     font-size: var(--text-lg);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .pub-content p {
@@ -309,22 +303,22 @@
 
   .pub-arrow {
     color: var(--text-muted);
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
   }
 
   .pub-card:hover .pub-arrow {
     color: var(--color-primary);
-    transform: translate(2px, -2px);
+    transform: translate(4px, -4px);
   }
 
-  /* Mobile */
+  /* Responsive */
   @media (max-width: 768px) {
     .publications {
-      padding: 60px 0;
+      padding: 80px 0;
     }
 
     .container {
-      padding: 0 1.25rem;
+      padding: 0 1.5rem;
     }
 
     .section-header {
@@ -332,26 +326,35 @@
     }
 
     .section-header h2 {
-      font-size: 1.75rem;
+      font-size: 2rem;
     }
 
     .stats-row {
-      gap: 24px;
-      margin-bottom: 32px;
+      flex-direction: row;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      padding: 20px 28px;
     }
 
     .stat-value {
       font-size: var(--text-xl);
     }
 
+    .publications-list {
+      gap: 16px;
+    }
+
     .pub-card {
-      padding: 16px;
-      gap: 14px;
+      padding: 20px;
+      gap: 16px;
     }
 
     .pub-icon {
-      width: 40px;
-      height: 40px;
+      width: 48px;
+      height: 48px;
     }
 
     .pub-content h3 {
@@ -360,6 +363,11 @@
 
     .pub-content p {
       font-size: var(--text-xs);
+    }
+
+    .pub-arrow svg {
+      width: 20px;
+      height: 20px;
     }
   }
 </style>

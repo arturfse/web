@@ -21,6 +21,7 @@
 
   const experiences = [
     {
+      number: '01',
       company: 'SalaryGuide',
       role: 'Senior Software Engineer',
       period: 'Current',
@@ -29,6 +30,7 @@
       isCurrent: true
     },
     {
+      number: '02',
       company: 'Juro',
       role: 'Senior Software Engineer',
       period: '2023 - 2025',
@@ -36,6 +38,7 @@
       highlights: ['8000+ contracts/mo', 'Team Lead', 'System Design']
     },
     {
+      number: '03',
       company: 'Ancor',
       role: 'Software Engineer',
       period: '2019 - 2023',
@@ -44,14 +47,11 @@
     }
   ];
 
-  const skills = [
-    'TypeScript', 'React', 'Node.js', 'PostgreSQL', 'GraphQL', 'Docker'
-  ];
-
   const stats = [
-    { value: '6+', label: 'Years Experience' },
-    { value: '2', label: 'Devs Mentored' },
-    { value: '99%', label: 'Uptime Achieved' }
+    { value: '6+', label: 'Years' },
+    { value: '50+', label: 'Projects' },
+    { value: '2', label: 'Mentored' },
+    { value: '99%', label: 'Uptime' }
   ];
 </script>
 
@@ -59,13 +59,13 @@
   <div class="container">
     <!-- Section Header -->
     <div class="section-header" class:visible>
-      <span class="section-badge">Experience</span>
+      <div class="section-badge">Experience</div>
       <h2>where I've worked</h2>
       <p>Building scalable products and leading engineering teams</p>
     </div>
 
-    <!-- Stats Row -->
-    <div class="stats-row" class:visible>
+    <!-- Stats Bar - like landing stats -->
+    <div class="stats-bar" class:visible>
       {#each stats as stat, i}
         <div class="stat-item" style="--delay: {i * 0.1}s">
           <span class="stat-value">{stat.value}</span>
@@ -74,48 +74,35 @@
       {/each}
     </div>
 
-    <!-- Timeline -->
-    <div class="timeline" class:visible>
+    <!-- Step Cards - like "how it works" -->
+    <div class="steps-container" class:visible>
       {#each experiences as exp, i}
-        <div class="timeline-item" style="--delay: {i * 0.15}s">
-          <div class="timeline-marker">
-            {#if exp.isCurrent}
-              <span class="pulse"></span>
-            {/if}
-            <span class="dot"></span>
+        <div class="step-card" style="--delay: {i * 0.15}s">
+          <div class="step-number">{exp.number}</div>
+          <div class="step-header">
+            <h3>{exp.company}</h3>
+            <span class="step-period" class:current={exp.isCurrent}>
+              {#if exp.isCurrent}
+                <span class="current-dot"></span>
+              {/if}
+              {exp.period}
+            </span>
           </div>
-          <div class="timeline-card">
-            <div class="card-header">
-              <div class="company-info">
-                <h3>{exp.company}</h3>
-                <span class="role">{exp.role}</span>
-              </div>
-              <span class="period" class:current={exp.isCurrent}>
-                {#if exp.isCurrent}
-                  <span class="current-dot"></span>
-                {/if}
-                {exp.period}
-              </span>
-            </div>
-            <p class="description">{exp.description}</p>
-            <div class="highlights">
-              {#each exp.highlights as highlight}
-                <span class="highlight-tag">{highlight}</span>
-              {/each}
-            </div>
+          <span class="step-role">{exp.role}</span>
+          <p>{exp.description}</p>
+          <div class="step-tags">
+            {#each exp.highlights as tag}
+              <span class="tag">{tag}</span>
+            {/each}
           </div>
+          {#if i < experiences.length - 1}
+            <div class="step-connector">
+              <span class="connector-line"></span>
+              <span class="connector-arrow">→</span>
+            </div>
+          {/if}
         </div>
       {/each}
-    </div>
-
-    <!-- Skills -->
-    <div class="skills-section" class:visible>
-      <h3 class="skills-title">Tech Stack</h3>
-      <div class="skills-grid">
-        {#each skills as skill, i}
-          <span class="skill-tag" style="--delay: {i * 0.05}s">{skill}</span>
-        {/each}
-      </div>
     </div>
   </div>
 </section>
@@ -123,27 +110,14 @@
 <style>
   .work {
     padding: 100px 0;
-    background: var(--bg-base);
+    background: var(--bg-muted);
     position: relative;
-    overflow: hidden;
-  }
-
-  .work::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 80% 40%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 10% 60%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
-    pointer-events: none;
   }
 
   .container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
-    position: relative;
-    z-index: 1;
   }
 
   /* Section Header */
@@ -152,7 +126,7 @@
     margin-bottom: 50px;
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.6s ease;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .section-header.visible {
@@ -161,24 +135,23 @@
   }
 
   .section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-color);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--color-primary);
     border-radius: 100px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    letter-spacing: 0.15em;
     color: var(--color-primary);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .section-header h2 {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 16px;
@@ -186,47 +159,59 @@
   }
 
   .section-header p {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     color: var(--text-muted);
-    max-width: 500px;
+    max-width: 450px;
     margin: 0 auto;
   }
 
-  /* Stats Row */
-  .stats-row {
+  /* Stats Bar - horizontal inline like landings */
+  .stats-bar {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    margin-bottom: 60px;
+    gap: 16px;
+    margin-bottom: 50px;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease 0.2s;
+    flex-wrap: wrap;
   }
 
-  .stats-row.visible {
+  .stats-bar.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .stats-row.visible .stat-item {
+  .stats-bar.visible .stat-item {
     opacity: 1;
     transform: translateY(0);
     transition-delay: var(--delay);
   }
 
   .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    text-align: center;
+    padding: 16px 24px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stat-item:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-primary);
+    border-color: var(--color-primary);
   }
 
   .stat-value {
     font-family: var(--font-display);
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -239,340 +224,277 @@
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-weight: 600;
   }
 
-  /* Timeline */
-  .timeline {
-    position: relative;
-    margin-bottom: 60px;
+  /* Steps Container - flow style */
+  .steps-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     opacity: 0;
     transition: opacity 0.6s ease 0.3s;
   }
 
-  .timeline.visible {
+  .steps-container.visible {
     opacity: 1;
   }
 
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border-color);
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 24px;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.6s ease;
-  }
-
-  .timeline.visible .timeline-item {
+  .steps-container.visible .step-card {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
     transition-delay: var(--delay);
   }
 
-  .timeline-marker {
+  .step-card {
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
+    padding: 28px;
     position: relative;
-    width: 40px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    padding-top: 24px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--gradient-primary);
-    position: relative;
-    z-index: 1;
-  }
-
-  .pulse {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    opacity: 0.3;
-    animation: pulse 2s ease-in-out infinite;
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
-    50% { transform: translateX(-50%) scale(1.5); opacity: 0; }
-  }
-
-  .timeline-card {
-    flex: 1;
-    background: var(--glass-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .timeline-card::before {
+  .step-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--gradient-primary);
+    border-radius: 20px 20px 0 0;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
-  .timeline-card:hover::before {
+  .step-card:hover::before {
     transform: scaleX(1);
   }
 
-  .timeline-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg), var(--glow-primary);
+  .step-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-primary);
     border-color: var(--color-primary);
   }
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-    gap: 16px;
-  }
-
-  .company-info h3 {
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    color: white;
     font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0 4px;
+    font-size: var(--text-base);
+    font-weight: 700;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s ease;
   }
 
-  .role {
-    font-size: var(--text-sm);
-    color: var(--color-primary);
-    font-weight: 500;
+  .step-card:hover .step-number {
+    transform: rotate(-5deg);
   }
 
-  .period {
+  .step-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: var(--text-sm);
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .step-period {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
     color: var(--text-muted);
     background: var(--bg-subtle);
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 100px;
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
     white-space: nowrap;
   }
 
-  .period.current {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+  .step-period.current {
+    border-color: var(--color-accent-2);
+    color: var(--color-accent-2);
+    background: rgba(52, 211, 153, 0.1);
   }
 
   .current-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: #22c55e;
-    animation: blink 1.5s ease-in-out infinite;
+    background: var(--color-accent-2);
+    animation: pulse 1.5s ease-in-out infinite;
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
   }
 
-  .description {
+  .step-role {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .step-card p {
     font-size: var(--text-sm);
     color: var(--text-muted);
     line-height: 1.6;
-    margin: 0 0 16px;
+    margin-bottom: 16px;
   }
 
-  .highlights {
+  .step-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .highlight-tag {
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
+  .tag {
+    padding: 5px 12px;
     background: var(--bg-subtle);
-    padding: 4px 10px;
+    border: 2px solid var(--border-color);
     border-radius: 100px;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-  }
-
-  .timeline-card:hover .highlight-tag {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  /* Skills Section */
-  .skills-section {
-    text-align: center;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease 0.4s;
-  }
-
-  .skills-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .skills-title {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 20px;
-  }
-
-  .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .skill-tag {
-    padding: 10px 20px;
-    background: var(--glass-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 100px;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     transition: all 0.3s ease;
-    opacity: 0;
-    transform: translateY(15px);
   }
 
-  .skills-section.visible .skill-tag {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: var(--delay);
-  }
-
-  .skill-tag:hover {
+  .step-card:hover .tag {
     border-color: var(--color-primary);
     color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
   }
 
-  /* Mobile */
+  /* Step connector arrow */
+  .step-connector {
+    position: absolute;
+    right: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: none;
+  }
+
+  .connector-line {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--border-color);
+  }
+
+  .connector-arrow {
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  @media (min-width: 769px) {
+    .step-connector {
+      display: block;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .stats-bar {
+      flex-wrap: wrap;
+    }
+
+    .steps-container {
+      grid-template-columns: 1fr;
+    }
+
+    .step-connector {
+      display: none;
+    }
+  }
+
   @media (max-width: 768px) {
     .work {
-      padding: 60px 0;
+      padding: 70px 0;
     }
 
     .container {
-      padding: 0 1.25rem;
+      padding: 0 1.5rem;
     }
 
     .section-header {
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .section-header h2 {
       font-size: 1.75rem;
     }
 
-    .stats-row {
-      gap: 24px;
-      margin-bottom: 40px;
+    .stats-bar {
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .stat-item {
+      padding: 12px 16px;
     }
 
     .stat-value {
-      font-size: var(--text-xl);
-    }
-
-    .timeline::before {
-      left: 12px;
-    }
-
-    .timeline-marker {
-      width: 24px;
-      padding-top: 20px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-    }
-
-    .pulse {
-      width: 20px;
-      height: 20px;
-      top: 15px;
-    }
-
-    .timeline-item {
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .timeline-card {
-      padding: 16px;
-    }
-
-    .card-header {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .company-info h3 {
       font-size: var(--text-lg);
     }
 
-    .period {
-      font-size: var(--text-xs);
-      padding: 4px 10px;
+    .step-card {
+      padding: 20px;
     }
 
-    .description {
-      font-size: var(--text-xs);
+    .step-number {
+      width: 40px;
+      height: 40px;
+      font-size: var(--text-sm);
+      margin-bottom: 16px;
     }
 
-    .highlights {
+    .step-header {
+      flex-direction: column;
+      align-items: flex-start;
       gap: 6px;
     }
 
-    .highlight-tag {
+    .step-card h3 {
+      font-size: var(--text-base);
+    }
+
+    .step-tags {
+      gap: 5px;
+    }
+
+    .tag {
+      padding: 4px 8px;
       font-size: 0.65rem;
-      padding: 3px 8px;
-    }
-
-    .skills-grid {
-      gap: 8px;
-    }
-
-    .skill-tag {
-      padding: 8px 14px;
-      font-size: var(--text-xs);
     }
   }
 </style>

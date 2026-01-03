@@ -41,7 +41,7 @@
   <div class="container">
     <!-- Section Header -->
     <div class="section-header" class:visible>
-      <span class="section-badge">Contact</span>
+      <div class="section-badge">Contact</div>
       <h2>let's connect</h2>
       <p>Open for new projects, collaborations, and opportunities</p>
     </div>
@@ -49,26 +49,18 @@
     <!-- CTA Button -->
     <div class="cta-row" class:visible>
       <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" class="cta-button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
         </svg>
-        Connect on LinkedIn
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
+        <span>Connect on LinkedIn</span>
+        <span class="arrow">→</span>
       </a>
     </div>
 
-    <!-- Contact Links -->
+    <!-- Contact Links Grid -->
     <div class="links-grid" class:visible>
       {#each contactLinks as link, i}
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link-card"
-          style="--delay: {i * 0.05}s"
-        >
+        <a href={link.href} target="_blank" rel="noopener noreferrer" class="link-card" style="--delay: {i * 0.05}s">
           <div class="link-icon">
             {#if link.icon === 'github'}
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -97,11 +89,7 @@
             {/if}
           </div>
           <span class="link-name">{link.name}</span>
-          <span class="link-arrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M7 17L17 7M17 7H7M17 7v10"/>
-            </svg>
-          </span>
+          <span class="link-arrow">→</span>
         </a>
       {/each}
     </div>
@@ -115,34 +103,21 @@
 
 <style>
   .contact {
-    padding: 100px 0;
+    padding: 120px 0;
     background: var(--bg-base);
     position: relative;
-    overflow: hidden;
-  }
-
-  .contact::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 70%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
-    pointer-events: none;
   }
 
   .container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 2rem;
-    position: relative;
-    z-index: 1;
     text-align: center;
   }
 
   /* Section Header */
   .section-header {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s ease;
@@ -154,27 +129,26 @@
   }
 
   .section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    display: inline-block;
+    padding: 10px 20px;
     background: var(--bg-subtle);
-    border: 2px solid var(--border-color);
+    border: 3px solid var(--color-primary);
     border-radius: 100px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    letter-spacing: 0.15em;
     color: var(--color-primary);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .section-header h2 {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     text-transform: lowercase;
   }
 
@@ -187,7 +161,7 @@
 
   /* CTA Row */
   .cta-row {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease 0.2s;
@@ -201,40 +175,22 @@
   .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 32px;
+    gap: 14px;
+    padding: 18px 36px;
     background: var(--gradient-primary);
     color: white;
     font-size: var(--text-base);
-    font-weight: 600;
-    border: 2px solid var(--border-color);
-    border-radius: 14px;
+    font-weight: 700;
+    border: 3px solid var(--color-primary);
+    border-radius: 100px;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.3);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .cta-button:hover::before {
-    transform: scaleX(1);
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .cta-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(217, 119, 6, 0.4);
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: var(--shadow-lg);
   }
 
   .cta-button .arrow {
@@ -249,9 +205,9 @@
   .links-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
     justify-content: center;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     opacity: 0;
     transition: opacity 0.6s ease 0.3s;
   }
@@ -270,18 +226,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 20px 24px;
-    background: var(--glass-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 14px;
+    gap: 10px;
+    padding: 24px 32px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    box-shadow: var(--shadow-sm);
     opacity: 0;
     transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
 
   .link-card::before {
@@ -290,11 +246,12 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--gradient-primary);
+    border-radius: 20px 20px 0 0;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
   .link-card:hover::before {
@@ -302,8 +259,8 @@
   }
 
   .link-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), var(--glow-primary);
+    transform: translateY(-8px) rotate(-2deg);
+    box-shadow: var(--shadow-md);
     border-color: var(--color-primary);
   }
 
@@ -314,22 +271,23 @@
 
   .link-card:hover .link-icon {
     color: var(--color-primary);
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
 
   .link-name {
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-primary);
   }
 
   .link-arrow {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 10px;
+    right: 12px;
+    font-size: 0.9rem;
     color: var(--text-muted);
     opacity: 0;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     transform: translate(-4px, 4px);
   }
 
@@ -344,52 +302,52 @@
     font-size: var(--text-sm);
     color: var(--text-muted);
     opacity: 0;
-    transition: opacity 0.6s ease 0.4s;
+    transition: opacity 0.6s ease 0.5s;
   }
 
   .footer-text.visible {
     opacity: 1;
   }
 
-  /* Mobile */
+  /* Responsive */
   @media (max-width: 768px) {
     .contact {
-      padding: 60px 0;
+      padding: 80px 0;
     }
 
     .container {
-      padding: 0 1.25rem;
+      padding: 0 1.5rem;
     }
 
     .section-header {
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
 
     .section-header h2 {
-      font-size: 1.75rem;
+      font-size: 2rem;
     }
 
     .cta-row {
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
 
     .cta-button {
-      padding: 14px 24px;
+      padding: 16px 28px;
       font-size: var(--text-sm);
     }
 
     .links-grid {
-      gap: 8px;
-      margin-bottom: 40px;
+      gap: 12px;
+      margin-bottom: 50px;
     }
 
     .link-card {
-      padding: 14px 18px;
+      padding: 18px 24px;
     }
 
     .link-icon svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
     }
 
     .link-name {

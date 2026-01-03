@@ -2,12 +2,25 @@
   import { onMount } from 'svelte';
 
   let visible = false;
+  let scanActive = false;
+  let scanProgress = 0;
 
   onMount(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           visible = true;
+          // Start fingerprint scan after visible
+          setTimeout(() => {
+            scanActive = true;
+            const interval = setInterval(() => {
+              if (scanProgress < 100) {
+                scanProgress += 1;
+              } else {
+                clearInterval(interval);
+              }
+            }, 40);
+          }, 800);
         }
       },
       { threshold: 0.1 }
@@ -19,46 +32,24 @@
     return () => observer.disconnect();
   });
 
-  const features = [
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
-      title: 'Full-Stack Development',
-      description: 'End-to-end solutions from React frontends to Node.js backends with PostgreSQL databases.'
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
-      title: 'Performance Optimization',
-      description: 'Achieving 3x speed improvements through caching, lazy loading, and efficient algorithms.'
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-      title: 'Team Leadership',
-      description: 'Mentoring developers, conducting code reviews, and building collaborative engineering culture.'
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>`,
-      title: 'System Architecture',
-      description: 'Designing scalable microservices handling 1000+ concurrent users with 99% uptime.'
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-      title: 'Workflow Automation',
-      description: 'Reducing manual work by 60% through CI/CD pipelines and automated testing systems.'
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
-      title: 'Cloud Infrastructure',
-      description: 'AWS, Docker, and Kubernetes deployments with infrastructure as code practices.'
-    }
+  const skills = [
+    { name: 'React', level: 95, color: '#61DAFB' },
+    { name: 'TypeScript', level: 90, color: '#3178C6' },
+    { name: 'Node.js', level: 88, color: '#339933' },
+    { name: 'PostgreSQL', level: 85, color: '#336791' },
   ];
 
-  const techStack = [
-    { name: 'TypeScript', category: 'Language' },
-    { name: 'React', category: 'Frontend' },
-    { name: 'Node.js', category: 'Backend' },
-    { name: 'PostgreSQL', category: 'Database' },
-    { name: 'GraphQL', category: 'API' },
-    { name: 'Docker', category: 'DevOps' }
+  const metrics = [
+    { icon: '⚡', value: '< 100ms', label: 'Response Time' },
+    { icon: '🛡️', value: 'A+', label: 'Security Grade' },
+    { icon: '📊', value: '99.9%', label: 'Uptime SLA' },
+  ];
+
+  const process = [
+    { step: '01', title: 'Discover', desc: 'Deep dive into requirements' },
+    { step: '02', title: 'Design', desc: 'Architecture & planning' },
+    { step: '03', title: 'Develop', desc: 'Clean, tested code' },
+    { step: '04', title: 'Deploy', desc: 'CI/CD & monitoring' },
   ];
 </script>
 
@@ -66,34 +57,144 @@
   <div class="container">
     <!-- Section Header -->
     <div class="section-header" class:visible>
-      <span class="section-badge">About Me</span>
-      <h2>what I bring to the table</h2>
-      <p>6+ years of building scalable systems and leading engineering teams</p>
+      <div class="section-badge">About</div>
+      <h2>the craft behind the code</h2>
+      <p>Engineering excellence meets pragmatic delivery</p>
     </div>
 
-    <!-- Features Grid -->
-    <div class="features-grid" class:visible>
-      {#each features as feature, i}
-        <div class="feature-card" style="--delay: {i * 0.1}s">
-          <div class="feature-icon">
-            {@html feature.icon}
+    <!-- Bento Grid - Mixed card sizes -->
+    <div class="bento-grid" class:visible>
+      <!-- Large: Fingerprint Scanner Card -->
+      <div class="bento-card card-scanner" style="--delay: 0s">
+        <div class="card-glow"></div>
+        <div class="scanner-visual">
+          <div class="fingerprint">
+            <div class="fp-ring fp-1"></div>
+            <div class="fp-ring fp-2"></div>
+            <div class="fp-ring fp-3"></div>
+            <div class="fp-ring fp-4"></div>
+            {#if scanActive}
+              <div class="scan-line" style="top: {scanProgress}%"></div>
+            {/if}
           </div>
-          <h3>{feature.title}</h3>
-          <p>{feature.description}</p>
+          <div class="scanner-data">
+            <div class="data-label">Identity Verified</div>
+            <div class="data-bar">
+              <div class="bar-fill" style="width: {scanProgress}%"></div>
+            </div>
+            <div class="data-stats">
+              <span class="stat-item">
+                <span class="stat-dot"></span>
+                Senior Engineer
+              </span>
+              <span class="stat-item">
+                <span class="stat-dot green"></span>
+                6+ Years
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Built Different</h3>
+          <p>Passionate about clean architecture, performance optimization, and developer experience.</p>
+        </div>
+      </div>
+
+      <!-- Medium: Skills Meter Card -->
+      <div class="bento-card card-skills" style="--delay: 0.1s">
+        <div class="skills-header">
+          <span class="skills-icon">📊</span>
+          <span class="skills-title">Core Stack</span>
+        </div>
+        <div class="skills-list">
+          {#each skills as skill, i}
+            <div class="skill-item" style="--delay: {i * 0.1}s">
+              <div class="skill-info">
+                <span class="skill-name">{skill.name}</span>
+                <span class="skill-level">{skill.level}%</span>
+              </div>
+              <div class="skill-bar">
+                <div
+                  class="skill-fill"
+                  class:animate={visible}
+                  style="--level: {skill.level}%; --color: {skill.color}"
+                ></div>
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+
+      <!-- Small: Metric Cards -->
+      {#each metrics as metric, i}
+        <div class="bento-card card-metric" style="--delay: {0.2 + i * 0.1}s">
+          <span class="metric-icon">{metric.icon}</span>
+          <span class="metric-value">{metric.value}</span>
+          <span class="metric-label">{metric.label}</span>
         </div>
       {/each}
-    </div>
 
-    <!-- Tech Stack -->
-    <div class="tech-section" class:visible>
-      <h3 class="tech-title">Core Technologies</h3>
-      <div class="tech-grid">
-        {#each techStack as tech, i}
-          <div class="tech-card" style="--delay: {i * 0.05}s">
-            <span class="tech-name">{tech.name}</span>
-            <span class="tech-category">{tech.category}</span>
+      <!-- Wide: Process Flow Card -->
+      <div class="bento-card card-process" style="--delay: 0.5s">
+        <div class="process-header">
+          <span class="process-badge">Process</span>
+          <h4>how I work</h4>
+        </div>
+        <div class="process-flow">
+          {#each process as step, i}
+            <div class="process-step">
+              <div class="step-number">{step.step}</div>
+              <div class="step-content">
+                <span class="step-title">{step.title}</span>
+                <span class="step-desc">{step.desc}</span>
+              </div>
+              {#if i < process.length - 1}
+                <div class="step-arrow">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </div>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      </div>
+
+      <!-- Medium: Quote Card -->
+      <div class="bento-card card-quote" style="--delay: 0.6s">
+        <div class="quote-mark">"</div>
+        <blockquote>
+          Code is read more often than it's written. Write for the next developer.
+        </blockquote>
+        <div class="quote-author">
+          <div class="author-avatar">A</div>
+          <div class="author-info">
+            <span class="author-name">Personal Philosophy</span>
+            <span class="author-role">Clean Code Advocate</span>
           </div>
-        {/each}
+        </div>
+      </div>
+
+      <!-- Small: Status Card -->
+      <div class="bento-card card-status" style="--delay: 0.7s">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">Systems Operational</span>
+        </div>
+        <div class="status-grid">
+          <div class="status-item">
+            <span class="item-label">API</span>
+            <span class="item-value online">●</span>
+          </div>
+          <div class="status-item">
+            <span class="item-label">DB</span>
+            <span class="item-value online">●</span>
+          </div>
+          <div class="status-item">
+            <span class="item-label">CDN</span>
+            <span class="item-value online">●</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -104,35 +205,21 @@
     padding: 100px 0;
     background: var(--bg-base);
     position: relative;
-    overflow: hidden;
-  }
-
-  /* Subtle background */
-  .about::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 60% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 20% 80%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
-    pointer-events: none;
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
-    position: relative;
-    z-index: 1;
   }
 
   /* Section Header */
   .section-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.6s ease;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .section-header.visible {
@@ -141,24 +228,23 @@
   }
 
   .section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-color);
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--bg-elevated);
+    border: 3px solid var(--color-primary);
     border-radius: 100px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    letter-spacing: 0.15em;
     color: var(--color-primary);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .section-header h2 {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 16px;
@@ -166,40 +252,45 @@
   }
 
   .section-header p {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     color: var(--text-muted);
-    max-width: 500px;
+    max-width: 450px;
     margin: 0 auto;
   }
 
-  /* Features Grid */
-  .features-grid {
+  /* Bento Grid */
+  .bento-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-    margin-bottom: 60px;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.2s;
   }
 
-  .features-grid.visible .feature-card {
+  .bento-grid.visible {
+    opacity: 1;
+  }
+
+  .bento-grid.visible .bento-card {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .feature-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 28px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Base Card */
+  .bento-card {
+    background: var(--bg-elevated);
+    border: 3px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--delay);
     position: relative;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-    transition-delay: var(--delay);
   }
 
-  .feature-card::before {
+  .bento-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -209,130 +300,514 @@
     background: var(--gradient-primary);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
-  .feature-card:hover::before {
+  .bento-card:hover::before {
     transform: scaleX(1);
   }
 
-  .feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), var(--glow-primary);
+  .bento-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-primary);
     border-color: var(--color-primary);
   }
 
-  .feature-icon {
-    width: 56px;
-    height: 56px;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
+  /* Card Glow */
+  .card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .bento-card:hover .card-glow {
+    opacity: 1;
+  }
+
+  /* Scanner Card - Large */
+  .card-scanner {
+    grid-column: span 7;
+    grid-row: span 2;
     display: flex;
+    flex-direction: column;
+  }
+
+  .scanner-visual {
+    display: flex;
+    gap: 24px;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-    transition: all 0.3s ease;
-    color: var(--color-primary);
+    margin-bottom: 20px;
   }
 
-  .feature-card:hover .feature-icon {
+  .fingerprint {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .fp-ring {
+    position: absolute;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: border-color 0.3s ease;
+  }
+
+  .fp-1 { width: 100%; height: 100%; }
+  .fp-2 { width: 75%; height: 75%; }
+  .fp-3 { width: 50%; height: 50%; }
+  .fp-4 { width: 25%; height: 25%; }
+
+  .bento-card:hover .fp-ring {
+    border-color: var(--color-primary);
+    animation: fp-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes fp-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
     background: var(--gradient-primary);
-    color: white;
-    transform: translateY(-4px) rotate(-3deg);
-    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+    box-shadow: 0 0 10px var(--color-primary);
+    transition: top 0.04s linear;
   }
 
-  .feature-card h3 {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--text-primary);
+  .scanner-data {
+    flex: 1;
+  }
+
+  .data-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-primary);
     margin-bottom: 10px;
   }
 
-  .feature-card p {
+  .data-bar {
+    height: 6px;
+    background: var(--bg-subtle);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 100px;
+    transition: width 0.1s linear;
+  }
+
+  .data-stats {
+    display: flex;
+    gap: 16px;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 50%;
+  }
+
+  .stat-dot.green {
+    background: #22c55e;
+  }
+
+  .card-content h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .card-content p {
     font-size: var(--text-sm);
     color: var(--text-muted);
     line-height: 1.6;
   }
 
-  /* Tech Section */
-  .tech-section {
-    text-align: center;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease 0.3s;
+  /* Skills Card */
+  .card-skills {
+    grid-column: span 5;
+    grid-row: span 2;
   }
 
-  .tech-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tech-title {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 24px;
-  }
-
-  .tech-grid {
+  .skills-header {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  .tech-card {
+  .skills-icon {
+    font-size: 1.25rem;
+  }
+
+  .skills-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .skills-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 16px 24px;
-    background: var(--glass-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    opacity: 0;
-    transform: translateY(20px);
+    gap: 16px;
   }
 
-  .tech-section.visible .tech-card {
-    opacity: 1;
-    transform: translateY(0);
+  .skill-item {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
     transition-delay: var(--delay);
   }
 
-  .tech-card:hover {
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+  .bento-grid.visible .skill-item {
+    opacity: 1;
+    transform: translateX(0);
   }
 
-  .tech-name {
-    font-family: var(--font-display);
+  .skill-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .skill-name {
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--text-primary);
-    font-size: var(--text-base);
   }
 
-  .tech-category {
+  .skill-level {
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--color-primary);
+    color: var(--text-muted);
+  }
+
+  .skill-bar {
+    height: 8px;
+    background: var(--bg-subtle);
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+
+  .skill-fill {
+    height: 100%;
+    width: 0;
+    background: var(--color);
+    border-radius: 100px;
+    transition: width 1s ease;
+    transition-delay: 0.5s;
+  }
+
+  .skill-fill.animate {
+    width: var(--level);
+  }
+
+  /* Metric Cards - Small */
+  .card-metric {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  .metric-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .metric-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  /* Mobile */
+  /* Process Card - Wide */
+  .card-process {
+    grid-column: span 8;
+  }
+
+  .process-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .process-badge {
+    padding: 4px 10px;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border-color);
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .process-header h4 {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .process-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .process-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  .process-step:hover .step-number {
+    transform: rotate(-5deg) scale(1.05);
+  }
+
+  .step-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .step-arrow {
+    position: absolute;
+    right: -14px;
+    top: 12px;
+    color: var(--color-primary);
+    opacity: 0.5;
+    animation: arrow-bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes arrow-bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  /* Quote Card */
+  .card-quote {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .quote-mark {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    line-height: 1;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  blockquote {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0 0 16px 0;
+    flex: 1;
+  }
+
+  .quote-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .author-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--text-sm);
+  }
+
+  .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .author-name {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .author-role {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  /* Status Card */
+  .card-status {
+    grid-column: span 4;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: status-pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  }
+
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .status-text {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-grid {
+    display: flex;
+    gap: 12px;
+  }
+
+  .status-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    background: var(--bg-subtle);
+    border-radius: 8px;
+  }
+
+  .item-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .item-value {
+    font-size: var(--text-sm);
+  }
+
+  .item-value.online {
+    color: #22c55e;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .card-scanner { grid-column: span 6; }
+    .card-skills { grid-column: span 6; }
+    .card-metric { grid-column: span 2; }
+    .card-process { grid-column: span 6; }
+    .card-quote { grid-column: span 3; }
+    .card-status { grid-column: span 3; }
+  }
+
   @media (max-width: 768px) {
     .about {
-      padding: 60px 0;
+      padding: 70px 0;
     }
 
     .container {
-      padding: 0 1.25rem;
+      padding: 0 1.5rem;
     }
 
     .section-header {
@@ -343,28 +818,53 @@
       font-size: 1.75rem;
     }
 
-    .features-grid {
+    .bento-grid {
       grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .card-scanner,
+    .card-skills,
+    .card-metric,
+    .card-process,
+    .card-quote,
+    .card-status {
+      grid-column: span 1;
+    }
+
+    .card-scanner {
+      grid-row: span 1;
+    }
+
+    .scanner-visual {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .fingerprint {
+      width: 80px;
+      height: 80px;
+    }
+
+    .process-flow {
+      flex-wrap: wrap;
       gap: 16px;
-      margin-bottom: 40px;
     }
 
-    .feature-card {
+    .process-step {
+      flex: 0 0 calc(50% - 8px);
+    }
+
+    .step-arrow {
+      display: none;
+    }
+
+    .card-metric {
+      grid-column: span 1;
+    }
+
+    .bento-card {
       padding: 20px;
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 14px;
-    }
-
-    .tech-grid {
-      gap: 8px;
-    }
-
-    .tech-card {
-      padding: 12px 16px;
     }
   }
 </style>
