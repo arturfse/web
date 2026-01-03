@@ -1,83 +1,89 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { flipReveal, setupScrollAnimation, isMobile } from '../utils/animations';
+
+  let visible = false;
 
   onMount(() => {
-    if (isMobile()) {
-      setupScrollAnimation('#publications', '#publications .bento-card', flipReveal, { delay: 50, staggerDelay: 90 });
-    } else {
-      flipReveal('#publications .bento-card', { delay: 100, staggerDelay: 100 });
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          visible = true;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('publications-section');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
   });
 
   const publications = [
     {
       title: 'Your Tech Stack Doesn\'t Matter',
+      description: 'Thoughts on what really matters when building products',
       link: 'https://www.linkedin.com/posts/artur-arslanov_your-tech-stack-doesnt-matter-your-users-activity-7359454836905455616-AvJF',
       featured: true
     },
     {
       title: 'The Myth of the 10x Developer',
+      description: 'What makes a developer truly effective',
       link: 'https://www.linkedin.com/posts/artur-arslanov_the-myth-of-the-10x-developer-met-a-10x-activity-7349791548181549056-WR5O'
     }
   ];
 
-  const pubStats = [
-    { value: '1M+', label: 'LinkedIn Views', featured: true },
+  const stats = [
+    { value: '1M+', label: 'LinkedIn Views' },
     { value: '2+', label: 'Viral Posts' }
   ];
 </script>
 
-<section id="publications" class="publications">
-  <!-- Consistent background -->
-  <div class="bg-gradient"></div>
-  <div class="bg-blob blob-1"></div>
-  <div class="bg-blob blob-2"></div>
-  <div class="bg-grid"></div>
-
+<section class="publications" id="publications-section">
   <div class="container">
-    <h2 class="section-title">Writing</h2>
-    <div class="bento-grid">
-      <!-- Featured publication -->
-      <a href={publications[0].link} target="_blank" rel="noopener noreferrer" class="bento-card featured-card glass">
-        <div class="featured-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-          </svg>
-          Featured
-        </div>
-        <div class="card-content">
-          <h3>{publications[0].title}</h3>
-          <p class="description">Thoughts on what really matters when building products</p>
-        </div>
-        <div class="read-more">
-          Read on LinkedIn
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </div>
-      </a>
+    <!-- Section Header -->
+    <div class="section-header" class:visible>
+      <span class="section-badge">Writing</span>
+      <h2>thoughts & insights</h2>
+      <p>Sharing learnings from building products and leading teams</p>
+    </div>
 
-      <!-- Stats -->
-      {#each pubStats as stat}
-        <div class="bento-card stat-card glass">
+    <!-- Stats -->
+    <div class="stats-row" class:visible>
+      {#each stats as stat, i}
+        <div class="stat-item" style="--delay: {i * 0.1}s">
           <span class="stat-value">{stat.value}</span>
           <span class="stat-label">{stat.label}</span>
         </div>
       {/each}
+    </div>
 
-      <!-- Other publications -->
-      {#each publications.slice(1) as post}
-        <a href={post.link} target="_blank" rel="noopener noreferrer" class="bento-card pub-card glass">
-          <div class="card-header">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="linkedin-icon">
+    <!-- Publications -->
+    <div class="publications-grid" class:visible>
+      {#each publications as pub, i}
+        <a
+          href={pub.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pub-card"
+          class:featured={pub.featured}
+          style="--delay: {i * 0.1}s"
+        >
+          <div class="pub-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+          </div>
+          <div class="pub-content">
+            <h3>{pub.title}</h3>
+            <p>{pub.description}</p>
+          </div>
+          <div class="pub-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7"/>
+              <path d="M7 7h10v10"/>
             </svg>
           </div>
-          <h4>{post.title}</h4>
         </a>
       {/each}
     </div>
@@ -86,198 +92,116 @@
 
 <style>
   .publications {
-    background-color: var(--bg-base);
-    height: 100vh;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* Background elements - warm tones */
-  .bg-gradient {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 70% 20%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 30% 80%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  .bg-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.1;
-    pointer-events: none;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .blob-1 {
-    top: -10%;
-    right: -5%;
-    width: 35vw;
-    height: 35vw;
-    background: var(--color-accent-2);
-  }
-
-  .blob-2 {
-    bottom: -15%;
-    left: -10%;
-    width: 40vw;
-    height: 40vw;
-    background: var(--color-primary);
-    animation-delay: -10s;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(2%, 3%) scale(1.02); }
-    50% { transform: translate(-1%, 5%) scale(0.98); }
-    75% { transform: translate(3%, -2%) scale(1.01); }
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-
-  :global([data-theme="light"]) .bg-grid {
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    width: 100%;
-  }
-
-  .section-title {
-    display: none;
-  }
-
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-
-  .bento-card {
-    padding: 1.5rem;
-    border-radius: 1.25rem;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 100px 0;
+    background: var(--bg-base);
     position: relative;
     overflow: hidden;
-    text-decoration: none;
-    color: inherit;
   }
 
-  .bento-card::before {
+  .publications::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: var(--gradient-border);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    background:
+      radial-gradient(ellipse at 70% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 80%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 50px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
   }
 
-  .bento-card:hover::before {
+  .section-header.visible {
     opacity: 1;
+    transform: translateY(0);
   }
 
-  .bento-card:hover {
-    transform: translateY(-4px) rotate(-0.5deg);
-    box-shadow: var(--shadow-lg), var(--glow-primary);
-  }
-
-  /* Featured card */
-  .featured-card {
-    grid-column: span 2;
-    grid-row: span 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .featured-badge {
+  .section-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.875rem;
-    background: var(--gradient-primary);
-    color: white;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border-color);
+    border-radius: 100px;
     font-size: var(--text-xs);
     font-weight: 600;
-    border-radius: 20px;
-    width: fit-content;
-  }
-
-  .featured-card h3 {
-    font-size: var(--text-xl);
-    color: var(--text-primary);
-    margin: 1rem 0 0.75rem;
-    line-height: 1.3;
-  }
-
-  .featured-card .description {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .read-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--text-sm);
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
     color: var(--color-primary);
-    margin-top: auto;
   }
 
-  .read-more svg {
-    transition: transform 0.2s ease;
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-transform: lowercase;
   }
 
-  .featured-card:hover .read-more svg {
-    transform: translateX(4px);
+  .section-header p {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto;
   }
 
-  /* Stat cards */
-  .stat-card {
+  /* Stats Row */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.2s;
+  }
+
+  .stats-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stats-row.visible .stat-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: var(--delay);
+  }
+
+  .stat-item {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
+    gap: 4px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
   }
 
   .stat-value {
+    font-family: var(--font-display);
     font-size: var(--text-2xl);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    line-height: 1;
-    margin-bottom: 0.5rem;
   }
 
   .stat-label {
@@ -287,177 +211,155 @@
     letter-spacing: 0.05em;
   }
 
-  /* Publication cards */
-  .pub-card {
-    grid-column: span 2;
+  /* Publications Grid */
+  .publications-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 16px;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.3s;
   }
 
-  .card-header {
+  .publications-grid.visible {
+    opacity: 1;
+  }
+
+  .publications-grid.visible .pub-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: var(--delay);
+  }
+
+  .pub-card {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: var(--glass-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .linkedin-icon {
-    color: var(--text-muted);
-    transition: color 0.2s ease;
+  .pub-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
   }
 
-  .pub-card:hover .linkedin-icon {
+  .pub-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .pub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), var(--glow-primary);
+    border-color: var(--color-primary);
+  }
+
+  .pub-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-subtle);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
     color: var(--color-primary);
   }
 
-  .arrow-icon {
+  .pub-card:hover .pub-icon {
+    background: var(--gradient-primary);
+    color: white;
+    transform: translateY(-2px) rotate(-3deg);
+  }
+
+  .pub-content {
+    flex: 1;
+  }
+
+  .pub-content h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .pub-content p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .pub-arrow {
     color: var(--text-muted);
     transition: all 0.2s ease;
   }
 
-  .pub-card:hover .arrow-icon {
+  .pub-card:hover .pub-arrow {
     color: var(--color-primary);
-    transform: translateX(4px);
+    transform: translate(2px, -2px);
   }
 
-  .pub-card h4 {
-    font-size: var(--text-base);
-    color: var(--text-primary);
-    font-weight: 500;
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  @media (max-width: 900px) {
+  /* Mobile */
+  @media (max-width: 768px) {
     .publications {
-      height: auto !important;
-      min-height: auto !important;
-      max-height: none !important;
-      padding: 2rem 1rem;
-      overflow: visible;
-    }
-
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.75rem;
-    }
-
-    .featured-card {
-      grid-column: span 2;
-    }
-
-    .pub-card {
-      grid-column: span 2;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .publications {
-      height: auto;
-      min-height: auto;
-      padding: 2rem 1rem;
-      overflow: visible;
+      padding: 60px 0;
     }
 
     .container {
-      padding: 0;
+      padding: 0 1.25rem;
     }
 
-    .section-title {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--color-primary);
-      margin-bottom: 1.25rem;
-      font-family: var(--font-display);
+    .section-header {
+      margin-bottom: 40px;
     }
 
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.5rem;
+    .section-header h2 {
+      font-size: 1.75rem;
     }
 
-    .bento-card {
-      padding: 0.875rem;
-      border-radius: 0.875rem;
-      transition: transform 0.3s ease;
-    }
-
-    .bento-card:active {
-      transform: scale(0.98);
-    }
-
-    .featured-card {
-      grid-column: span 2;
-      padding: 1rem;
-      border: 1px solid transparent;
-      background:
-        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-        var(--gradient-primary) border-box;
-    }
-
-    .featured-badge {
-      padding: 0.25rem 0.6rem;
-      font-size: 0.55rem;
-    }
-
-    .featured-card h3 {
-      font-size: var(--text-sm);
-      margin: 0.5rem 0 0.35rem;
-      line-height: 1.3;
-    }
-
-    .featured-card .description {
-      font-size: 0.7rem;
-      line-height: 1.4;
-    }
-
-    .read-more {
-      font-size: 0.7rem;
-      margin-top: 0.5rem;
-    }
-
-    .stat-card {
-      padding: 0.875rem;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0.25rem;
+    .stats-row {
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
     .stat-value {
       font-size: var(--text-xl);
-      margin-bottom: 0;
-    }
-
-    .stat-label {
-      font-size: var(--text-xs);
-      text-align: center;
     }
 
     .pub-card {
-      grid-column: span 2;
-      padding: 1rem;
-      gap: 0.5rem;
+      padding: 16px;
+      gap: 14px;
     }
 
-    .pub-card h4 {
+    .pub-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .pub-content h3 {
+      font-size: var(--text-base);
+    }
+
+    .pub-content p {
       font-size: var(--text-xs);
-      line-height: 1.3;
-    }
-
-    .blob-1, .blob-2 {
-      display: none;
-    }
-
-    .bg-grid {
-      opacity: 0.3;
     }
   }
 </style>
