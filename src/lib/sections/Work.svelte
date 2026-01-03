@@ -84,12 +84,12 @@
     z-index: 1;
   }
 
-  /* Background elements */
+  /* Background elements - warm tones */
   .bg-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 80% 40%, rgba(244, 114, 182, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 10% 60%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 80% 40%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 10% 60%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -107,7 +107,7 @@
     right: -5%;
     width: 35vw;
     height: 35vw;
-    background: #f472b6;
+    background: var(--color-primary);
   }
 
   .blob-2 {
@@ -115,7 +115,7 @@
     left: -10%;
     width: 40vw;
     height: 40vw;
-    background: #fbbf24;
+    background: var(--color-secondary);
     animation-delay: -10s;
   }
 
@@ -189,8 +189,8 @@
   }
 
   .card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-lg), 0 0 20px rgba(129, 140, 248, 0.1);
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
   }
 
   /* Featured card (c1) */
@@ -303,9 +303,10 @@
   .tags span {
     font-size: var(--text-xs);
     color: var(--color-primary);
-    background: rgba(129, 140, 248, 0.1);
+    background: var(--bg-subtle);
     padding: 0.25rem 0.6rem;
-    border-radius: 8px;
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
   }
 
   /* Skill cards (c2, c5, c8, c9) */
@@ -424,7 +425,7 @@
       letter-spacing: 0.15em;
       color: var(--color-primary);
       margin-bottom: 1.25rem;
-      font-family: var(--font-sans);
+      font-family: var(--font-display);
     }
 
     .bento-grid {

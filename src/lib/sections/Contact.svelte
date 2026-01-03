@@ -123,12 +123,12 @@
     position: relative;
   }
 
-  /* Background elements */
+  /* Background elements - warm tones */
   .bg-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 70%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 50% 30%, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 70%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -147,7 +147,7 @@
     transform: translateX(-50%);
     width: 50vw;
     height: 50vw;
-    background: #818cf8;
+    background: var(--color-primary);
   }
 
   .blob-2 {
@@ -156,7 +156,7 @@
     transform: translateX(-50%);
     width: 45vw;
     height: 45vw;
-    background: #fbbf24;
+    background: var(--color-secondary);
     animation-delay: -10s;
   }
 
@@ -234,8 +234,8 @@
   }
 
   .bento-card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
   }
 
   /* CTA card */
@@ -259,8 +259,8 @@
   }
 
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.4); }
-    50% { box-shadow: 0 0 20px 10px rgba(129, 140, 248, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
+    50% { box-shadow: 0 0 20px 10px rgba(217, 119, 6, 0); }
   }
 
   .cta-card h3 {
@@ -306,8 +306,8 @@
   }
 
   .cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(129, 140, 248, 0.4);
+    transform: translateY(-3px) rotate(-1deg);
+    box-shadow: 0 10px 30px rgba(217, 119, 6, 0.4);
   }
 
   .btn-arrow {
@@ -423,7 +423,7 @@
       letter-spacing: 0.15em;
       color: var(--color-primary);
       margin-bottom: 1.25rem;
-      font-family: var(--font-sans);
+      font-family: var(--font-display);
       text-align: left;
     }
 

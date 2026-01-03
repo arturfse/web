@@ -5,11 +5,11 @@
 
   let mounted = false;
   let ready = false;
-  let colorIndex = 0;
   let isMobile = false;
 
-  // Vibrant colors inspired by dotsandlines.io
-  const accentColors = ['#818cf8', '#f472b6', '#34d399', '#fbbf24', '#f97316'];
+  // Warm amber accent colors - matching landings
+  const accentColors = ['#D97706', '#EA580C', '#B85C38', '#F59E0B', '#C97B5D'];
+  let colorIndex = 0;
 
   function handleNavClick(e: MouseEvent, sectionIndex: number) {
     if (!isMobile) {
@@ -35,11 +35,15 @@
 </script>
 
 <section id="home" class="hero">
-  <!-- Dynamic background inspired by dotsandlines.io -->
+  <!-- Warm gradient background like landings -->
   <div class="bg-gradient"></div>
   <div class="bg-blob blob-1" style="background: {currentColor}"></div>
   <div class="bg-blob blob-2" style="background: {nextColor}"></div>
   <div class="bg-grid"></div>
+
+  <!-- Ink splatter decorations from Real Ink -->
+  <div class="ink-splatter ink-1"></div>
+  <div class="ink-splatter ink-2"></div>
 
   {#if mounted}
     <div class="container" class:ready>
@@ -57,10 +61,10 @@
       <main class="main">
         <div class="headline">
           <div class="line">
-            <span class="word">Artur</span>
+            <span class="word glitch-text" data-text="Artur">Artur</span>
           </div>
           <div class="line">
-            <span class="word">Arslanov</span>
+            <span class="word glitch-text" data-text="Arslanov">Arslanov</span>
             <span class="accent-dot" style="background: {currentColor}"></span>
           </div>
         </div>
@@ -106,12 +110,12 @@
     padding: 1rem 2rem 2rem;
   }
 
-  /* Dynamic background */
+  /* Warm gradient background */
   .bg-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 20%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(244, 114, 182, 0.06) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(184, 92, 56, 0.06) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -147,20 +151,59 @@
     75% { transform: translate(3%, -2%) scale(1.01); }
   }
 
+  /* Ink splatters from Real Ink */
+  .ink-splatter {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.08;
+    z-index: 0;
+  }
+
+  .ink-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 0;
+    background: radial-gradient(ellipse at 30% 40%, var(--color-primary) 0%, transparent 60%);
+    filter: blur(20px);
+    animation: ink-spread 8s ease-in-out infinite;
+  }
+
+  .ink-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 20%;
+    right: 0;
+    background: radial-gradient(ellipse at 70% 50%, var(--color-secondary) 0%, transparent 55%);
+    filter: blur(15px);
+    animation: ink-spread 6s ease-in-out infinite reverse;
+  }
+
+  @keyframes ink-spread {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.08;
+    }
+    50% {
+      transform: scale(1.2) rotate(5deg);
+      opacity: 0.12;
+    }
+  }
+
   .bg-grid {
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
   }
 
   :global([data-theme="light"]) .bg-grid {
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(180, 83, 9, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(180, 83, 9, 0.05) 1px, transparent 1px);
   }
 
   /* Container */
@@ -171,6 +214,8 @@
     padding: 1rem 4rem 0;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
   }
 
   .container.ready .word,
@@ -210,23 +255,26 @@
     color: var(--text-muted);
     text-decoration: none;
     transition: color 0.3s ease;
+    font-weight: 500;
   }
 
   .nav a:hover {
-    color: var(--text-primary);
+    color: var(--color-primary);
   }
 
   .nav-cta {
     padding: 0.5rem 1.25rem;
     background: var(--gradient-primary);
     color: white !important;
-    border-radius: 6px;
+    border-radius: 8px;
     transition: all 0.3s ease;
+    font-weight: 600;
+    border: 2px solid transparent;
   }
 
   .nav-cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
   }
 
   /* Main */
@@ -252,14 +300,60 @@
   }
 
   .word {
+    font-family: var(--font-display);
     font-size: clamp(3rem, 10vw, 8rem);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1;
     color: var(--text-primary);
     opacity: 0;
     transform: translateY(50px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  /* Glitch effect on hover */
+  .word.glitch-text:hover::before,
+  .word.glitch-text:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+  }
+
+  .word.glitch-text:hover::before {
+    color: var(--color-accent-1);
+    animation: glitch-1 0.3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+
+  .word.glitch-text:hover::after {
+    color: var(--color-secondary);
+    animation: glitch-2 0.3s infinite;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(0); opacity: 0.8; }
+    20% { transform: translate(3px, -3px); }
+    40% { transform: translate(3px, 3px); }
+    60% { transform: translate(-3px, -3px); }
+    80% { transform: translate(-3px, 3px); }
   }
 
   .line:nth-child(2) .word {
@@ -272,6 +366,7 @@
     border-radius: 50%;
     flex-shrink: 0;
     transition: background 1.5s ease;
+    box-shadow: 0 0 30px currentColor;
   }
 
   /* Bio */
@@ -286,7 +381,7 @@
     transition: all 0.6s ease 0.3s;
   }
 
-  /* Tech Stack */
+  /* Tech Stack - pill style from landings */
   .tech-stack {
     display: flex;
     flex-wrap: wrap;
@@ -302,16 +397,17 @@
     color: var(--text-primary);
     padding: 0.5rem 1rem;
     background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--border-color);
     border-radius: 100px;
     transition: all 0.3s ease;
   }
 
   .stack-item:hover {
-    background: rgba(129, 140, 248, 0.1);
-    border-color: rgba(129, 140, 248, 0.3);
+    background: var(--bg-subtle);
+    border-color: var(--color-primary);
     color: var(--color-primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
   }
 
   /* Footer */
@@ -336,9 +432,9 @@
   }
 
   .scroll-line {
-    width: 1px;
+    width: 2px;
     height: 40px;
-    background: linear-gradient(to bottom, var(--text-muted), transparent);
+    background: linear-gradient(to bottom, var(--color-primary), transparent);
     animation: scrollPulse 2s ease-in-out infinite;
   }
 
@@ -364,15 +460,15 @@
     text-decoration: none;
     padding: 0.875rem 1.5rem;
     background: var(--gradient-primary);
-    border: none;
-    border-radius: 8px;
+    border: 2px solid transparent;
+    border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 4px 15px rgba(129, 140, 248, 0.3);
+    box-shadow: 0 4px 20px rgba(217, 119, 6, 0.3);
   }
 
   .cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.4);
+    transform: translateY(-3px) rotate(-1deg);
+    box-shadow: 0 8px 30px rgba(217, 119, 6, 0.5);
     gap: 0.75rem;
   }
 
@@ -479,7 +575,7 @@
       padding: 0.5rem 1rem;
       font-size: var(--text-sm);
       background: var(--bg-elevated);
-      border-color: var(--glass-border);
+      border-color: var(--border-color);
     }
 
     .footer {
@@ -504,6 +600,10 @@
     }
 
     .blob-1, .blob-2 {
+      display: none;
+    }
+
+    .ink-1, .ink-2 {
       display: none;
     }
 

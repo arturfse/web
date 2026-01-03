@@ -42,7 +42,7 @@
 </script>
 
 <section id="about" class="about">
-  <!-- Consistent background -->
+  <!-- Warm gradient background -->
   <div class="bg-gradient"></div>
   <div class="bg-blob blob-1"></div>
   <div class="bg-blob blob-2"></div>
@@ -104,12 +104,12 @@
     position: relative;
   }
 
-  /* Background elements */
+  /* Background elements - warm tones */
   .bg-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 60% 30%, rgba(52, 211, 153, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 20% 70%, rgba(129, 140, 248, 0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 60% 30%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 70%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -127,7 +127,7 @@
     left: -5%;
     width: 35vw;
     height: 35vw;
-    background: #34d399;
+    background: var(--color-accent-2);
   }
 
   .blob-2 {
@@ -135,7 +135,7 @@
     right: -10%;
     width: 40vw;
     height: 40vw;
-    background: #818cf8;
+    background: var(--color-primary);
     animation-delay: -10s;
   }
 
@@ -150,16 +150,16 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
   }
 
   :global([data-theme="light"]) .bg-grid {
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(180, 83, 9, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(180, 83, 9, 0.05) 1px, transparent 1px);
   }
 
   .container {
@@ -183,34 +183,32 @@
 
   .bento-card {
     padding: 1.5rem;
-    border-radius: 1.25rem;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     overflow: hidden;
   }
 
+  /* Gradient border on hover like landings */
   .bento-card::before {
     content: '';
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
+    inset: -2px;
+    border-radius: 18px;
     background: var(--gradient-border);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     opacity: 0;
+    z-index: -1;
     transition: opacity 0.3s ease;
   }
 
   .bento-card:hover::before {
-    opacity: 1;
+    opacity: 0.6;
   }
 
   .bento-card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
   }
 
   /* Intro card - spans 2 columns, 2 rows */
@@ -220,14 +218,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-top: 3px solid var(--color-primary);
   }
 
   .intro-card h3 {
     font-size: var(--text-xl);
     color: var(--text-primary);
     margin-bottom: 1rem;
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
     font-weight: 600;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .intro-card p {
@@ -240,6 +243,7 @@
   .highlight-text {
     color: var(--color-primary) !important;
     font-weight: 500;
+    -webkit-text-fill-color: var(--color-primary) !important;
   }
 
   /* Stat cards */
@@ -254,6 +258,7 @@
   .stat-value {
     font-size: var(--text-2xl);
     font-weight: 700;
+    font-family: var(--font-display);
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -290,7 +295,7 @@
   .skill-header h4 {
     font-size: var(--text-base);
     color: var(--text-primary);
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
     font-weight: 600;
     margin: 0;
   }
@@ -303,18 +308,19 @@
 
   .skill-tag {
     padding: 0.375rem 0.75rem;
-    border-radius: 20px;
+    border-radius: 100px;
     font-size: var(--text-xs);
     color: var(--text-secondary);
     background: var(--bg-subtle);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-color);
     transition: all 0.2s ease;
   }
 
   .skill-tag:hover {
-    color: var(--text-primary);
+    color: var(--color-primary);
     border-color: var(--color-primary);
-    background: rgba(129, 140, 248, 0.1);
+    background: rgba(217, 119, 6, 0.1);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 900px) {
@@ -364,7 +370,7 @@
       letter-spacing: 0.15em;
       color: var(--color-primary);
       margin-bottom: 1.25rem;
-      font-family: var(--font-sans);
+      font-family: var(--font-display);
     }
 
     .bento-grid {
@@ -375,7 +381,7 @@
     }
 
     .bento-card {
-      border-radius: 0.875rem;
+      border-radius: 12px;
       padding: 0.875rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -387,7 +393,7 @@
     .intro-card {
       grid-column: span 2;
       padding: 1.25rem;
-      border: 1px solid transparent;
+      border: 2px solid transparent;
       background:
         linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
         var(--gradient-primary) border-box;
@@ -396,10 +402,6 @@
     .intro-card h3 {
       font-size: var(--text-base);
       margin-bottom: 0.5rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .intro-card p {

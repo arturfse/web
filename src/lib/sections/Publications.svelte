@@ -96,12 +96,12 @@
     position: relative;
   }
 
-  /* Background elements */
+  /* Background elements - warm tones */
   .bg-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 70% 20%, rgba(52, 211, 153, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 30% 80%, rgba(244, 114, 182, 0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 70% 20%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 80%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -119,7 +119,7 @@
     right: -5%;
     width: 35vw;
     height: 35vw;
-    background: #34d399;
+    background: var(--color-accent-2);
   }
 
   .blob-2 {
@@ -127,7 +127,7 @@
     left: -10%;
     width: 40vw;
     height: 40vw;
-    background: #f472b6;
+    background: var(--color-primary);
     animation-delay: -10s;
   }
 
@@ -203,8 +203,8 @@
   }
 
   .bento-card:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
   }
 
   /* Featured card */
@@ -373,7 +373,7 @@
       letter-spacing: 0.15em;
       color: var(--color-primary);
       margin-bottom: 1.25rem;
-      font-family: var(--font-sans);
+      font-family: var(--font-display);
     }
 
     .bento-grid {
