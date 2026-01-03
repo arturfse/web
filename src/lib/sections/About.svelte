@@ -1,469 +1,370 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { spiralReveal, setupScrollAnimation, isMobile } from '../utils/animations';
+
+  let visible = false;
 
   onMount(() => {
-    if (isMobile()) {
-      setupScrollAnimation('#about', '#about .bento-card', spiralReveal, { delay: 50, staggerDelay: 60 });
-    } else {
-      spiralReveal('#about .bento-card', { delay: 100, staggerDelay: 70 });
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          visible = true;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('about-section');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
   });
 
-  const highlights = [
-    { value: '6+', label: 'Years Experience' },
-    { value: '1000+', label: 'Concurrent Users' },
-    { value: '60%', label: 'Workflow Automation' },
-    { value: '3x', label: 'Speed Improvement' }
+  const features = [
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+      title: 'Full-Stack Development',
+      description: 'End-to-end solutions from React frontends to Node.js backends with PostgreSQL databases.'
+    },
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+      title: 'Performance Optimization',
+      description: 'Achieving 3x speed improvements through caching, lazy loading, and efficient algorithms.'
+    },
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      title: 'Team Leadership',
+      description: 'Mentoring developers, conducting code reviews, and building collaborative engineering culture.'
+    },
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>`,
+      title: 'System Architecture',
+      description: 'Designing scalable microservices handling 1000+ concurrent users with 99% uptime.'
+    },
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+      title: 'Workflow Automation',
+      description: 'Reducing manual work by 60% through CI/CD pipelines and automated testing systems.'
+    },
+    {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+      title: 'Cloud Infrastructure',
+      description: 'AWS, Docker, and Kubernetes deployments with infrastructure as code practices.'
+    }
   ];
 
-  const skills = [
-    {
-      category: 'Frontend',
-      icon: '◈',
-      items: ['TypeScript', 'React', 'Next.js', 'Svelte']
-    },
-    {
-      category: 'Backend',
-      icon: '◉',
-      items: ['Node.js', 'NestJS', 'GraphQL', 'Microservices']
-    },
-    {
-      category: 'Database',
-      icon: '◎',
-      items: ['PostgreSQL', 'MongoDB', 'Redis', 'ElasticSearch']
-    },
-    {
-      category: 'Cloud',
-      icon: '◇',
-      items: ['AWS S3', 'Docker', 'CI/CD', 'Kubernetes']
-    }
+  const techStack = [
+    { name: 'TypeScript', category: 'Language' },
+    { name: 'React', category: 'Frontend' },
+    { name: 'Node.js', category: 'Backend' },
+    { name: 'PostgreSQL', category: 'Database' },
+    { name: 'GraphQL', category: 'API' },
+    { name: 'Docker', category: 'DevOps' }
   ];
 </script>
 
-<section id="about" class="about">
-  <!-- Warm gradient background -->
-  <div class="bg-gradient"></div>
-  <div class="bg-blob blob-1"></div>
-  <div class="bg-blob blob-2"></div>
-  <div class="bg-grid"></div>
-
+<section class="about" id="about-section">
   <div class="container">
-    <h2 class="section-title">About</h2>
-    <div class="bento-grid">
-      <!-- Main intro card - spans 2 columns -->
-      <div class="bento-card intro-card glass">
-        <div class="card-content">
-          <h3>Senior Software Engineer</h3>
-          <p>
-            Building scalable systems and solving complex technical challenges.
-            From real-time collaboration systems to automated document pipelines,
-            I focus on delivering measurable results.
-          </p>
-          <p class="highlight-text">
-            Strong mentoring background — helping developers grow and shipping quality code.
-          </p>
+    <!-- Section Header -->
+    <div class="section-header" class:visible>
+      <span class="section-badge">About Me</span>
+      <h2>what I bring to the table</h2>
+      <p>6+ years of building scalable systems and leading engineering teams</p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-grid" class:visible>
+      {#each features as feature, i}
+        <div class="feature-card" style="--delay: {i * 0.1}s">
+          <div class="feature-icon">
+            {@html feature.icon}
+          </div>
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
         </div>
+      {/each}
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="tech-section" class:visible>
+      <h3 class="tech-title">Core Technologies</h3>
+      <div class="tech-grid">
+        {#each techStack as tech, i}
+          <div class="tech-card" style="--delay: {i * 0.05}s">
+            <span class="tech-name">{tech.name}</span>
+            <span class="tech-category">{tech.category}</span>
+          </div>
+        {/each}
       </div>
-
-      <!-- Stats cards -->
-      {#each highlights as stat, i}
-        <div class="bento-card stat-card glass" style="--delay: {i * 0.1}s">
-          <span class="stat-value">{stat.value}</span>
-          <span class="stat-label">{stat.label}</span>
-        </div>
-      {/each}
-
-      <!-- Skills cards -->
-      {#each skills as skillGroup, i}
-        <div class="bento-card skill-card glass" style="--delay: {(i + 4) * 0.1}s">
-          <div class="skill-header">
-            <span class="skill-icon">{skillGroup.icon}</span>
-            <h4>{skillGroup.category}</h4>
-          </div>
-          <div class="skill-items">
-            {#each skillGroup.items as skill}
-              <span class="skill-tag">{skill}</span>
-            {/each}
-          </div>
-        </div>
-      {/each}
     </div>
   </div>
 </section>
 
 <style>
   .about {
-    background-color: var(--bg-base);
-    height: 100vh;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    padding: 100px 0;
+    background: var(--bg-base);
     position: relative;
+    overflow: hidden;
   }
 
-  /* Background elements - warm tones */
-  .bg-gradient {
+  /* Subtle background */
+  .about::before {
+    content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 60% 30%, rgba(217, 119, 6, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 20% 70%, rgba(184, 92, 56, 0.05) 0%, transparent 50%);
+    background:
+      radial-gradient(ellipse at 60% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 80%, rgba(184, 92, 56, 0.04) 0%, transparent 50%);
     pointer-events: none;
-  }
-
-  .bg-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.1;
-    pointer-events: none;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .blob-1 {
-    top: -10%;
-    left: -5%;
-    width: 35vw;
-    height: 35vw;
-    background: var(--color-accent-2);
-  }
-
-  .blob-2 {
-    bottom: -15%;
-    right: -10%;
-    width: 40vw;
-    height: 40vw;
-    background: var(--color-primary);
-    animation-delay: -10s;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(2%, 3%) scale(1.02); }
-    50% { transform: translate(-1%, 5%) scale(0.98); }
-    75% { transform: translate(3%, -2%) scale(1.01); }
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-
-  :global([data-theme="light"]) .bg-grid {
-    background-image:
-      linear-gradient(rgba(180, 83, 9, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(180, 83, 9, 0.05) 1px, transparent 1px);
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+    z-index: 1;
   }
 
-  .section-title {
-    display: none;
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
   }
 
-  .bento-grid {
+  .section-header.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    color: var(--color-primary);
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-transform: lowercase;
+  }
+
+  .section-header p {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Features Grid */
+  .features-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(120px, auto);
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
   }
 
-  .bento-card {
-    padding: 1.5rem;
+  .features-grid.visible .feature-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .feature-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
-    border: 2px solid var(--border-color);
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 28px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+    transition-delay: var(--delay);
   }
 
-  /* Gradient border on hover like landings */
-  .bento-card::before {
+  .feature-card::before {
     content: '';
     position: absolute;
-    inset: -2px;
-    border-radius: 18px;
-    background: var(--gradient-border);
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.3s ease;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
   }
 
-  .bento-card:hover::before {
-    opacity: 0.6;
+  .feature-card:hover::before {
+    transform: scaleX(1);
   }
 
-  .bento-card:hover {
-    transform: translateY(-4px) rotate(-0.5deg);
+  .feature-card:hover {
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg), var(--glow-primary);
+    border-color: var(--color-primary);
   }
 
-  /* Intro card - spans 2 columns, 2 rows */
-  .intro-card {
-    grid-column: span 2;
-    grid-row: span 2;
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
+    color: var(--color-primary);
+  }
+
+  .feature-card:hover .feature-icon {
+    background: var(--gradient-primary);
+    color: white;
+    transform: translateY(-4px) rotate(-3deg);
+    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+  }
+
+  .feature-card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Tech Section */
+  .tech-section {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease 0.3s;
+  }
+
+  .tech-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tech-title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+
+  .tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .tech-card {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    border-top: 3px solid var(--color-primary);
+    align-items: center;
+    gap: 4px;
+    padding: 16px 24px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .intro-card h3 {
-    font-size: var(--text-xl);
-    color: var(--text-primary);
-    margin-bottom: 1rem;
+  .tech-section.visible .tech-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: var(--delay);
+  }
+
+  .tech-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+  }
+
+  .tech-name {
     font-family: var(--font-display);
     font-weight: 600;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .intro-card p {
+    color: var(--text-primary);
     font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 1rem;
   }
 
-  .highlight-text {
-    color: var(--color-primary) !important;
-    font-weight: 500;
-    -webkit-text-fill-color: var(--color-primary) !important;
-  }
-
-  /* Stat cards */
-  .stat-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .stat-value {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    font-family: var(--font-display);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
+  .tech-category {
     font-size: var(--text-xs);
-    color: var(--text-muted);
+    color: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  /* Skill cards */
-  .skill-card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .skill-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .skill-icon {
-    font-size: var(--text-lg);
-    color: var(--color-primary);
-  }
-
-  .skill-header h4 {
-    font-size: var(--text-base);
-    color: var(--text-primary);
-    font-family: var(--font-display);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .skill-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .skill-tag {
-    padding: 0.375rem 0.75rem;
-    border-radius: 100px;
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-  }
-
-  .skill-tag:hover {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-    background: rgba(217, 119, 6, 0.1);
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 900px) {
+  /* Mobile */
+  @media (max-width: 768px) {
     .about {
-      height: auto !important;
-      min-height: auto !important;
-      max-height: none !important;
-      padding: 2rem 1rem;
-      overflow: visible;
-    }
-
-    .bento-grid {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.75rem;
-      height: auto !important;
-    }
-
-    .bento-card {
-      height: auto !important;
-      min-height: auto !important;
-    }
-
-    .intro-card {
-      grid-column: span 2;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .about {
-      height: auto;
-      min-height: auto;
-      padding: 2rem 1rem;
-      overflow: visible;
+      padding: 60px 0;
     }
 
     .container {
-      padding: 0;
+      padding: 0 1.25rem;
     }
 
-    .section-title {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--color-primary);
-      margin-bottom: 1.25rem;
-      font-family: var(--font-display);
+    .section-header {
+      margin-bottom: 40px;
     }
 
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.6rem;
+    .section-header h2 {
+      font-size: 1.75rem;
     }
 
-    .bento-card {
-      border-radius: 12px;
-      padding: 0.875rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
     }
 
-    .bento-card:active {
-      transform: scale(0.98);
+    .feature-card {
+      padding: 20px;
     }
 
-    .intro-card {
-      grid-column: span 2;
-      padding: 1.25rem;
-      border: 2px solid transparent;
-      background:
-        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-        var(--gradient-primary) border-box;
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 14px;
     }
 
-    .intro-card h3 {
-      font-size: var(--text-base);
-      margin-bottom: 0.5rem;
+    .tech-grid {
+      gap: 8px;
     }
 
-    .intro-card p {
-      font-size: var(--text-sm);
-      margin-bottom: 0.5rem;
-      line-height: 1.5;
-    }
-
-    .stat-card {
-      padding: 0.875rem;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0.25rem;
-      min-height: auto;
-    }
-
-    .stat-value {
-      font-size: var(--text-xl);
-      margin-bottom: 0;
-    }
-
-    .stat-label {
-      font-size: var(--text-xs);
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .skill-card {
-      padding: 0.625rem;
-      gap: 0.35rem;
-      min-height: auto;
-    }
-
-    .skill-header {
-      gap: 0.4rem;
-    }
-
-    .skill-header h4 {
-      font-size: var(--text-xs);
-    }
-
-    .skill-icon {
-      font-size: var(--text-sm);
-    }
-
-    .skill-items {
-      gap: 0.2rem;
-    }
-
-    .skill-tag {
-      padding: 0.15rem 0.35rem;
-      font-size: 0.6rem;
-      border-radius: 4px;
-    }
-
-    .blob-1, .blob-2 {
-      display: none;
-    }
-
-    .bg-grid {
-      opacity: 0.3;
+    .tech-card {
+      padding: 12px 16px;
     }
   }
 </style>

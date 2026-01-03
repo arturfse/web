@@ -1,338 +1,312 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { cascadeReveal, setupScrollAnimation, isMobile } from '../utils/animations';
+
+  let visible = false;
 
   onMount(() => {
-    if (isMobile()) {
-      setupScrollAnimation('#projects', '#projects .bento-card', cascadeReveal, { delay: 50, staggerDelay: 80 });
-    } else {
-      cascadeReveal('#projects .bento-card', { delay: 100, staggerDelay: 90 });
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          visible = true;
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('projects-section');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
   });
 
   const projects = [
     {
       title: 'StickIO Bot',
-      description: 'AI-powered Telegram bot that turns ideas into vibrant sticker packs',
-      technologies: ['Node.js', 'NestJS', 'Telegram API'],
+      description: 'AI-powered Telegram bot that turns ideas into vibrant sticker packs. Generates custom stickers from text prompts using advanced image generation.',
+      technologies: ['Node.js', 'NestJS', 'Telegram API', 'AI'],
       link: 'https://t.me/stickio_bot',
-      type: 'telegram',
-      featured: true
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`,
+      featured: true,
+      badge: 'Telegram Bot'
     },
     {
       title: 'UI Collection',
-      description: 'Production-ready headless UI components for React',
+      description: 'Production-ready headless UI components for React. Focus on accessibility and flexibility.',
       technologies: ['React', 'TypeScript', 'A11y'],
-      link: 'https://github.com/arslanov-artur/react-headless-ui-collection'
+      link: 'https://github.com/arslanov-artur/react-headless-ui-collection',
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>`
     },
     {
       title: 'Messenger PWA',
-      description: 'Real-time messenger with offline support',
-      technologies: ['PWA', 'WebSockets'],
-      link: 'https://github.com/arslanov-artur/messenger-pwa'
+      description: 'Real-time messenger with offline support. WebSocket-based communication with PWA capabilities.',
+      technologies: ['PWA', 'WebSockets', 'IndexedDB'],
+      link: 'https://github.com/arslanov-artur/messenger-pwa',
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
     }
-  ];
-
-  const projectStats = [
-    { value: '3', label: 'Open Source' },
-    { value: '∞', label: 'Ideas in Mind' }
   ];
 </script>
 
-<section id="projects" class="projects">
-  <!-- Warm background -->
-  <div class="bg-gradient"></div>
-  <div class="bg-blob blob-1"></div>
-  <div class="bg-blob blob-2"></div>
-  <div class="bg-grid"></div>
-
+<section class="projects" id="projects-section">
   <div class="container">
-    <h2 class="section-title">Projects</h2>
-    <div class="bento-grid">
-      <!-- Featured project -->
-      <a href={projects[0].link} target="_blank" rel="noopener noreferrer" class="bento-card featured-card glass">
-        <div class="featured-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-          </svg>
-          Telegram Bot
-        </div>
-        <div class="card-content">
-          <h3>{projects[0].title}</h3>
-          <p class="description">{projects[0].description}</p>
-        </div>
-        <div class="tech-stack">
-          {#each projects[0].technologies as tech}
-            <span class="tech-tag">{tech}</span>
-          {/each}
-        </div>
-      </a>
+    <!-- Section Header -->
+    <div class="section-header" class:visible>
+      <span class="section-badge">Projects</span>
+      <h2>things I've built</h2>
+      <p>Side projects and open source contributions</p>
+    </div>
 
-      <!-- Stats -->
-      {#each projectStats as stat}
-        <div class="bento-card stat-card glass">
-          <span class="stat-value">{stat.value}</span>
-          <span class="stat-label">{stat.label}</span>
-        </div>
-      {/each}
-
-      <!-- Other projects -->
-      {#each projects.slice(1) as project}
-        <a href={project.link} target="_blank" rel="noopener noreferrer" class="bento-card project-card glass">
-          <div class="card-header">
-            <h4>{project.title}</h4>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-            </svg>
+    <!-- Projects Grid -->
+    <div class="projects-grid" class:visible>
+      {#each projects as project, i}
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card"
+          class:featured={project.featured}
+          style="--delay: {i * 0.1}s"
+        >
+          {#if project.badge}
+            <div class="project-badge">
+              {@html project.icon}
+              {project.badge}
+            </div>
+          {/if}
+          <div class="project-icon">
+            {@html project.icon}
           </div>
-          <p class="description">{project.description}</p>
+          <h3>{project.title}</h3>
+          <p class="project-description">{project.description}</p>
           <div class="tech-stack">
             {#each project.technologies as tech}
               <span class="tech-tag">{tech}</span>
             {/each}
           </div>
+          <div class="project-link">
+            <span>View Project</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7"/>
+              <path d="M7 7h10v10"/>
+            </svg>
+          </div>
         </a>
       {/each}
+    </div>
+
+    <!-- Open Source Note -->
+    <div class="oss-note" class:visible>
+      <p>More projects on <a href="https://github.com/arslanov-artur" target="_blank" rel="noopener noreferrer">GitHub</a></p>
     </div>
   </div>
 </section>
 
 <style>
   .projects {
-    background-color: var(--bg-base);
-    height: 100vh;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    padding: 100px 0;
+    background: var(--bg-base);
     position: relative;
-    z-index: 1;
+    overflow: hidden;
   }
 
-  /* Background elements - warm tones */
-  .bg-gradient {
+  .projects::before {
+    content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 20% 30%, rgba(234, 88, 12, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 70%, rgba(217, 119, 6, 0.05) 0%, transparent 50%);
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(234, 88, 12, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 70%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
     pointer-events: none;
-  }
-
-  .bg-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.1;
-    pointer-events: none;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .blob-1 {
-    top: -10%;
-    left: -5%;
-    width: 35vw;
-    height: 35vw;
-    background: var(--color-accent-1);
-  }
-
-  .blob-2 {
-    bottom: -15%;
-    right: -10%;
-    width: 40vw;
-    height: 40vw;
-    background: var(--color-primary);
-    animation-delay: -10s;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(2%, 3%) scale(1.02); }
-    50% { transform: translate(-1%, 5%) scale(0.98); }
-    75% { transform: translate(3%, -2%) scale(1.01); }
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-
-  :global([data-theme="light"]) .bg-grid {
-    background-image:
-      linear-gradient(rgba(180, 83, 9, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(180, 83, 9, 0.05) 1px, transparent 1px);
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
-    width: 100%;
-  }
-
-  .section-title {
-    display: none;
-  }
-
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-
-  .bento-card {
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 2px solid var(--border-color);
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
+    z-index: 1;
   }
 
-  /* Gradient border on hover */
-  .bento-card::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 18px;
-    background: var(--gradient-border);
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
     opacity: 0;
-    z-index: -1;
-    transition: opacity 0.3s ease;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
   }
 
-  .bento-card:hover::before {
-    opacity: 0.6;
+  .section-header.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .bento-card:hover {
-    transform: translateY(-4px) rotate(-0.5deg);
-    box-shadow: var(--shadow-lg), var(--glow-primary);
-  }
-
-  /* Featured card */
-  .featured-card {
-    grid-column: span 2;
-    grid-row: span 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-top: 3px solid var(--color-primary);
-  }
-
-  .featured-badge {
+  .section-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.875rem;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    color: var(--color-primary);
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-transform: lowercase;
+  }
+
+  .section-header p {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .projects-grid.visible .project-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+    transition-delay: var(--delay);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
+    border-color: var(--color-primary);
+  }
+
+  .project-card.featured {
+    grid-column: span 2;
+  }
+
+  .project-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
     background: var(--gradient-primary);
     color: white;
     font-size: var(--text-xs);
     font-weight: 600;
     border-radius: 100px;
     width: fit-content;
+    margin-bottom: 16px;
   }
 
-  .featured-card h3 {
-    font-size: var(--text-2xl);
-    font-family: var(--font-display);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 1rem 0 0.75rem;
+  .project-badge svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .featured-card .description {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  /* Stat cards */
-  .stat-card {
+  .project-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .stat-value {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    font-family: var(--font-display);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Project cards */
-  .project-card {
-    grid-column: span 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .project-card h4 {
-    font-size: var(--text-lg);
-    font-family: var(--font-display);
-    color: var(--text-primary);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .icon {
-    color: var(--text-muted);
-    transition: color 0.2s ease;
-  }
-
-  .project-card:hover .icon {
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
     color: var(--color-primary);
   }
 
-  .description {
+  .project-card.featured .project-icon {
+    display: none;
+  }
+
+  .project-card:hover .project-icon {
+    background: var(--gradient-primary);
+    color: white;
+    transform: translateY(-4px) rotate(-3deg);
+    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+  }
+
+  .project-card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .project-card.featured h3 {
+    font-size: var(--text-2xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-description {
     font-size: var(--text-sm);
     color: var(--text-muted);
-    line-height: 1.5;
-    margin: 0;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
   }
 
   .tech-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: auto;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .tech-tag {
-    padding: 0.25rem 0.625rem;
+    padding: 4px 10px;
     border-radius: 100px;
     font-size: var(--text-xs);
     color: var(--text-secondary);
@@ -341,156 +315,131 @@
     transition: all 0.2s ease;
   }
 
-  .bento-card:hover .tech-tag {
+  .project-card:hover .tech-tag {
     border-color: var(--color-primary);
     color: var(--color-primary);
   }
 
-  @media (max-width: 900px) {
-    .projects {
-      height: auto !important;
-      min-height: auto !important;
-      max-height: none !important;
-      padding: 2rem 1rem;
-      overflow: visible;
-    }
-
-    .bento-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .featured-card, .project-card {
-      width: 100%;
-    }
-
-    .stat-card {
-      width: calc(50% - 0.25rem);
-    }
+  .project-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: auto;
+    transition: all 0.2s ease;
   }
 
-  @media (max-width: 600px) {
+  .project-link svg {
+    transition: transform 0.2s ease;
+  }
+
+  .project-card:hover .project-link {
+    color: var(--color-primary);
+  }
+
+  .project-card:hover .project-link svg {
+    transform: translate(2px, -2px);
+  }
+
+  /* OSS Note */
+  .oss-note {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.4s;
+  }
+
+  .oss-note.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .oss-note p {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+  }
+
+  .oss-note a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .oss-note a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+  }
+
+  .oss-note a:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
     .projects {
-      height: auto;
-      min-height: auto;
-      padding: 2rem 1rem;
-      overflow: visible;
+      padding: 60px 0;
     }
 
     .container {
-      padding: 0;
+      padding: 0 1.25rem;
     }
 
-    .section-title {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--color-primary);
-      margin-bottom: 1.25rem;
-      font-family: var(--font-display);
+    .section-header {
+      margin-bottom: 40px;
     }
 
-    .bento-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .section-header h2 {
+      font-size: 1.75rem;
     }
 
-    .bento-card {
-      padding: 0.875rem;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .featured-card, .project-card {
-      width: 100%;
-    }
-
-    .stat-card {
-      width: calc(50% - 0.25rem);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0.875rem;
-    }
-
-    .bento-card:active {
-      transform: scale(0.98);
-    }
-
-    .featured-card {
-      width: 100%;
-      padding: 1rem;
-      border: 2px solid transparent;
-      background:
-        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-        var(--gradient-primary) border-box;
-    }
-
-    .featured-badge {
-      padding: 0.25rem 0.6rem;
-      font-size: 0.55rem;
-    }
-
-    .featured-card h3 {
-      font-size: var(--text-base);
-      margin: 0.5rem 0 0.35rem;
-    }
-
-    .featured-card .description {
-      font-size: var(--text-xs);
-      line-height: 1.4;
-    }
-
-    .stat-card {
-      padding: 0.875rem;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .stat-value {
-      font-size: var(--text-xl);
-      margin-bottom: 0;
-    }
-
-    .stat-label {
-      font-size: var(--text-xs);
-      text-align: center;
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     .project-card {
-      width: 100%;
-      padding: 1rem;
-      gap: 0.5rem;
+      padding: 20px;
     }
 
-    .project-card h4 {
-      font-size: var(--text-sm);
+    .project-card.featured {
+      grid-column: span 1;
     }
 
-    .description {
-      font-size: 0.7rem;
-      line-height: 1.4;
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 14px;
+    }
+
+    .project-card h3 {
+      font-size: var(--text-lg);
+    }
+
+    .project-card.featured h3 {
+      font-size: var(--text-xl);
+    }
+
+    .project-description {
+      font-size: var(--text-xs);
+    }
+
+    .tech-stack {
+      gap: 6px;
     }
 
     .tech-tag {
-      font-size: 0.55rem;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-    }
-
-    .blob-1, .blob-2 {
-      display: none;
-    }
-
-    .bg-grid {
-      opacity: 0.3;
+      font-size: 0.65rem;
+      padding: 3px 8px;
     }
   }
 </style>
