@@ -2455,12 +2455,38 @@ section {
       background: var(--bg) !important;
     }
 
-    body::after,
-    .progress,
+    body::after {
+      display: block !important;
+      position: absolute;
+      inset: 0;
+      min-height: 100%;
+      opacity: 0.012;
+      mix-blend-mode: normal;
+    }
+
     .hero-bg,
     .hero-grid,
     .cta-banner::before {
-      display: none !important;
+      display: block !important;
+    }
+
+    .orb {
+      animation: none !important;
+      filter: none !important;
+      transform: none !important;
+      opacity: 0.42;
+      background: radial-gradient(circle, currentColor 0%, transparent 68%) !important;
+    }
+
+    .orb-1 { color: var(--accent); }
+    .orb-2 { color: var(--accent-2); }
+    .orb-3 { color: #B25CFF; }
+
+    .hero-grid,
+    .cta-banner::before {
+      mask-image: none !important;
+      -webkit-mask-image: none !important;
+      opacity: 0.2;
     }
 
     .chrome,
@@ -2475,14 +2501,6 @@ section {
         radial-gradient(circle at 80% 10%, rgba(255, 61, 127, 0.22), transparent 42%),
         radial-gradient(circle at 0% 0%, rgba(255, 107, 74, 0.18), transparent 38%),
         var(--bg) !important;
-    }
-
-    .cta-banner,
-    .card-feature,
-    .work-card,
-    .proj-card,
-    .write-card {
-      background: var(--surface) !important;
     }
   }
 }
