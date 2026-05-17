@@ -76,7 +76,7 @@ body {
   transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
 }
 a { color: inherit; text-decoration: none; }
-button { all: unset; cursor: pointer; }
+button { all: unset; box-sizing: border-box; cursor: pointer; }
 img, svg { display: block; max-width: 100%; }
 ::selection { background: var(--accent); color: #fff; }
 
@@ -1443,6 +1443,14 @@ section {
   transition: color 0.3s;
   display: inline-flex; align-items: center; gap: 8px;
 }
+.obf-text {
+  display: inline-block;
+  flex: 0 1 auto;
+  max-width: 100%;
+  height: 1.35em;
+  color: inherit;
+  vertical-align: -0.2em;
+}
 
 /* ───────── footer ───────── */
 .foot-wrap {
@@ -2257,6 +2265,7 @@ section {
   .hero-row .btn,
   .hero-row .btn-ghost {
     width: 100%;
+    max-width: 100%;
     justify-content: center;
   }
 }

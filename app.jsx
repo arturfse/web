@@ -131,14 +131,25 @@ const WRITING = [
   },
 ];
 
-/* DIRECTORY entries are stored base64-encoded so plain email/URLs don't
-   appear in the source. They're decoded only at render-time and on click. */
+const CONTACT_KEY = String.fromCharCode(115,105,116,101,45,107,101,121,45,50,48,50,54);
+const CONTACT = {
+  email: [18,27,0,13,88,25,75,24,95,65,92,83,88,28,6,2,37,74,6,4,16,65,28,83,93,91],
+  linkedinUrl: [27,29,0,21,94,81,74,86,65,91,94,89,83,23,0,26,75,78,4,8,86,68,92,31,83,68,7,28,6,72,76,25,22,21,76,92,95,68],
+  linkedinText: [26,7,91,4,95,31,16,11,0,83,66,65,90,18,7,27,19],
+  githubUrl: [27,29,0,21,94,81,74,86,74,91,68,90,67,17,71,23,10,64,68,4,11,94,94,81,92,89,5,68,21,23,89,30,23],
+  githubText: [51,8,6,22,65,10,11,22,91,31,81,64,66,6,27],
+  telegramUrl: [27,29,0,21,94,81,74,86,89,28,93,87,25,18,27,0,16,95,13,22,28],
+  telegramText: [51,8,6,17,88,25,3,10,72],
+  channelUrl: [27,29,0,21,94,81,74,86,89,28,93,87,25,25,26,43,4,95,31,13,12,95],
+  channelText: [7,71,25,0,2,1,22,38,76,64,68,90,67,1],
+};
+
 const DIRECTORY = [
-  { k: "Email",    d: "YXJ0aHVyLmFyc2xhbm9vdkBnbWFpbC5jb20=", v: "YXJ0aHVyLmFyc2xhbm9vdkBnbWFpbC5jb20=", kind: "mail" },
-  { k: "LinkedIn", d: "aHR0cHM6Ly9saW5rZWRpbi5jb20vaW4vYXJ0dXItYXJzbGFub3Y=", v: "aW4vYXJ0dXItYXJzbGFub3Y=" },
-  { k: "GitHub",   d: "aHR0cHM6Ly9naXRodWIuY29tL2Fyc2xhbm92LWFydHVy", v: "QGFyc2xhbm92LWFydHVy" },
-  { k: "Telegram", d: "aHR0cHM6Ly90Lm1lL2FydHVyZnNl", v: "QGFydHVyZnNl" },
-  { k: "Channel",  d: "aHR0cHM6Ly90Lm1lL2pzX2FydGh1cg==", v: "dC5tZS9qc19hcnRodXI=" },
+  { k: "Email",    d: CONTACT.email, v: CONTACT.email, kind: "mail" },
+  { k: "LinkedIn", d: CONTACT.linkedinUrl, v: CONTACT.linkedinText },
+  { k: "GitHub",   d: CONTACT.githubUrl, v: CONTACT.githubText },
+  { k: "Telegram", d: CONTACT.telegramUrl, v: CONTACT.telegramText },
+  { k: "Channel",  d: CONTACT.channelUrl, v: CONTACT.channelText },
 ];
 
 const STRIP = [
@@ -282,16 +293,74 @@ function scrollToId(id) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* base64 decode for obfuscated contact data — runs only at render time
-   so source code never contains plain email/URLs */
-const dec = (s) => {
-  try { return typeof window !== "undefined" ? atob(s) : ""; }
-  catch { return ""; }
+const dec = (codes) => {
+  try {
+    return codes.map((n, i) => String.fromCharCode(n ^ CONTACT_KEY.charCodeAt(i % CONTACT_KEY.length))).join("");
+  } catch {
+    return "";
+  }
 };
 
-/* Obf: anchor that hides its destination from source HTML.
-   Renders an href="#" with no plain URL; constructs the real URL only
-   when the user clicks. Visible children are decoded at render time. */
+function ObfText({ data, className = "" }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas || typeof window === "undefined") return;
+    const text = dec(data);
+    if (!text) return;
+
+    const draw = () => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const styles = window.getComputedStyle(canvas);
+      const font = styles.font || `${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+      const fontSize = parseFloat(styles.fontSize) || 13;
+      const lineHeight = parseFloat(styles.lineHeight) || Math.ceil(fontSize * 1.35);
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      ctx.font = font;
+      const width = Math.ceil(ctx.measureText(text).width + 2);
+      canvas.width = Math.ceil(width * dpr);
+      canvas.height = Math.ceil(lineHeight * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${lineHeight}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, lineHeight);
+      ctx.font = font;
+      ctx.fillStyle = styles.color;
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 1, lineHeight / 2);
+    };
+
+    const redraw = () => window.requestAnimationFrame(draw);
+    draw();
+    document.fonts?.ready?.then(draw);
+
+    const host = canvas.closest("a,button") || canvas.parentElement;
+    host?.addEventListener("mouseenter", redraw);
+    host?.addEventListener("mouseleave", redraw);
+    host?.addEventListener("focus", redraw);
+    host?.addEventListener("blur", redraw);
+    window.addEventListener("resize", draw);
+
+    const observer = new MutationObserver(draw);
+    observer.observe(document.documentElement, { attributes: true });
+
+    return () => {
+      host?.removeEventListener("mouseenter", redraw);
+      host?.removeEventListener("mouseleave", redraw);
+      host?.removeEventListener("focus", redraw);
+      host?.removeEventListener("blur", redraw);
+      window.removeEventListener("resize", draw);
+      observer.disconnect();
+    };
+  }, [data]);
+
+  return <canvas ref={ref} className={`obf-text ${className}`} aria-hidden="true" />;
+}
+
 function Obf({ d, kind = "url", className, children, ...rest }) {
   const onClick = (e) => {
     e.preventDefault();
@@ -935,11 +1004,11 @@ function Contact() {
             worth shipping.
           </h2>
           <div className="cta-actions">
-            <Obf className="btn" d="YXJ0aHVyLmFyc2xhbm9vdkBnbWFpbC5jb20=" kind="mail">
-              <span>{dec("YXJ0aHVyLmFyc2xhbm9vdkBnbWFpbC5jb20=")}</span>
+            <Obf className="btn" d={CONTACT.email} kind="mail">
+              <ObfText data={CONTACT.email} />
               <span className="arr"><ArrowUR size={13} /></span>
             </Obf>
-            <Obf className="btn-ghost" d="aHR0cHM6Ly9saW5rZWRpbi5jb20vaW4vYXJ0dXItYXJzbGFub3Y=">
+            <Obf className="btn-ghost" d={CONTACT.linkedinUrl}>
               Connect on LinkedIn
             </Obf>
           </div>
@@ -954,7 +1023,7 @@ function Contact() {
               >
                 <span className="dir-k">{item.k}</span>
                 <span className="dir-v">
-                  {dec(item.v)}
+                  <ObfText data={item.v} />
                   <ArrowUR size={11} />
                 </span>
               </Obf>
