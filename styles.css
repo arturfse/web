@@ -2448,6 +2448,45 @@ section {
   .cta-banner { max-width: calc(100% - 8px); }
 }
 
+@-moz-document url-prefix() {
+  @media (max-width: 720px) {
+    html,
+    body {
+      background: var(--bg) !important;
+    }
+
+    body::after,
+    .progress,
+    .hero-bg,
+    .hero-grid,
+    .cta-banner::before {
+      display: none !important;
+    }
+
+    .chrome,
+    .hero-badge {
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      background: color-mix(in srgb, var(--surface) 96%, transparent) !important;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 80% 10%, rgba(255, 61, 127, 0.22), transparent 42%),
+        radial-gradient(circle at 0% 0%, rgba(255, 107, 74, 0.18), transparent 38%),
+        var(--bg) !important;
+    }
+
+    .cta-banner,
+    .card-feature,
+    .work-card,
+    .proj-card,
+    .write-card {
+      background: var(--surface) !important;
+    }
+  }
+}
+
 /* ───────── reduced motion ───────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
