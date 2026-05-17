@@ -91,7 +91,8 @@ em {
   color: var(--text-dim) !important;
 }
 .rotator-track > span,
-.hero-headline .rotator-track > span {
+.hero-headline .rotator-track > span,
+.hero-static-line {
   font-family: var(--font-serif) !important;
   font-style: italic !important;
   color: transparent !important;
@@ -566,6 +567,11 @@ section {
   font-style: italic;
   font-weight: 400;
   color: var(--text-dim);
+}
+.hero-static-line {
+  display: inline-block;
+  font-weight: 400;
+  padding-right: 0.05em;
 }
 
 /* rotating word */
@@ -2274,7 +2280,11 @@ section {
 @media (max-width: 720px) {
   .strip-frame { padding: 18px 0; }
   .strip-item { font-size: 18px; padding: 0 24px; gap: 28px; }
-  .strip-track { gap: 28px; }
+  .strip-track {
+    animation: none;
+    gap: 28px;
+    transform: none;
+  }
   .strip-frame::before, .strip-frame::after { width: 60px; }
 }
 

@@ -666,12 +666,7 @@ function Hero() {
           <h1 className="hero-headline">
             <SplitWords text="Engineering" delay={150} />{" "}
             <SplitWords text="things" delay={350} /><br/>
-            <span className="rotator">
-              <span className="rotator-track">
-                {ROTATING_WORDS.map((w, i) => <span key={i}>{w}</span>)}
-                <span>{ROTATING_WORDS[0]}</span>
-              </span>
-            </span>
+            <span className="hero-static-line">that last.</span>
           </h1>
 
           <Reveal delay={1000} className="lead">
