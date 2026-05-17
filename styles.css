@@ -2377,10 +2377,13 @@ section {
 @media (max-width: 480px) {
   .cta-directory { grid-template-columns: 1fr; }
   .dir-row {
+    align-items: center;
     border-right: 0;
     border-bottom: 1px solid var(--border);
+    text-align: center;
     padding: 14px 0;
   }
+  .dir-v { justify-content: center; }
   .dir-row:last-child { border-bottom: 0; }
   .dir-row:hover { padding-left: 8px; }
 }
