@@ -2502,6 +2502,31 @@ section {
         radial-gradient(circle at 0% 0%, rgba(255, 107, 74, 0.18), transparent 38%),
         var(--bg) !important;
     }
+
+    .foot-mark-track {
+      animation: none !important;
+      justify-content: center;
+      transform: none !important;
+      width: 100%;
+      will-change: auto;
+    }
+
+    .foot-mark-wrap::before,
+    .foot-mark-wrap::after {
+      display: none;
+    }
+
+    .foot-mark,
+    .foot-mark-sep {
+      display: none;
+    }
+
+    .foot-mark:first-child {
+      display: block;
+      font-size: clamp(42px, 13vw, 72px);
+      letter-spacing: -0.035em;
+      text-align: center;
+    }
   }
 }
 
