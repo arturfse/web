@@ -2203,6 +2203,14 @@ section {
   .work-grid > .work-arr { display: none; }
 }
 
+@media (max-width: 920px) {
+  .work-illu,
+  .work-illu-juro,
+  .work-illu-ancor {
+    display: none !important;
+  }
+}
+
 
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -2229,6 +2237,15 @@ section {
 @media (max-width: 720px) {
   section { padding: clamp(48px, 7vh, 64px) 0; }
   .shell { padding: 0 18px; }
+  body::after { display: none; }
+  .orb {
+    animation: none !important;
+    filter: blur(56px);
+    opacity: 0.28;
+  }
+  .hero-grid {
+    opacity: 0.38;
+  }
 }
 @media (max-width: 480px) {
   section { padding: 44px 0; }
