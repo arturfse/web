@@ -11,7 +11,7 @@ const NAV = [
   { id: "contact",  num: "05", label: "Contact" },
 ];
 
-const ROTATING_WORDS = ["that ship.", "that scale.", "that last.", "that delight."];
+const ROTATING_WORDS = ["load-bearing code", "production scale", "the database", "real users"];
 
 const CURRENT = {
   status: "Live now",
@@ -19,7 +19,7 @@ const CURRENT = {
   company: "SalaryGuide",
   italic: "current",
   period: "2025 to present",
-  blurb: "Rebuilt SalaryGuide from a salary lookup into a full job-search product for marketers. Jobs, resumes, AI tools, payments, and admin systems across 24K salaries, 100K companies, and 500K+ jobs.",
+  blurb: "Took SalaryGuide from a static salary lookup to a full job-search product in a year. 500K jobs ingested, a paid tier launched, an entire AI-assisted apply flow shipped. The kind of work where nothing is the visible part until everything is",
   stack: ["TypeScript", "Next.js", "Node", "PostgreSQL", "Stripe", "AI / LLM"],
   shipped: [
     {
@@ -61,7 +61,7 @@ const TIMELINE = [
     meta: [
       { k: "Scale", v: "8K contracts/mo" },
       { k: "Owned", v: "Editor + Workflow" },
-      { k: "Team", v: "Mentored 2" },
+      { k: "Team", v: "Mentored 2 engineers" },
     ],
   },
   {
@@ -117,8 +117,9 @@ const WRITING = [
     italic: " doesn't matter.",
     blurb: "If your users can't tell the difference between your stack and any other, neither should your hiring page.",
     meta: "LinkedIn · 2025",
-    views: "780k views",
+    views: "500k views",
     href: "https://www.linkedin.com/posts/artur-arslanov_your-tech-stack-doesnt-matter-your-users-activity-7359454836905455616-AvJF",
+    topic: "stack",
   },
   {
     num: "N°02",
@@ -126,11 +127,15 @@ const WRITING = [
     italic: " 10x developer.",
     blurb: "I met a 10x developer once. They weren't faster. They were just clearer about what not to build.",
     meta: "LinkedIn · 2025",
-    views: "320k views",
+    views: "200k views",
     href: "https://www.linkedin.com/posts/artur-arslanov_the-myth-of-the-10x-developer-met-a-10x-activity-7349791548181549056-WR5O",
+    topic: "tenx",
   },
 ];
 
+/* Contacts are XOR-encoded with a runtime-derived key and rendered into a
+   <canvas> rather than the DOM so source scrapers and accessibility-tree
+   parsers can't extract the plain text. Decoded only at render/click time. */
 const CONTACT_KEY = String.fromCharCode(115,105,116,101,45,107,101,121,45,50,48,50,54);
 const CONTACT = {
   email: [18,27,0,13,88,25,75,24,95,65,92,83,88,28,6,2,37,74,6,4,16,65,28,83,93,91],
@@ -145,11 +150,11 @@ const CONTACT = {
 };
 
 const DIRECTORY = [
-  { k: "Email",    d: CONTACT.email, v: CONTACT.email, kind: "mail" },
+  { k: "Email",    d: CONTACT.email,       v: CONTACT.email,        kind: "mail" },
   { k: "LinkedIn", d: CONTACT.linkedinUrl, v: CONTACT.linkedinText },
-  { k: "GitHub",   d: CONTACT.githubUrl, v: CONTACT.githubText },
+  { k: "GitHub",   d: CONTACT.githubUrl,   v: CONTACT.githubText  },
   { k: "Telegram", d: CONTACT.telegramUrl, v: CONTACT.telegramText },
-  { k: "Channel",  d: CONTACT.channelUrl, v: CONTACT.channelText },
+  { k: "Channel",  d: CONTACT.channelUrl,  v: CONTACT.channelText },
 ];
 
 const STRIP = [
@@ -293,6 +298,8 @@ function scrollToId(id) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+/* XOR-decode obfuscated contact data — runs only at render/click time so
+   source code never contains plain email/URLs. */
 const dec = (codes) => {
   try {
     return codes.map((n, i) => String.fromCharCode(n ^ CONTACT_KEY.charCodeAt(i % CONTACT_KEY.length))).join("");
@@ -301,6 +308,9 @@ const dec = (codes) => {
   }
 };
 
+/* ObfText: renders text into a <canvas> instead of the DOM. The visible
+   characters never enter the accessibility tree or HTML source, so scrapers
+   and bots can't extract them. Repaints on font load, hover, and theme change. */
 function ObfText({ data, className = "" }) {
   const ref = useRef(null);
 
@@ -361,6 +371,8 @@ function ObfText({ data, className = "" }) {
   return <canvas ref={ref} className={`obf-text ${className}`} aria-hidden="true" />;
 }
 
+/* Obf: anchor that hides its destination from source HTML. Renders href="#"
+   with no plain URL; constructs the real URL only on click. */
 function Obf({ d, kind = "url", className, children, ...rest }) {
   const onClick = (e) => {
     e.preventDefault();
@@ -389,59 +401,9 @@ const ArrowUR = ({ size = 14 }) => (
 /* ─────────── illustrations ─────────── */
 
 function HeroIllustration() {
-  const ref = useRef(null);
-
-  // Smooth mouse parallax — tracks mouse anywhere on the page and lerps
-  // the rotation each frame for buttery motion (no per-event jumps).
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
-    let raf = 0;
-    let alive = true;
-
-    const tick = () => {
-      if (!alive) return;
-      currentX += (targetX - currentX) * 0.06;
-      currentY += (targetY - currentY) * 0.06;
-      el.style.setProperty("--mx", currentX.toFixed(3));
-      el.style.setProperty("--my", currentY.toFixed(3));
-      raf = requestAnimationFrame(tick);
-    };
-
-    const onMove = (e) => {
-      // Measure from the illustration's center, but listen globally so
-      // the parallax responds to mouse anywhere in the viewport.
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      // Normalize to roughly [-1, 1] within viewport range
-      const nx = (e.clientX - cx) / (window.innerWidth * 0.5);
-      const ny = (e.clientY - cy) / (window.innerHeight * 0.5);
-      // Clamp + multiply to degrees
-      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-      targetX = clamp(nx, -1, 1) * 3.5;   // yaw  ±3.5°
-      targetY = clamp(ny, -1, 1) * -2.5;  // pitch ±2.5°
-    };
-
-    const onLeave = () => { targetX = 0; targetY = 0; };
-
-    window.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseleave", onLeave);
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      alive = false;
-      window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
     <div className="hero-illustration" aria-hidden="true">
-      <div className="illu-stack" ref={ref}>
+      <div className="illu-stack">
 
         {/* main browser mockup — represents a contract / document editor */}
         <div className="illu-card illu-browser">
@@ -469,52 +431,27 @@ function HeroIllustration() {
           </div>
         </div>
 
-        {/* chart card — top right */}
-        <div className="illu-card illu-chart">
-          <div className="illu-chart-body">
-            <div className="illu-chart-head">
-              <span className="label">Shipped / week</span>
-              <span className="value">+24</span>
-            </div>
-            <div className="illu-chart-bars">
-              <div className="b" style={{ height: "45%" }} />
-              <div className="b" style={{ height: "60%" }} />
-              <div className="b tall" style={{ height: "88%" }} />
-              <div className="b" style={{ height: "50%" }} />
-              <div className="b" style={{ height: "72%" }} />
-              <div className="b tall" style={{ height: "95%" }} />
-              <div className="b" style={{ height: "65%" }} />
-            </div>
-            <div className="illu-chart-foot">
-              <span>Mon</span><span>Sun</span>
-            </div>
+        {/* terminal card — mid-right, behind browser */}
+        <div className="illu-card illu-term">
+          <div className="illu-term-bar">
+            <div className="illu-browser-dots"><span /><span /><span /></div>
+            <span className="illu-term-title">~ /deploy</span>
+          </div>
+          <div className="illu-term-body">
+            <div className="tl"><span className="prompt">$</span> git push origin <span className="hl">main</span></div>
+            <div className="tl muted">→ building...</div>
+            <div className="tl muted">→ tests <span className="ok">✓</span> 248 passed</div>
+            <div className="tl muted">→ bundle <span className="ok">✓</span> 142kb gzip</div>
+            <div className="tl"><span className="prompt">$</span> <span className="caret" /></div>
           </div>
         </div>
 
-        {/* chat card — bottom left */}
-        <div className="illu-card illu-chat">
-          <div className="illu-chat-body">
-            <div className="illu-chat-msg in">/sticker fox in space</div>
-            <div className="illu-chat-msg out">cooking →</div>
-            <div className="illu-chat-typing">
-              <span className="d" /><span className="d" /><span className="d" />
-            </div>
-          </div>
-        </div>
-
-        {/* floating metric pills */}
+        {/* single metric pill — ties to the Juro contracts scale */}
         <div className="illu-pill illu-pill-1">
           <div className="illu-pill-icon">a</div>
           <div className="illu-pill-text">
             <span className="illu-pill-value">8K / mo</span>
             <span className="illu-pill-label">Contracts shipped</span>
-          </div>
-        </div>
-        <div className="illu-pill illu-pill-2">
-          <div className="illu-pill-icon" style={{ background: "linear-gradient(135deg, #B25CFF, #5C9CFF)", fontFamily: "var(--font-sans)", fontStyle: "normal", fontSize: 11, fontWeight: 600 }}>1M</div>
-          <div className="illu-pill-text">
-            <span className="illu-pill-value">1M+ reads</span>
-            <span className="illu-pill-label">Field notes</span>
           </div>
         </div>
 
@@ -532,12 +469,39 @@ function NowMockup() {
       </div>
       <div className="now-mockup-body">
         <div className="now-mockup-head">
-          <div>
-            <div className="now-mockup-num">$112,400</div>
-            <div className="now-mockup-num-sub">Median · Paid Media</div>
+          <div className="now-mockup-headline">
+            <div className="now-mockup-num-wrap">
+              <span className="now-mockup-currency">$</span>
+              <span className="now-mockup-num">112,400</span>
+              <span className="now-mockup-cursor" />
+            </div>
+            <div className="now-mockup-num-sub">Median · Paid Media · NY</div>
           </div>
-          <div className="now-mockup-delta">↗ +6.2%</div>
+          <div className="now-mockup-delta">
+            <span className="now-mockup-delta-arrow">↗</span>
+            <span className="now-mockup-delta-num">+6.2%</span>
+          </div>
         </div>
+
+        {/* mini KPI grid */}
+        <div className="now-mockup-kpi">
+          <div className="now-mockup-kpi-cell">
+            <span className="k">Jobs</span>
+            <span className="v">500K+</span>
+            <span className="bar"><span className="fill f1" /></span>
+          </div>
+          <div className="now-mockup-kpi-cell">
+            <span className="k">Matches</span>
+            <span className="v">75K</span>
+            <span className="bar"><span className="fill f2" /></span>
+          </div>
+          <div className="now-mockup-kpi-cell">
+            <span className="k">Resumes</span>
+            <span className="v">1.2K</span>
+            <span className="bar"><span className="fill f3" /></span>
+          </div>
+        </div>
+
         <div className="now-mockup-chart">
           <div className="b" style={{ height: "40%" }} />
           <div className="b" style={{ height: "55%" }} />
@@ -552,18 +516,19 @@ function NowMockup() {
           <div className="b hi" style={{ height: "92%" }} />
           <div className="b hi" style={{ height: "100%" }} />
         </div>
+
         <div className="now-mockup-rows">
-          <div className="now-mockup-row">
+          <div className="now-mockup-row r1">
             <div className="av acc" />
             <div className="lbl" style={{ width: "70%" }} />
             <div className="pill">New York</div>
           </div>
-          <div className="now-mockup-row">
+          <div className="now-mockup-row r2">
             <div className="av acc2" />
             <div className="lbl" style={{ width: "55%" }} />
             <div className="pill">Austin</div>
           </div>
-          <div className="now-mockup-row">
+          <div className="now-mockup-row r3">
             <div className="av" />
             <div className="lbl" style={{ width: "62%" }} />
             <div className="pill">San Francisco</div>
@@ -583,7 +548,7 @@ function WorkIllu({ kind }) {
         <div className="ln w-70" />
         <div className="ln h" />
         <div className="ln w-50" />
-        <div className="comment">▸ Comment by AA</div>
+        <div className="comment">Comment by AA</div>
       </div>
     );
   }
@@ -618,7 +583,95 @@ function WorkIllu({ kind }) {
 
 /* ─────────── chrome ─────────── */
 
-function Chrome({ theme, setTheme }) {
+const ACCENT_OPTIONS = [
+  ["#FFB259", "#FF6B4A", "#FF3D7F", "#B25CFF"], // sunset (default)
+  ["#7FE6FF", "#5C9CFF", "#7C5CFF", "#FF6BD0"], // electric
+  ["#7CFFB6", "#5CFFE1", "#5CCFFF", "#7C8DFF"], // aurora
+  ["#FFE066", "#FF9F45", "#FF5C8A", "#A055FF"], // candy
+];
+
+function Swatch({ colors }) {
+  return (
+    <span className="chrome-swatch" aria-hidden="true">
+      {colors.slice(0, 4).map((c, i) => (
+        <span key={i} style={{ background: c }} />
+      ))}
+    </span>
+  );
+}
+
+function ThemeButton({ theme, setTheme }) {
+  const next = theme === "dark" ? "paper" : "dark";
+  return (
+    <button
+      className="chrome-icon-btn chrome-theme"
+      onClick={() => setTheme(next)}
+      title={`Switch to ${next} mode`}
+      aria-label={`Switch to ${next} mode`}
+    >
+      <span className="chrome-theme-icon">
+        {theme === "dark" ? (
+          /* moon */
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        ) : (
+          /* sun */
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+          </svg>
+        )}
+      </span>
+    </button>
+  );
+}
+
+function PalettePicker({ value, options, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e) => { if (!ref.current?.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  const currentIndex = options.findIndex(o => o.join() === (value || []).join());
+  return (
+    <div className="chrome-palette" ref={ref}>
+      <button
+        className="chrome-icon-btn chrome-palette-btn"
+        onClick={() => setOpen(o => !o)}
+        aria-label="Color palette"
+        aria-expanded={open}
+        title="Color palette"
+      >
+        <Swatch colors={value || options[0]} />
+      </button>
+      <div className={`chrome-palette-menu ${open ? "open" : ""}`} role="menu">
+        {options.map((opt, i) => (
+          <button
+            key={i}
+            role="menuitemradio"
+            aria-checked={i === currentIndex}
+            className={`chrome-palette-opt ${i === currentIndex ? "active" : ""}`}
+            onClick={() => { onChange(opt); setOpen(false); }}
+            title={["Sunset", "Electric", "Aurora", "Candy"][i] || `Palette ${i + 1}`}
+          >
+            <Swatch colors={opt} />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Chrome({ theme, setTheme, palette, setPalette }) {
   const active = useActiveSection(["hero", ...NAV.map(n => n.id)]);
   return (
     <header className="chrome">
@@ -638,6 +691,10 @@ function Chrome({ theme, setTheme }) {
           </button>
         ))}
       </nav>
+      <div className="chrome-controls">
+        <ThemeButton theme={theme} setTheme={setTheme} />
+        <PalettePicker value={palette} options={ACCENT_OPTIONS} onChange={setPalette} />
+      </div>
       <button
         className="chrome-cta"
         onClick={() => scrollToId("contact")}
@@ -664,13 +721,17 @@ function Hero() {
       <div className="shell hero-main">
         <div className="hero-text">
           <h1 className="hero-headline">
-            <SplitWords text="Engineering" delay={150} />{" "}
-            <SplitWords text="things" delay={350} /><br/>
-            <span className="hero-static-line">that last.</span>
+            <SplitWords text="Where messy human workflow meets" delay={150} /><br/>
+            <span className="rotator">
+              <span className="rotator-track">
+                {ROTATING_WORDS.map((w, i) => <span key={i}>{w}</span>)}
+                <span>{ROTATING_WORDS[0]}</span>
+              </span>
+            </span>
           </h1>
 
           <Reveal delay={1000} className="lead">
-            Senior software engineer, six years in. Real-time, document-heavy systems for teams that care about the craft of shipping.
+            Senior FullStack engineer. I work on the systems behind real-time, collaborative products. 6+ years across two B2B companies and a third I'm building from scratch
           </Reveal>
 
           <Reveal delay={1200} className="hero-row">
@@ -840,9 +901,6 @@ function Work() {
                       ))}
                     </div>
                   </div>
-                  <div className="work-arr">
-                    <ArrowUR size={16} />
-                  </div>
                 </div>
                 <WorkIllu kind={it.illu} />
               </article>
@@ -861,13 +919,29 @@ function ProjectPreview({ kind }) {
     return (
       <div className="proj-preview preview-bot">
         <div className="bubbles">
-          <div className="bubble user">/sticker a fox in space</div>
-          <div className="bubble bot">Generating your pack...</div>
-          <div className="stickers">
-            <div className="sticker" />
-            <div className="sticker" />
-            <div className="sticker" />
-            <div className="sticker" />
+          <div className="seq-row user b1">
+            <div className="typing-bubble out">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
+            <div className="bubble user">/sticker fox in space</div>
+          </div>
+          <div className="seq-row bot b2">
+            <div className="typing-bubble">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
+            <div className="bubble bot">Cooking up your pack <span className="dots-trail"><span /><span /><span /></span></div>
+          </div>
+          <div className="seq-row stickers-row b3">
+            <div className="stickers">
+              <div className="sticker s1">
+                <span className="face">
+                  <span className="eye" /><span className="eye r" /><span className="mouth" />
+                </span>
+              </div>
+              <div className="sticker s2"><span className="spark">✦</span></div>
+              <div className="sticker s3"><span className="planet" /></div>
+              <div className="sticker s4"><span className="spark s">✦</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -877,15 +951,51 @@ function ProjectPreview({ kind }) {
     return (
       <div className="proj-preview preview-ui">
         <div className="ui-window">
-          <div className="ui-row">
+          <div className="ui-window-bar">
+            <div className="ui-window-dots"><span /><span /><span /></div>
+            <span className="ui-window-title">Sign in</span>
+            <span className="ui-window-x">×</span>
+          </div>
+          <div className="ui-tabs ui-step u1">
+            <span className="ui-tab active">Sign in</span>
+            <span className="ui-tab">Register</span>
+            <span className="ui-tab-pill" />
+          </div>
+          <div className="ui-row ui-step u2">
             <div className="ui-circle" />
             <div className="ui-bars">
               <div className="ui-bar long" />
               <div className="ui-bar short" />
             </div>
+            <div className="ui-toggle"><span className="ui-toggle-knob" /></div>
           </div>
-          <div className="ui-input">email@domain</div>
-          <div className="ui-btn">Continue</div>
+          <div className="ui-input ui-step u3">
+            <span className="ui-input-icon">@</span>
+            <span className="ui-input-text" />
+            <span className="ui-input-caret" />
+          </div>
+          <div className="ui-input ui-pwd ui-step u4">
+            <span className="ui-input-icon">⚿</span>
+            <span className="ui-pwd-dots">
+              <span /><span /><span /><span /><span /><span /><span /><span />
+            </span>
+            <span className="ui-input-eye">●</span>
+          </div>
+          <div className="ui-check-row ui-step u5">
+            <span className="ui-checkbox"><span className="ui-check-mark">✓</span></span>
+            <span className="ui-check-label">Remember me</span>
+            <span className="ui-link">Forgot?</span>
+          </div>
+          <div className="ui-btn ui-step u6">
+            <span className="ui-btn-label">Continue</span>
+            <span className="ui-btn-spin" />
+            <span className="ui-btn-check">✓</span>
+          </div>
+          <span className="ui-cursor" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
+              <path d="M2 2L8 14L9.5 9.5L14 8L2 2Z" stroke="#fff" strokeWidth="0.6" strokeLinejoin="round" />
+            </svg>
+          </span>
         </div>
       </div>
     );
@@ -894,11 +1004,28 @@ function ProjectPreview({ kind }) {
     return (
       <div className="proj-preview preview-msg">
         <div className="conv">
-          <div className="msg in">Hey, you online?</div>
-          <div className="msg out">Yeah, what's up <span className="check">✓✓</span></div>
-          <div className="msg in">Sent the docs</div>
-          <div className="typing">
-            <span className="d" /><span className="d" /><span className="d" />
+          <div className="seq-row in m1">
+            <div className="typing-bubble">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
+            <div className="msg in">Hey, you online?</div>
+          </div>
+          <div className="seq-row out m2">
+            <div className="typing-bubble out">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
+            <div className="msg out">Yeah, what's up <span className="check">✓✓</span></div>
+          </div>
+          <div className="seq-row in m3">
+            <div className="typing-bubble">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
+            <div className="msg in">Sent the docs</div>
+          </div>
+          <div className="seq-row out m4 only-typing">
+            <div className="typing-bubble out">
+              <span className="d" /><span className="d" /><span className="d" />
+            </div>
           </div>
         </div>
       </div>
@@ -947,6 +1074,69 @@ function Projects() {
   );
 }
 
+/* ─────────── writing illustrations ─────────── */
+
+function WriteIllu({ topic }) {
+  if (topic === "stack") {
+    // Tech stack: a row of framework chips with a wave animation, all
+    // interchangeable (which is the post's point). Equation: stack ≡ same product.
+    return (
+      <div className="write-illu write-illu-stack" aria-hidden="true">
+        <div className="ws-shelf">
+          <div className="ws-card ws-c1">React</div>
+          <div className="ws-card ws-c2">Vue</div>
+          <div className="ws-card ws-c3">Svelte</div>
+          <div className="ws-card ws-c4">Solid</div>
+          <div className="ws-card ws-c5">Angular</div>
+        </div>
+        <div className="ws-equation">
+          <span className="ws-equals">≡</span>
+          <span className="ws-result-text">same product</span>
+          <span className="ws-result-arrow">→</span>
+        </div>
+      </div>
+    );
+  }
+  if (topic === "tenx") {
+    // 10x developer: a bar chart where instead of one giant bar, there's a row
+    // of normal devs and one "10x" — but the 10x bar is actually SHORTER,
+    // labelled "knows what NOT to build". The other bars get crossed out.
+    return (
+      <div className="write-illu write-illu-tenx" aria-hidden="true">
+        <div className="wt-row">
+          <span className="wt-label">1×</span>
+          <span className="wt-bar wt-b1">
+            <span className="wt-bar-fill" />
+            <span className="wt-strike" />
+          </span>
+        </div>
+        <div className="wt-row">
+          <span className="wt-label">1×</span>
+          <span className="wt-bar wt-b2">
+            <span className="wt-bar-fill" />
+            <span className="wt-strike" />
+          </span>
+        </div>
+        <div className="wt-row">
+          <span className="wt-label">1×</span>
+          <span className="wt-bar wt-b3">
+            <span className="wt-bar-fill" />
+            <span className="wt-strike" />
+          </span>
+        </div>
+        <div className="wt-row wt-hero">
+          <span className="wt-label is-10x">10×</span>
+          <span className="wt-bar wt-b4">
+            <span className="wt-bar-fill is-10x" />
+          </span>
+          <span className="wt-note">ships less.</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+}
+
 /* ─────────── writing ─────────── */
 
 function Writing() {
@@ -956,8 +1146,8 @@ function Writing() {
         <SecHead
           num="04"
           kicker="Field notes"
-          title={<>Short thoughts. <em>Loud</em> opinions.</>}
-          meta={[<span className="num">1.1M+ reads</span>, "On LinkedIn"]}
+          title={<>Short thoughts.<br /><em>Loud</em> opinions.</>}
+          meta={[<span className="num">700k+ reads</span>, "On LinkedIn"]}
         />
 
         <div className="write-grid">
@@ -970,6 +1160,9 @@ function Writing() {
                 </div>
                 <h3 className="write-title">{w.title}<em>{w.italic}</em></h3>
                 <p style={{ color: "var(--text-dim)", fontSize: 15, lineHeight: 1.55, flex: 1 }}>{w.blurb}</p>
+
+                <WriteIllu topic={w.topic} />
+
                 <div className="write-foot">
                   <span>{w.meta}</span>
                   <span className="views"><span className="dot" />{w.views}</span>
@@ -990,6 +1183,12 @@ function Contact() {
     <section id="contact" style={{ paddingTop: "clamp(40px, 6vh, 80px)" }}>
       <Reveal>
         <div className="cta-banner">
+          <div className="cta-signal" aria-hidden="true">
+            <span className="cta-signal-ring r1" />
+            <span className="cta-signal-ring r2" />
+            <span className="cta-signal-ring r3" />
+            <span className="cta-signal-core" />
+          </div>
           <div className="cta-eyebrow">
             <span className="dot" />
             <span>05 / Index · Get in touch</span>
@@ -1088,13 +1287,6 @@ function StickyCTA() {
 
 /* ─────────── tweaks ─────────── */
 
-const ACCENT_OPTIONS = [
-  ["#FFB259", "#FF6B4A", "#FF3D7F", "#B25CFF"], // sunset (default)
-  ["#7FE6FF", "#5C9CFF", "#7C5CFF", "#FF6BD0"], // electric
-  ["#7CFFB6", "#5CFFE1", "#5CCFFF", "#7C8DFF"], // aurora
-  ["#FFE066", "#FF9F45", "#FF5C8A", "#A055FF"], // candy
-];
-
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
   "palette": ["#FFB259", "#FF6B4A", "#FF3D7F", "#B25CFF"],
@@ -1125,7 +1317,12 @@ function App() {
     <>
       <div className="progress" style={{ "--p": progress + "%" }} aria-hidden="true" />
 
-      <Chrome theme={t.theme} setTheme={v => setTweak("theme", v)} />
+      <Chrome
+        theme={t.theme}
+        setTheme={v => setTweak("theme", v)}
+        palette={t.palette}
+        setPalette={v => setTweak("palette", v)}
+      />
 
       <main>
         <Hero />
@@ -1140,23 +1337,6 @@ function App() {
       <Footer />
 
       <StickyCTA />
-
-      <TweaksPanel title="Tweaks">
-        <TweakSection label="Theme" />
-        <TweakRadio
-          label="Mode"
-          value={t.theme}
-          options={["dark", "paper"]}
-          onChange={v => setTweak("theme", v)}
-        />
-        <TweakSection label="Palette" />
-        <TweakColor
-          label="Accent gradient"
-          value={t.palette}
-          options={ACCENT_OPTIONS}
-          onChange={v => setTweak("palette", v)}
-        />
-      </TweaksPanel>
     </>
   );
 }

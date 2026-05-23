@@ -1,0 +1,12 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Personal site — static HTML/CSS + in-browser Babel-transpiled JSX.",
+  "scripts": {
+    "dev": "live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
