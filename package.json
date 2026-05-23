@@ -2,11 +2,11 @@
   "name": "web",
   "private": true,
   "version": "0.0.0",
-  "description": "Personal site — static HTML/CSS + in-browser Babel-transpiled JSX.",
+  "description": "Personal site. Source lives in src, production build writes static files to the repo root for GitHub Pages.",
   "scripts": {
-    "dev": "live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads",
+    "dev": "npm run build && live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads,src",
     "build": "node scripts/build.mjs",
-    "preview": "live-server dist --host=0.0.0.0 --port=8000 --no-browser"
+    "preview": "live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads,src"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

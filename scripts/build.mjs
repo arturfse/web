@@ -1,9 +1,10 @@
-import { copyFile, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { transformSync } from "@babel/core";
 
 const root = process.cwd();
-const outDir = join(root, "dist");
+const srcDir = join(root, "src");
+const outDir = root;
 
 const pages = [
   {
@@ -14,7 +15,8 @@ const pages = [
     ],
   },
   {
-    source: "Portfolio Editorial.html",
+    source: "portfolio-editorial.html",
+    target: "Portfolio Editorial.html",
     scripts: [
       ["tweaks-panel.jsx", "tweaks-panel.js"],
       ["app-editorial.jsx", "app-editorial.js"],
@@ -22,28 +24,9 @@ const pages = [
   },
 ];
 
-const assets = [
-  "CNAME",
-  "icon.png",
-  "icon.svg",
-  "styles.css",
-  "styles-editorial.css",
-  "screenshots",
-  "uploads",
-];
+const styles = ["styles.css", "styles-editorial.css"];
 
-await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
-
-for (const asset of assets) {
-  const from = join(root, asset);
-  const to = join(outDir, asset);
-  try {
-    await cp(from, to, { recursive: true });
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
-  }
-}
 
 const compiled = new Set();
 
@@ -53,7 +36,7 @@ for (const page of pages) {
     if (compiled.has(key)) continue;
     compiled.add(key);
 
-    const input = await readFile(join(root, source), "utf8");
+    const input = await readFile(join(srcDir, source), "utf8");
     const output = transformSync(input, {
       filename: source,
       presets: [["@babel/preset-react", { runtime: "classic" }]],
@@ -67,8 +50,13 @@ for (const page of pages) {
   }
 }
 
+for (const style of styles) {
+  const input = await readFile(join(srcDir, style), "utf8");
+  await writeFile(join(outDir, style), input);
+}
+
 for (const page of pages) {
-  let html = await readFile(join(root, page.source), "utf8");
+  let html = await readFile(join(srcDir, page.source), "utf8");
 
   html = html
     .replace(
@@ -88,8 +76,7 @@ for (const page of pages) {
     );
   }
 
-  await copyFile(join(root, page.source), join(outDir, page.source));
-  await writeFile(join(outDir, page.source), html);
+  await writeFile(join(outDir, page.target || page.source), html);
 }
 
-console.log(`Built ${outDir}`);
+console.log(`Built production files into ${outDir}`);
