@@ -2671,12 +2671,23 @@ section {
 @media (max-width: 480px) {
   .cta-directory { grid-template-columns: 1fr; }
   .dir-row {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 14px;
     border-right: 0;
     border-bottom: 1px solid var(--border);
     padding: 14px 0;
+    text-align: left;
   }
+  .dir-k { text-align: right; }
+  .dir-v {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+  .dir-v .obf-text { max-width: calc(100% - 20px); }
   .dir-row:last-child { border-bottom: 0; }
-  .dir-row:hover { padding-left: 8px; }
+  .dir-row:hover { padding-left: 0; }
 }
 
 /* FOOTER */

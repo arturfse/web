@@ -102,9 +102,9 @@ const WRITING = [
 ];
 
 const DIRECTORY = [
-  { k: "Email",     v: "arthur.arslanoov@gmail.com",        href: "mailto:arthur.arslanoov@gmail.com" },
+  { k: "Email",     v: "senior@developer.expert",           href: "mailto:senior@developer.expert" },
   { k: "LinkedIn",  v: "in/artur-arslanov",                 href: "https://linkedin.com/in/artur-arslanov" },
-  { k: "GitHub",    v: "@arslanov-artur",                   href: "https://github.com/arslanov-artur" },
+  { k: "GitHub",    v: "@arturfse",                         href: "https://github.com/arturfse" },
   { k: "Telegram",  v: "@arthur_arslanov",                  href: "https://t.me/arthur_arslanov" },
   { k: "Channel",   v: "t.me/js_arthur",                    href: "https://t.me/js_arthur" },
   { k: "WhatsApp",  v: "+49 152 5755 0122",                 href: "https://wa.me/+4915257550122" },
@@ -637,8 +637,8 @@ function Contact() {
             </h2>
             <Reveal delay={400}>
               <Magnetic>
-                <a className="contact-mail" href="mailto:arthur.arslanoov@gmail.com">
-                  arthur.arslanoov@gmail.com
+                <a className="contact-mail" href="mailto:senior@developer.expert">
+                  senior@developer.expert
                   <svg className="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
                   </svg>

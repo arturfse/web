@@ -125,16 +125,16 @@ const WRITING = [{
 }];
 const DIRECTORY = [{
   k: "Email",
-  v: "arthur.arslanoov@gmail.com",
-  href: "mailto:arthur.arslanoov@gmail.com"
+  v: "senior@developer.expert",
+  href: "mailto:senior@developer.expert"
 }, {
   k: "LinkedIn",
   v: "in/artur-arslanov",
   href: "https://linkedin.com/in/artur-arslanov"
 }, {
   k: "GitHub",
-  v: "@arslanov-artur",
-  href: "https://github.com/arslanov-artur"
+  v: "@arturfse",
+  href: "https://github.com/arturfse"
 }, {
   k: "Telegram",
   v: "@arthur_arslanov",
@@ -699,8 +699,8 @@ function Contact() {
     delay: 400
   }, React.createElement(Magnetic, null, React.createElement("a", {
     className: "contact-mail",
-    href: "mailto:arthur.arslanoov@gmail.com"
-  }, "arthur.arslanoov@gmail.com", React.createElement("svg", {
+    href: "mailto:senior@developer.expert"
+  }, "senior@developer.expert", React.createElement("svg", {
     className: "arr",
     viewBox: "0 0 24 24",
     fill: "none",
