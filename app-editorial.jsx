@@ -588,7 +588,7 @@ function Writing() {
 
         <Reveal delay={100}>
           <h2 className="h2" style={{ marginBottom: "clamp(40px, 6vh, 72px)", maxWidth: "22ch" }}>
-            Short thoughts. <em>Loud</em> opinions.
+            <span className="line-keep">Short thoughts.</span><br /><span className="line-keep"><em>Loud</em> opinions.</span>
           </h2>
         </Reveal>
 

@@ -4,9 +4,13 @@
   "version": "0.0.0",
   "description": "Personal site — static HTML/CSS + in-browser Babel-transpiled JSX.",
   "scripts": {
-    "dev": "live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads"
+    "dev": "live-server --host=0.0.0.0 --port=8000 --no-browser --ignore=new,screenshots,uploads",
+    "build": "node scripts/build.mjs",
+    "preview": "live-server dist --host=0.0.0.0 --port=8000 --no-browser"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-react": "^7.28.5",
     "live-server": "^1.2.2"
   }
 }

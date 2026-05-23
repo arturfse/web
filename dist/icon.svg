@@ -1,0 +1,9 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#1a1a1a"/>
+  
+  <!-- Complex emoticon -->
+  <text x="200" y="220" font-family="Courier New, monospace" font-size="38" font-weight="400" text-anchor="middle" fill="#ffffff">
+    ಠ_ಠ
+  </text>
+</svg>

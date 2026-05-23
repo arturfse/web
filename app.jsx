@@ -344,7 +344,11 @@ function ObfText({ data, className = "" }) {
       ctx.fillText(text, 1, lineHeight / 2);
     };
 
-    const redraw = () => window.requestAnimationFrame(draw);
+    const redraw = () => {
+      window.requestAnimationFrame(draw);
+      window.setTimeout(draw, 80);
+      window.setTimeout(draw, 360);
+    };
     draw();
     document.fonts?.ready?.then(draw);
 
@@ -353,16 +357,18 @@ function ObfText({ data, className = "" }) {
     host?.addEventListener("mouseleave", redraw);
     host?.addEventListener("focus", redraw);
     host?.addEventListener("blur", redraw);
+    host?.addEventListener("transitionend", redraw);
     window.addEventListener("resize", draw);
 
-    const observer = new MutationObserver(draw);
-    observer.observe(document.documentElement, { attributes: true });
+    const observer = new MutationObserver(redraw);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "style"] });
 
     return () => {
       host?.removeEventListener("mouseenter", redraw);
       host?.removeEventListener("mouseleave", redraw);
       host?.removeEventListener("focus", redraw);
       host?.removeEventListener("blur", redraw);
+      host?.removeEventListener("transitionend", redraw);
       window.removeEventListener("resize", draw);
       observer.disconnect();
     };
@@ -731,7 +737,7 @@ function Hero() {
           </h1>
 
           <Reveal delay={1000} className="lead">
-            Senior FullStack engineer. I work on the systems behind real-time, collaborative products. 6+ years across two B2B companies and a third I'm building from scratch
+            Senior FullStack Engineer. I work on the systems behind real-time, collaborative products. 6+ years across two B2B companies and a third I'm building from scratch
           </Reveal>
 
           <Reveal delay={1200} className="hero-row">
@@ -1146,7 +1152,7 @@ function Writing() {
         <SecHead
           num="04"
           kicker="Field notes"
-          title={<>Short thoughts.<br /><em>Loud</em> opinions.</>}
+          title={<><span className="line-keep">Short thoughts.</span><br /><span className="line-keep"><em>Loud</em> opinions.</span></>}
           meta={[<span className="num">700k+ reads</span>, "On LinkedIn"]}
         />
 
