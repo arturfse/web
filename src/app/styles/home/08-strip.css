@@ -1,0 +1,57 @@
+/* ───────── marquee strip ───────── */
+.strip {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 3;
+}
+.strip-frame {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+  overflow: hidden;
+  position: relative;
+}
+.strip-frame::before, .strip-frame::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.strip-frame::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.strip-frame::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+.strip-track {
+  display: flex;
+  width: max-content;
+  animation: strip 38s linear infinite;
+  gap: 56px;
+  align-items: center;
+}
+@keyframes strip {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.strip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.strip-item em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text);
+}
+.strip-item .sparkle {
+  color: var(--accent);
+  font-size: 18px;
+}
+

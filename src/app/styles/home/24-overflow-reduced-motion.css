@@ -1,0 +1,11 @@
+/* prevent any horizontal overflow at narrow widths */
+
+/* ───────── reduced motion ───────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .split .w > span, .mask > span { transform: none; }
+}

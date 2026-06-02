@@ -1,0 +1,160 @@
+/* ───────── now (current work) ───────── */
+.now-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+@media (max-width: 900px) { .now-wrap { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 3vw, 40px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.card:hover { border-color: var(--border-strong); }
+
+.card-feature {
+  background:
+    radial-gradient(ellipse 110% 80% at 0% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 50%),
+    radial-gradient(ellipse 90% 70% at 100% 100%, color-mix(in srgb, var(--accent-2) 18%, transparent) 0%, transparent 50%),
+    var(--surface);
+  display: flex; flex-direction: column; gap: 24px;
+  position: relative;
+}
+.card-feature::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  padding: 1px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 60%, transparent), transparent 40%, color-mix(in srgb, var(--accent-2) 50%, transparent));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.now-head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+}
+.now-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.now-status .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  animation: pulse 2.2s ease-out infinite;
+}
+
+.now-title {
+  font-size: clamp(36px, 4.2vw, 64px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.now-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.now-blurb {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 52ch;
+}
+
+.now-stack {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: auto;
+}
+.now-stack span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background: color-mix(in srgb, var(--bg) 50%, transparent);
+}
+
+.now-meta {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.now-meta .k { color: var(--text-dim); margin-right: 6px; }
+
+/* "this week" aside as a list */
+.aside-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 3vw, 40px);
+  display: flex; flex-direction: column;
+}
+.aside-card h4 {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.aside-card h4::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.aside-list { display: flex; flex-direction: column; gap: 0; flex: 1; }
+.aside-item {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.3s var(--ease-out);
+}
+.aside-item:last-child { border-bottom: 0; }
+.aside-item:hover { padding-left: 8px; }
+.aside-item:hover .aside-ix { color: var(--accent); }
+.aside-ix {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+.aside-label { font-size: 15px; color: var(--text); font-weight: 500; }
+.aside-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+}
+

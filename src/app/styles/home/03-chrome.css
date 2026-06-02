@@ -1,0 +1,229 @@
+/* ───────── chrome (top nav) ───────── */
+.chrome {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 100;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 6px 6px 18px;
+  max-width: calc(100vw - 24px);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,.4);
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.chrome-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+  padding-right: 14px;
+  border-right: 1px solid var(--border);
+  margin-right: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.chrome-logo .mark {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--accent-grad);
+  display: grid; place-items: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.chrome-nav {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.chrome-nav button {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--text-dim);
+  transition: color 0.2s, background 0.2s;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.chrome-nav button:hover { color: var(--text); }
+.chrome-nav button[data-active="true"] {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+.chrome-nav .num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  opacity: 0.9;
+}
+.chrome-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 9px 16px 9px 18px;
+  border-radius: 999px;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.3s;
+  margin-left: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.chrome-cta:hover { transform: scale(1.03); box-shadow: 0 8px 24px -8px rgba(255,255,255,.4); }
+.chrome-cta .arr {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid; place-items: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.chrome-cta .arr svg { width: 11px; height: 11px; }
+
+/* ── header controls: theme toggle + palette picker ── */
+.chrome-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px 0 4px;
+  margin-right: 4px;
+  border-right: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+  flex-shrink: 0;
+}
+.chrome-icon-btn {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-dim);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.25s var(--ease-out), color 0.25s, border-color 0.25s, transform 0.25s var(--ease-out);
+  position: relative;
+}
+.chrome-icon-btn:hover {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--text) 12%, transparent);
+}
+.chrome-theme-icon {
+  display: grid; place-items: center;
+  width: 18px; height: 18px;
+  animation: theme-icon-in 0.5s var(--ease-out);
+}
+@keyframes theme-icon-in {
+  0%   { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+  100% { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+/* palette button — shows current as a 2x2 swatch */
+.chrome-swatch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 18%, transparent) inset;
+}
+.chrome-swatch > span { display: block; }
+
+.chrome-palette { position: relative; }
+
+/* expanded palette menu — slides down from button */
+.chrome-palette-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  box-shadow:
+    0 20px 50px -15px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,255,255,0.04);
+  opacity: 0;
+  transform: translateY(-6px) scale(0.96);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+  z-index: 200;
+}
+[data-theme="paper"] .chrome-palette-menu {
+  box-shadow: 0 16px 40px -10px rgba(20, 18, 14, 0.2);
+}
+.chrome-palette-menu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.chrome-palette-opt {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  display: grid; place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s var(--ease-out);
+}
+.chrome-palette-opt:hover {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  transform: translateY(-1px);
+}
+.chrome-palette-opt.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.chrome-palette-opt .chrome-swatch {
+  width: 20px; height: 20px;
+}
+
+/* compact controls on narrow widths */
+@media (max-width: 1100px) {
+  .chrome-controls { padding: 0 6px 0 2px; gap: 2px; }
+  .chrome-icon-btn { width: 28px; height: 28px; border-radius: 8px; }
+  .chrome-swatch { width: 14px; height: 14px; }
+}
+@media (max-width: 820px) {
+  .chrome-controls { border-right: none; padding: 0 4px 0 0; margin-right: 0; }
+}
+/* theme toggle stays visible on all widths — the 28px button fits fine */
+
+/* hide section numbers at medium widths to save space */
+@media (max-width: 1100px) {
+  .chrome-nav .num { display: none; }
+  .chrome-nav button { padding: 8px 12px; }
+}
+
+/* hide nav at narrow widths */
+@media (max-width: 820px) {
+  .chrome-nav { display: none; }
+  .chrome { padding: 6px 6px 6px 12px; gap: 4px; }
+  .chrome-logo { padding-right: 10px; margin-right: 0; }
+}
+
+/* shrink CTA label on very narrow */
+@media (max-width: 460px) {
+  .chrome-cta .label-long { display: none; }
+}
+
+/* scroll progress */
+.progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: var(--accent-grad);
+  width: var(--p, 0%);
+  z-index: 99;
+  transition: width 80ms linear;
+}
+

@@ -1,0 +1,25 @@
+/* Entry stylesheet for the index page.
+   Partials are imported in cascade order; esbuild inlines them at build time.
+   Keep reduced-motion last so its universal !important reset wins. */
+@import "./home/01-tokens.css";
+@import "./home/02-base.css";
+@import "./home/03-chrome.css";
+@import "./home/04-sticky-cta.css";
+@import "./home/05-shell.css";
+@import "./home/06-reveal.css";
+@import "./home/07-hero.css";
+@import "./home/08-strip.css";
+@import "./home/09-now.css";
+@import "./home/10-sec-head.css";
+@import "./home/11-work.css";
+@import "./home/12-projects.css";
+@import "./home/13-writing.css";
+@import "./home/14-contact.css";
+@import "./home/15-footer.css";
+@import "./home/16-illustrations.css";
+@import "./home/17-now-mockup.css";
+@import "./home/18-shipped.css";
+@import "./home/19-work-illu.css";
+@import "./home/20-responsive.css";
+@import "./home/21-illu-anim.css";
+@import "./home/24-overflow-reduced-motion.css";

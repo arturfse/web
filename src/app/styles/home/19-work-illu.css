@@ -1,0 +1,120 @@
+/* ───────── work — illustrated edge ───────── */
+.work-card {
+  position: relative;
+}
+.work-illu {
+  position: absolute;
+  top: 50%;
+  right: clamp(24px, 3vw, 40px);
+  transform: translateY(-50%);
+  width: clamp(140px, 13vw, 180px);
+  aspect-ratio: 1 / 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  transition: border-color 0.5s var(--ease-out);
+}
+.work-card:hover .work-illu {
+  border-color: var(--border-strong);
+}
+@media (max-width: 920px) {
+  .work-illu { display: none; }
+}
+
+.work-illu-juro {
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    var(--bg-2);
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.work-illu-juro .ln {
+  height: 5px;
+  background: var(--surface-3);
+  border-radius: 3px;
+}
+.work-illu-juro .ln.t { width: 60%; height: 8px; background: var(--surface-2); margin-bottom: 4px; }
+.work-illu-juro .ln.h { background: var(--accent-grad); width: 80%; }
+.work-illu-juro .ln.w-90 { width: 90%; }
+.work-illu-juro .ln.w-70 { width: 70%; }
+.work-illu-juro .ln.w-50 { width: 50%; }
+.work-illu-juro .comment {
+  margin-top: auto;
+  padding: 4px 0 0;
+  border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: color-mix(in srgb, var(--accent) 85%, var(--text));
+  display: flex; align-items: center; gap: 5px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.work-illu-juro .comment::before {
+  content: "";
+  width: 4px; height: 8px;
+  background: var(--accent);
+  border-radius: 1px;
+  animation: blink 1s steps(2) infinite;
+}
+
+.work-illu-ancor {
+  background:
+    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 60%),
+    var(--bg-2);
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.work-illu-ancor .row {
+  display: grid;
+  grid-template-columns: 16px 1fr 24px;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+.work-illu-ancor .row:last-child { border-bottom: 0; }
+.work-illu-ancor .row .av {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--surface-3);
+}
+.work-illu-ancor .row .av.a { background: var(--accent-grad); }
+.work-illu-ancor .row .av.b { background: linear-gradient(135deg, var(--accent-2), #B25CFF); }
+.work-illu-ancor .row .lbl {
+  height: 5px;
+  background: var(--surface-3);
+  border-radius: 3px;
+}
+.work-illu-ancor .row .lbl.w-80 { width: 80%; }
+.work-illu-ancor .row .lbl.w-60 { width: 60%; }
+.work-illu-ancor .row .tag {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  padding: 2px 5px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* hide illustrations at narrow widths — placed AFTER .work-illu-juro/-ancor
+   rules so it actually wins the cascade (same specificity, later source wins) */
+@media (max-width: 920px) {
+  .work-illu,
+  .work-illu-juro,
+  .work-illu-ancor { display: none; }
+}
+
+/* shift work content left to make room for illustration on desktop */
+@media (min-width: 921px) {
+  .work-grid {
+    grid-template-columns: 140px 1fr;
+    padding-right: clamp(200px, 17vw, 260px);
+  }
+  .work-grid > .work-arr { display: none; }
+}
+
+

@@ -1,0 +1,39 @@
+/* ───────── section heading group ───────── */
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: clamp(40px, 6vh, 72px);
+}
+.sec-head-title { max-width: 36ch; }
+.sec-head-meta {
+  display: flex; flex-direction: column; gap: 8px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.sec-head-meta .num {
+  font-size: 14px;
+  color: var(--accent);
+}
+#writing .sec-head {
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 18px;
+}
+#writing .sec-head-title {
+  max-width: none;
+}
+#writing .sec-head-meta {
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+}
+@media (max-width: 720px) {
+  .sec-head { grid-template-columns: 1fr; gap: 16px; }
+  .sec-head-meta { text-align: left; flex-direction: row; gap: 16px; }
+}
+

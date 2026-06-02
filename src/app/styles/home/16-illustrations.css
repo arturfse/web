@@ -1,0 +1,339 @@
+/* ───────── illustration cluster ─────────
+   Layered UI-mockup cards with depth + auto-float + mouse parallax.
+   Built from CSS primitives — abstract, original, not copying any product.
+   ──────────────────────────────────────── */
+
+.hero-illustration {
+  position: relative;
+  height: clamp(420px, 56vw, 560px);
+  width: 100%;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.illu-stack {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* generic illu card */
+.illu-card {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backface-visibility: hidden;
+}
+[data-theme="paper"] .illu-card {
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(20, 18, 14, 0.04);
+}
+
+/* ── 1. BROWSER MOCKUP (main, center, large) ── */
+.illu-browser {
+  top: 10%;
+  left: 12%;
+  width: 72%;
+  aspect-ratio: 4 / 3.1;
+  transform: translateZ(0) rotateZ(-1.5deg);
+  z-index: 2;
+}
+.illu-browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.illu-browser-dots {
+  display: flex; gap: 5px;
+}
+.illu-browser-dots span {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--surface-3);
+}
+.illu-browser-url {
+  flex: 1;
+  height: 22px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  gap: 6px;
+}
+.illu-browser-url::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: #61D095;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.illu-browser-body {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  gap: 14px;
+  height: calc(100% - 42px);
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 50%),
+    var(--surface);
+}
+.illu-doc {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.illu-doc-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.illu-doc-line {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 3px;
+}
+.illu-doc-line.w-95 { width: 95%; }
+.illu-doc-line.w-80 { width: 80%; }
+.illu-doc-line.w-70 { width: 70%; }
+.illu-doc-line.w-60 { width: 60%; }
+.illu-doc-line.w-50 { width: 50%; }
+.illu-doc-line.highlight {
+  background: var(--accent-grad);
+  position: relative;
+}
+.illu-doc-line.highlight::after {
+  content: "";
+  position: absolute;
+  right: -8px; top: 50%;
+  width: 2px; height: 16px;
+  background: var(--accent);
+  transform: translateY(-50%);
+  animation: blink 1s steps(2) infinite;
+}
+.illu-doc-comment {
+  margin-top: 4px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--accent);
+  display: flex; align-items: center; gap: 6px;
+}
+.illu-doc-comment::before {
+  content: "";
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent-grad);
+  flex-shrink: 0;
+}
+.illu-doc-sidebar {
+  display: flex; flex-direction: column; gap: 5px;
+}
+.illu-doc-sidebar .sb {
+  height: 18px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.illu-doc-sidebar .sb.active {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ── 2. CHART CARD (top right, behind) ── */
+.illu-chart {
+  top: -2%;
+  right: -4%;
+  width: 46%;
+  aspect-ratio: 1.3 / 1;
+  transform: translateZ(-30px) rotateZ(4deg);
+  background: var(--surface);
+}
+.illu-chart-body {
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  height: 100%;
+}
+.illu-chart-head {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.illu-chart-head .label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.illu-chart-head .value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.illu-chart-bars {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  align-items: end;
+  padding: 6px 0;
+}
+.illu-chart-bars .b {
+  background: var(--surface-3);
+  border-radius: 3px 3px 0 0;
+  position: relative;
+}
+.illu-chart-bars .b.tall {
+  background: var(--accent-grad);
+}
+.illu-chart-bars .b.tall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent-grad);
+  filter: blur(8px);
+  opacity: 0.5;
+  z-index: -1;
+}
+.illu-chart-foot {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--text-muted);
+}
+
+/* ── 3. CHAT CARD (bottom left, front) ── */
+.illu-chat {
+  bottom: 4%;
+  left: -4%;
+  width: 42%;
+  aspect-ratio: 1 / 0.9;
+  transform: translateZ(70px) rotateZ(3deg);
+}
+.illu-chat-body {
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.illu-chat-msg {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 7px 11px;
+  border-radius: 12px;
+  max-width: 80%;
+}
+.illu-chat-msg.in {
+  background: var(--surface-2);
+  color: var(--text);
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+.illu-chat-msg.out {
+  background: var(--accent-grad);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.illu-chat-typing {
+  align-self: flex-start;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+  display: flex; gap: 3px;
+}
+.illu-chat-typing .d {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  animation: typing 1.4s var(--ease-smooth) infinite;
+}
+.illu-chat-typing .d:nth-child(2) { animation-delay: 0.15s; }
+.illu-chat-typing .d:nth-child(3) { animation-delay: 0.3s; }
+
+/* ── 4. FLOATING METRIC PILL (top-left, accent) ── */
+.illu-pill {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow:
+    0 20px 50px -15px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+  z-index: 4;
+}
+[data-theme="paper"] .illu-pill {
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.18);
+}
+.illu-pill-1 {
+  top: 2%;
+  left: 4%;
+  transform: translateZ(60px) rotateZ(-4deg);
+  z-index: 4;
+}
+.illu-pill-2 {
+  bottom: 14%;
+  right: 4%;
+  transform: translateZ(80px) rotateZ(4deg);
+}
+.illu-pill-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--accent-grad);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+.illu-pill-text {
+  display: flex; flex-direction: column; gap: 1px;
+  line-height: 1.15;
+}
+.illu-pill-value {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.illu-pill-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* float keyframes removed — illu cards are static now;
+   the parent .illu-stack handles all motion via mouse-parallax */
+
