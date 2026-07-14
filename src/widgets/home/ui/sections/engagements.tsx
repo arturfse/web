@@ -5,14 +5,17 @@ import { SecHead } from "@widgets/home/ui/components";
 const ENGAGEMENTS = [
   {
     title: "Founding Engineer (embedded)",
-    text: "I join as your first/lead engineer: set technical direction, build the V1, talk to users, ship. Full-time or 4 days/week.",
+    subtitle: "Full-time or 4 days/week.",
+    text: "I join as your first/lead engineer: set technical direction, build the V1, talk to users, ship.",
   },
   {
     title: "Senior Full-Stack Contract",
-    text: "A defined build shipped to production: real-time systems, AI/LLM features, payments, data layers. Fixed scope or monthly.",
+    subtitle: "Fixed scope or monthly.",
+    text: "A defined build shipped to production: real-time systems, AI/LLM features, payments, data layers.",
   },
   {
     title: "Fractional / Advisory",
+    subtitle: "Architecture · AI workflow · Direction",
     text: "Architecture reviews, AI-workflow setup, technical direction. A few hours a week.",
   },
 ] as const;
@@ -37,6 +40,7 @@ export function Engagements() {
             <article className="engagement-card">
               <span className="engagement-num">{String(index + 1).padStart(2, "0")}</span>
               <h3>{engagement.title}</h3>
+              <div className="engagement-subtitle">{engagement.subtitle}</div>
               <p>{engagement.text}</p>
             </article>
           </Reveal>

@@ -30,6 +30,6 @@ export const CURRENT = {
   ],
   meta: [
     { k: "Scale", v: "500K+ jobs" },
-    { k: "Role", v: "Fullstack" },
+    { k: "Role", v: "Founding Engineer" },
   ],
 } as const;

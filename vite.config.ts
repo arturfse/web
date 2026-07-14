@@ -22,7 +22,7 @@ function cleanRootBuildPlugin(): PluginOption {
 export default defineConfig(({ mode }) => ({
   root: "src",
   base: "./",
-  publicDir: false,
+  publicDir: "public",
   plugins: [
     react(),
     cleanRootBuildPlugin(),

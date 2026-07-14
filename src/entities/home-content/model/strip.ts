@@ -1,5 +1,4 @@
 export const STRIP = [
-  "TypeScript",
   "React",
   "Next.js",
   "Node.js",

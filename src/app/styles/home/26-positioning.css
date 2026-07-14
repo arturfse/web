@@ -52,6 +52,13 @@
   line-height: 1.08;
   font-weight: 500;
 }
+.engagement-subtitle {
+  min-height: 1.6em;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
 .engagement-card p {
   margin-top: auto;
   font-size: 15px;
