@@ -3,8 +3,11 @@ import { Reveal } from "@shared/ui/anim";
 import { ArrowUR } from "@shared/ui/icons";
 import { Obf, ObfText } from "@shared/lib/obfuscate";
 import { CONTACT, DIRECTORY } from "@entities/home-content/model/contact";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Contact() {
+  const sectionNumber = isWorkWithMeExperiment() ? "08" : "07";
+
   return (
     <Reveal>
         <div className="cta-banner">
@@ -16,7 +19,7 @@ export function Contact() {
           </div>
           <div className="cta-eyebrow">
             <span className="dot" />
-            <span>06 / Index · Get in touch</span>
+            <span>{sectionNumber} / Index · Get in touch</span>
           </div>
           <h2 className="cta-title">
             Let's build <em>something</em><br/>

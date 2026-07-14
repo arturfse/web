@@ -1,6 +1,6 @@
 export const CURRENT = {
   status: "Live now",
-  role: "Senior Fullstack Engineer",
+  role: "Founding Engineer",
   company: "SalaryGuide",
   italic: "current",
   period: "2025 to present",

@@ -3,15 +3,18 @@ import { Reveal } from "@shared/ui/anim";
 import { SecHead } from "@widgets/home/ui/components";
 import { WorkIllu } from "@widgets/home/ui/illustrations";
 import { TIMELINE } from "@entities/home-content/model/work";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Work() {
+  const sectionNumber = isWorkWithMeExperiment() ? "04" : "03";
+
   return (
     <div className="shell">
         <SecHead
-          num="02"
+          num={sectionNumber}
           kicker="Background"
           title="Previously."
-          meta={[<span className="num">6+ years</span>, "Two companies"]}
+          meta={[<span className="num">7+ years</span>, "Two companies"]}
         />
 
         <div className="work-stack">

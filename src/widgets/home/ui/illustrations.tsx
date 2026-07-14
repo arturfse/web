@@ -398,7 +398,7 @@ export function HtsIllu() {
         {/* apex badge — the post goes live */}
         <div className="hts-pill">
           <span className="hts-pill-check">✓</span>
-          <span>Post published</span>
+          <span>Shipped</span>
         </div>
 
         {/* the rocket, built from divs */}

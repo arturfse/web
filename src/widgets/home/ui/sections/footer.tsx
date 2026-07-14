@@ -18,7 +18,7 @@ export function Footer() {
       <div className="foot-bar">
         <span>© {year} · Artur Arslanov</span>
         <span className="center">Built with care, not noise.</span>
-        <span className="right">Senior Fullstack Engineer</span>
+        <span className="right">Founding Engineer</span>
       </div>
     </footer>
   );

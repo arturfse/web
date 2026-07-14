@@ -8,6 +8,7 @@ import { LazySection } from "@widgets/home/ui/LazySection";
 import { Hero } from "@widgets/home/ui/sections/hero";
 import { Strip } from "@widgets/home/ui/sections/strip";
 import { Footer } from "@widgets/home/ui/sections/footer";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 type IndexTweaks = {
   theme: Theme;
@@ -22,6 +23,8 @@ const TWEAK_DEFAULTS: IndexTweaks = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const LazyNow = lazy(() => import("@widgets/home/ui/sections/now").then((module) => ({ default: module.Now })));
+const LazyHowIWork = lazy(() => import("@widgets/home/ui/sections/how-i-work").then((module) => ({ default: module.HowIWork })));
+const LazyEngagements = lazy(() => import("@widgets/home/ui/sections/engagements").then((module) => ({ default: module.Engagements })));
 const LazyWork = lazy(() => import("@widgets/home/ui/sections/work").then((module) => ({ default: module.Work })));
 const LazyProduct = lazy(() => import("@widgets/home/ui/sections/product").then((module) => ({ default: module.Product })));
 const LazyProjects = lazy(() => import("@widgets/home/ui/sections/projects").then((module) => ({ default: module.Projects })));
@@ -32,6 +35,7 @@ const CONTACT_SECTION_STYLE = { paddingTop: "clamp(40px, 6vh, 80px)" };
 export function HomePage() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const progress = useScrollProgress();
+  const showEngagements = isWorkWithMeExperiment();
 
   useEffect(() => {
     document.documentElement.dataset.theme = t.theme;
@@ -56,16 +60,21 @@ export function HomePage() {
         setTheme={v => setTweak("theme", v)}
         palette={t.palette}
         setPalette={v => setTweak("palette", v)}
+        showEngagements={showEngagements}
       />
 
       <main>
         <Hero />
         <Strip />
+        <LazySection id="how-i-work" component={LazyHowIWork} minHeight={640} />
         <LazySection id="now" component={LazyNow} minHeight={1120} />
+        {showEngagements && (
+          <LazySection id="engagements" component={LazyEngagements} minHeight={920} />
+        )}
         <LazySection id="work" component={LazyWork} minHeight={980} />
+        <LazySection id="writing" component={LazyWriting} minHeight={820} />
         <LazySection id="product" component={LazyProduct} minHeight={1180} />
         <LazySection id="projects" component={LazyProjects} minHeight={980} />
-        <LazySection id="writing" component={LazyWriting} minHeight={820} />
         <LazySection
           id="contact"
           component={LazyContact}

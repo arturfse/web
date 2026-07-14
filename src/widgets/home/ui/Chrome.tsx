@@ -2,7 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { useActiveSection } from "@shared/lib/hooks";
 import { scrollToId } from "@shared/lib/dom";
 import { ArrowUR } from "@shared/ui/icons";
-import { NAV, SECTION_IDS } from "@entities/home-content/model/nav";
+import {
+  EXPERIMENT_NAV,
+  EXPERIMENT_SECTION_IDS,
+  NAV,
+  SECTION_IDS,
+} from "@entities/home-content/model/nav";
 
 export type Theme = "dark" | "paper";
 export type AccentPalette = readonly [string, string, string, string];
@@ -119,10 +124,13 @@ type ChromeProps = {
   setTheme: (theme: Theme) => void;
   palette: AccentPalette;
   setPalette: (palette: AccentPalette) => void;
+  showEngagements: boolean;
 };
 
-export function Chrome({ theme, setTheme, palette, setPalette }: ChromeProps) {
-  const active = useActiveSection(SECTION_IDS);
+export function Chrome({ theme, setTheme, palette, setPalette, showEngagements }: ChromeProps) {
+  const nav = showEngagements ? EXPERIMENT_NAV : NAV;
+  const sectionIds = showEngagements ? EXPERIMENT_SECTION_IDS : SECTION_IDS;
+  const active = useActiveSection(sectionIds);
   return (
     <header className="chrome">
       <div className="chrome-logo">
@@ -130,7 +138,7 @@ export function Chrome({ theme, setTheme, palette, setPalette }: ChromeProps) {
         <span>Arslanov</span>
       </div>
       <nav className="chrome-nav">
-        {NAV.map(n => (
+        {nav.map(n => (
           <button
             key={n.id}
             data-active={active === n.id}

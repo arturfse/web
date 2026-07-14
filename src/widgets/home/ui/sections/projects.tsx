@@ -4,12 +4,15 @@ import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 import { ProjectPreview } from "@widgets/home/ui/illustrations";
 import { PROJECTS } from "@entities/home-content/model/projects";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Projects() {
+  const sectionNumber = isWorkWithMeExperiment() ? "07" : "06";
+
   return (
     <div className="shell">
         <SecHead
-          num="04"
+          num={sectionNumber}
           kicker="Shipped"
           title={<>Nights & <em>weekends.</em></>}
           meta={[<span className="num">03 projects</span>, "Selected"]}

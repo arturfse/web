@@ -4,12 +4,15 @@ import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 import { WriteIllu } from "@widgets/home/ui/illustrations";
 import { WRITING } from "@entities/home-content/model/writing";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Writing() {
+  const sectionNumber = isWorkWithMeExperiment() ? "05" : "04";
+
   return (
     <div className="shell">
         <SecHead
-          num="05"
+          num={sectionNumber}
           kicker="Field notes"
           title={<><span className="line-keep">Short thoughts.</span><br /><span className="line-keep"><em>Loud</em> opinions.</span></>}
           meta={[<span className="num">700k+ reads</span>, "On LinkedIn"]}

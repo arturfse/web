@@ -1,8 +1,10 @@
 export const PRODUCT = {
   status: "Just shipped",
-  name: "How to Ship",
+  name: "howtoship",
   tld: ".dev",
   italic: "the website",
+  headline: "Notes I wish I'd",
+  headlineEm: " read earlier.",
   tagline: "A home for what I learn while building",
   blurb: "The notes I keep while building real things. No titles, just the lessons written down as I hit them",
   url: "https://howtoship.dev/",

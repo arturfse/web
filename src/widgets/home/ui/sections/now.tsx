@@ -3,15 +3,18 @@ import { Reveal } from "@shared/ui/anim";
 import { SecHead } from "@widgets/home/ui/components";
 import { NowMockup } from "@widgets/home/ui/illustrations";
 import { CURRENT } from "@entities/home-content/model/now";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Now() {
+  const sectionCount = isWorkWithMeExperiment() ? "08" : "07";
+
   return (
     <div className="shell">
         <SecHead
-          num="01"
+          num="02"
           kicker="Currently"
           title={<><em>Now</em> playing.</>}
-          meta={[<span className="num">01 / 06</span>, "In motion"]}
+          meta={[<span className="num">02 / {sectionCount}</span>, "In motion"]}
         />
 
         <div className="now-wrap">

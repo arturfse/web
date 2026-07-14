@@ -4,13 +4,15 @@ import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 import { HtsIllu, PostIllu } from "@widgets/home/ui/illustrations";
 import { PRODUCT } from "@entities/home-content/model/product";
+import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Product() {
   const postCount = PRODUCT.posts.length;
+  const sectionNumber = isWorkWithMeExperiment() ? "06" : "05";
   return (
     <div className="shell">
         <SecHead
-          num="03"
+          num={sectionNumber}
           kicker="Shipping in the open"
           title={<>{PRODUCT.name}<em>{PRODUCT.tld}</em></>}
           meta={[<span className="num">{postCount} post{postCount > 1 ? "s" : ""}</span>, "Live & growing"]}
@@ -29,7 +31,7 @@ export function Product() {
               </div>
 
               <h3 className="now-title">
-                {PRODUCT.name}<em>{PRODUCT.tld}</em>
+                {PRODUCT.headline}<em>{PRODUCT.headlineEm}</em>
               </h3>
 
             {/*<div className="eyebrow" style={{ width: "fit-content" }}>
