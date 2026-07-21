@@ -10,7 +10,7 @@ export function Strip() {
           {doubled.map((s, i) => (
             <span className="strip-item" key={i}>
               <em>{s}</em>
-              <span className="sparkle">✦</span>
+              <span className="sparkle">/</span>
             </span>
           ))}
         </div>

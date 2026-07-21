@@ -1,12 +1,11 @@
 import { Reveal } from "@shared/ui/anim";
-import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 
 const ENGAGEMENTS = [
   {
     title: "Founding Engineer (embedded)",
     subtitle: "Full-time or 4 days/week.",
-    text: "I join as your first/lead engineer: set technical direction, build the V1, talk to users, ship.",
+    text: "I join as your first or lead engineer: set direction, build the V1, talk to users.",
   },
   {
     title: "Senior Full-Stack Contract",
@@ -15,30 +14,24 @@ const ENGAGEMENTS = [
   },
   {
     title: "Fractional / Advisory",
-    subtitle: "Architecture · AI workflow · Direction",
-    text: "Architecture reviews, AI-workflow setup, technical direction. A few hours a week.",
+    subtitle: "A few hours a week.",
+    text: "Architecture reviews, AI-workflow setup, technical direction.",
   },
 ] as const;
 
 export function Engagements() {
   return (
     <div className="shell">
-      <SecHead
-        num="03"
-        kicker="Ways to work together"
-        title="Work with me"
-        meta={[<span className="num">Remote</span>, "CET"]}
-      />
+      <SecHead title="Work with me" />
 
-      <Reveal className="engagement-intro">
+      <p className="engagement-intro">
         I take live SaaS products end-to-end: production, payments, automation, AI/LLM features.
-      </Reveal>
+      </p>
 
-      <div className="engagement-grid">
+      <div className="engagement-list">
         {ENGAGEMENTS.map((engagement, index) => (
           <Reveal delay={100 + index * 100} key={engagement.title}>
-            <article className="engagement-card">
-              <span className="engagement-num">{String(index + 1).padStart(2, "0")}</span>
+            <article className="engagement-item">
               <h3>{engagement.title}</h3>
               <div className="engagement-subtitle">{engagement.subtitle}</div>
               <p>{engagement.text}</p>
@@ -47,13 +40,12 @@ export function Engagements() {
         ))}
       </div>
 
-      <Reveal delay={420} className="engagement-close">
+      <div className="engagement-close">
         <p>Remote (CET) - full EU overlap + US mornings. B2B invoicing. English, async-first.</p>
         <a className="btn" href="mailto:arthur.arslanoov@gmail.com">
-          <span>Get in touch</span>
-          <span className="arr"><ArrowUR size={13} /></span>
+          Get in touch
         </a>
-      </Reveal>
+      </div>
     </div>
   );
 }

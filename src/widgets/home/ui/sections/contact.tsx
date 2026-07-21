@@ -3,32 +3,15 @@ import { Reveal } from "@shared/ui/anim";
 import { ArrowUR } from "@shared/ui/icons";
 import { Obf, ObfText } from "@shared/lib/obfuscate";
 import { CONTACT, DIRECTORY } from "@entities/home-content/model/contact";
-import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Contact() {
-  const sectionNumber = isWorkWithMeExperiment() ? "08" : "07";
-
   return (
     <Reveal>
         <div className="cta-banner">
-          <div className="cta-signal" aria-hidden="true">
-            <span className="cta-signal-ring r1" />
-            <span className="cta-signal-ring r2" />
-            <span className="cta-signal-ring r3" />
-            <span className="cta-signal-core" />
-          </div>
-          <div className="cta-eyebrow">
-            <span className="dot" />
-            <span>{sectionNumber} / Index · Get in touch</span>
-          </div>
-          <h2 className="cta-title">
-            Let's build <em>something</em><br/>
-            worth shipping.
-          </h2>
+          <h2 className="cta-title">Let's talk.</h2>
           <div className="cta-actions">
             <Obf className="btn" d={CONTACT.email} kind="mail">
               <ObfText data={CONTACT.email} />
-              <span className="arr"><ArrowUR size={13} /></span>
             </Obf>
             <Obf className="btn-ghost" d={CONTACT.linkedinUrl}>
               Connect on LinkedIn

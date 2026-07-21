@@ -46,8 +46,6 @@
   white-space: nowrap;
 }
 .strip-item em {
-  font-family: var(--font-serif);
-  font-style: italic;
   color: var(--text);
 }
 .strip-item .sparkle {

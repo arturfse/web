@@ -22,7 +22,7 @@
 }
 .proj-card:hover { border-color: var(--border-strong); }
 .proj-card:hover .proj-preview { transform: scale(1.03); }
-.proj-card:hover .proj-arr { background: var(--accent-grad); color: #fff; border-color: transparent; transform: rotate(-45deg); }
+.proj-card:hover .proj-arr { color: var(--text); transform: translate(1px, -1px); }
 
 .proj-preview-wrap {
   height: 220px;
@@ -38,10 +38,7 @@
 
 /* preview: telegram bot */
 .preview-bot {
-  background:
-    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 50%),
-    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--accent-2) 30%, transparent), transparent 50%),
-    var(--bg-2);
+  background: var(--bg-2);
   display: grid;
   place-items: center;
   padding: 20px;
@@ -52,9 +49,7 @@
 
 /* preview: ui library — full sign-in window */
 .preview-ui {
-  background:
-    radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--accent-3) 25%, transparent), transparent 50%),
-    var(--bg-2);
+  background: var(--bg-2);
   display: grid;
   place-items: center;
   padding: 18px;
@@ -312,10 +307,7 @@
 
 /* preview: messenger pwa */
 .preview-msg {
-  background:
-    radial-gradient(circle at 30% 70%, color-mix(in srgb, #B25CFF 25%, transparent), transparent 50%),
-    radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 50%),
-    var(--bg-2);
+  background: var(--bg-2);
   padding: 18px;
   display: flex; flex-direction: column; gap: 6px;
   align-items: center; justify-content: center;
@@ -363,11 +355,6 @@
   color: var(--text-muted);
   margin-bottom: 4px;
 }
-.proj-tag .dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-}
 .proj-name {
   display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
 }
@@ -377,22 +364,11 @@
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
-.proj-name h3 em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--text-dim);
-}
 .proj-arr {
   flex-shrink: 0;
-  width: 36px; height: 36px;
-  border: 1px solid var(--border-strong);
-  border-radius: 50%;
-  display: grid; place-items: center;
+  display: inline-flex;
   color: var(--text-dim);
-  transform: rotate(0deg);
-  transition: transform 0.65s var(--ease-out), background 0.35s var(--ease-out), color 0.35s, border-color 0.35s;
-  will-change: transform;
+  transition: transform 0.3s var(--ease-out), color 0.3s;
 }
 .proj-desc {
   font-size: 14px;

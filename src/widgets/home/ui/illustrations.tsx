@@ -1,60 +1,143 @@
-// ─────────── hero ───────────
+// ─────────── hero: FIG. 1 — patent-style drawing ───────────
+// A monoline "patent filing" schematic of a machine that ships software.
+// Ink is currentColor so the drawing re-inks itself per theme.
+// Labels are real process stages — no invented metrics anywhere.
 
 export function HeroIllustration() {
   return (
     <div className="hero-illustration" aria-hidden="true">
-      <div className="illu-stack">
+      <svg className="fig" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* ground line + soil ticks */}
+        <g stroke="currentColor" strokeWidth="1" opacity="0.45" strokeLinecap="round">
+          <path d="M36 332 H612" />
+          <path d="M60 332 l-9 9 M105 332 l-9 9 M150 332 l-9 9 M420 332 l-9 9 M465 332 l-9 9 M510 332 l-9 9 M555 332 l-9 9 M600 332 l-9 9" />
+        </g>
 
-        {/* main browser mockup — represents a contract / document editor */}
-        <div className="illu-card illu-browser">
-          <div className="illu-browser-chrome">
-            <div className="illu-browser-dots"><span /><span /><span /></div>
-            <div className="illu-browser-url">workspace / agreement-04.md</div>
-          </div>
-          <div className="illu-browser-body">
-            <div className="illu-doc">
-              <div className="illu-doc-title">Service Agreement</div>
-              <div className="illu-doc-line w-95" />
-              <div className="illu-doc-line w-80" />
-              <div className="illu-doc-line highlight w-70" />
-              <div className="illu-doc-line w-60" />
-              <div className="illu-doc-line w-50" />
-              <div className="illu-doc-comment">AA · Loop in legal here</div>
-            </div>
-            <div className="illu-doc-sidebar">
-              <div className="sb active" />
-              <div className="sb" />
-              <div className="sb" />
-              <div className="sb" />
-              <div className="sb" />
-            </div>
-          </div>
-        </div>
+        {/* plinth with section hatching */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="166" y="308" width="220" height="24" />
+          <path
+            strokeWidth="0.8"
+            opacity="0.5"
+            d="M170 331 l12 -22 M183 331 l12 -22 M196 331 l12 -22 M209 331 l12 -22 M222 331 l12 -22 M235 331 l12 -22 M248 331 l12 -22 M261 331 l12 -22 M274 331 l12 -22 M287 331 l12 -22 M300 331 l12 -22 M313 331 l12 -22 M326 331 l12 -22 M339 331 l12 -22 M352 331 l12 -22 M365 331 l12 -22"
+          />
+        </g>
 
-        {/* terminal card — mid-right, behind browser */}
-        <div className="illu-card illu-term">
-          <div className="illu-term-bar">
-            <div className="illu-browser-dots"><span /><span /><span /></div>
-            <span className="illu-term-title">~ /deploy</span>
-          </div>
-          <div className="illu-term-body">
-            <div className="tl"><span className="prompt">$</span> git push origin <span className="hl">main</span></div>
-            <div className="tl muted">→ building...</div>
-            <div className="tl muted">→ tests <span className="ok">✓</span> 248 passed</div>
-            <div className="tl muted">→ bundle <span className="ok">✓</span> 142kb gzip</div>
-            <div className="tl"><span className="prompt">$</span> <span className="caret" /></div>
-          </div>
-        </div>
+        {/* machine body + corner bolts */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="176" y="148" width="200" height="160" rx="3" />
+          <circle cx="188" cy="160" r="2.2" />
+          <circle cx="364" cy="160" r="2.2" />
+          <circle cx="188" cy="296" r="2.2" />
+          <circle cx="364" cy="296" r="2.2" />
+        </g>
 
-        {/* single metric pill — ties to the Juro contracts scale */}
-        <div className="illu-pill illu-pill-1">
-          <div className="illu-pill-icon">a</div>
-          <div className="illu-pill-text">
-            <span className="illu-pill-value">8K / mo</span>
-            <span className="illu-pill-label">Contracts shipped</span>
-          </div>
-        </div>
+        {/* 10 — intake funnel */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M204 70 H272 M204 70 L228 114 M272 70 L248 114 M228 114 V148 M248 114 V148" />
+        </g>
 
+        {/* falling block (spec goes in) */}
+        <rect className="fig-drop" x="232" y="34" width="12" height="12" stroke="currentColor" strokeWidth="1.3" />
+
+        {/* 20 — gears, dashed per hidden-line convention */}
+        <g className="fig-gear fig-gear-a" stroke="currentColor" strokeWidth="1.1" strokeDasharray="4 3">
+          <circle cx="240" cy="214" r="32" />
+          <circle cx="240" cy="214" r="24" />
+          <circle cx="240" cy="214" r="5" strokeDasharray="none" />
+          <path d="M272 214 h6 M267.7 198 l5.2 -3 M256 186.3 l3 -5.2 M240 182 v-6 M224 186.3 l-3 -5.2 M212.3 198 l-5.2 -3 M208 214 h-6 M212.3 230 l-5.2 3 M224 241.7 l-3 5.2 M240 246 v6 M256 241.7 l3 5.2 M267.7 230 l5.2 3" />
+          <path strokeDasharray="none" d="M240 209 V190 M235.7 216.5 L219.2 226 M244.3 216.5 L260.8 226" />
+        </g>
+        <g className="fig-gear fig-gear-b" stroke="currentColor" strokeWidth="1.1" strokeDasharray="4 3">
+          <circle cx="288" cy="248" r="22" />
+          <circle cx="288" cy="248" r="15" />
+          <circle cx="288" cy="248" r="4" strokeDasharray="none" />
+          <path d="M310 248 h5 M305.8 235.1 l4 -3 M294.8 227.1 l1.5 -4.8 M281.2 227.1 l-1.5 -4.8 M270.2 235.1 l-4 -3 M266 248 h-5 M270.2 260.9 l-4 3 M281.2 268.9 l-1.5 4.8 M294.8 268.9 l1.5 4.8 M305.8 260.9 l4 3" />
+        </g>
+
+        {/* 30 — evals gauge */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M318 148 A22 22 0 0 1 362 148" />
+          <path strokeWidth="1" d="M320.9 137 L325.3 139.5 M329 129 L331.5 133.3 M340 126 V131 M351 129 L348.5 133.3 M359.1 137 L354.7 139.5" />
+          <path d="M318 148 H362" />
+        </g>
+        <g className="fig-needle" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+          <path d="M340 148 L344.4 131.6" />
+        </g>
+        <circle cx="340" cy="148" r="2.5" stroke="currentColor" strokeWidth="1.3" />
+
+        {/* 50 — coin slot (Stripe) */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="346" y="192" width="5" height="18" rx="2" />
+          <circle cx="398" cy="178" r="9" />
+          <circle cx="398" cy="178" r="6" strokeWidth="1" />
+          <path strokeWidth="1" strokeDasharray="3 4" d="M396 187 Q386 204 354 200" />
+        </g>
+
+        {/* outlet chute */}
+        <path stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" d="M376 262 H402 M376 284 H402" />
+
+        {/* 40 — conveyor */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="402" y="293" width="168" height="26" rx="13" />
+          <circle cx="415" cy="306" r="9" />
+          <path strokeWidth="1" d="M411 306 h8 M415 302 v8" />
+          <circle cx="557" cy="306" r="9" />
+          <path strokeWidth="1" d="M553 306 h8 M557 302 v8" />
+          <path d="M415 319 V332 M557 319 V332" />
+        </g>
+        <path
+          className="fig-belt"
+          stroke="currentColor"
+          strokeWidth="1"
+          opacity="0.5"
+          strokeDasharray="6 6"
+          d="M406 297 H566"
+        />
+
+        {/* traveling block (accent — the one colored element) */}
+        <g className="fig-block">
+          <rect x="404" y="280" width="18" height="13" fill="var(--accent)" stroke="currentColor" strokeWidth="1.1" />
+        </g>
+
+        {/* 60 — shipped package */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="580" y="302" width="28" height="30" />
+          <path strokeWidth="1" d="M594 302 V332 M580 317 H608" />
+        </g>
+
+        {/* callout leaders */}
+        <g stroke="currentColor" strokeWidth="0.9" opacity="0.5" strokeLinecap="round">
+          <path d="M154 62 L200 74" />
+          <path d="M146 226 L206 216" />
+          <path d="M312 92 L332 128" />
+          <path d="M478 262 V290" />
+          <path d="M434 158 L406 172" />
+          <path d="M600 270 L594 298" />
+        </g>
+
+        {/* callout numbers */}
+        <g className="fig-num">
+          <text x="140" y="58">10</text>
+          <text x="128" y="232">20</text>
+          <text x="300" y="88">30</text>
+          <text x="470" y="256">40</text>
+          <text x="432" y="152">50</text>
+          <text x="592" y="264">60</text>
+        </g>
+      </svg>
+
+      <div className="fig-caption">
+        <span className="fig-no">FIG. 1</span>
+        <span className="fig-title">Apparatus for shipping software, end to end</span>
+      </div>
+      <div className="fig-legend">
+        <span><b>10</b> spec</span>
+        <span><b>20</b> build</span>
+        <span><b>30</b> evals</span>
+        <span><b>40</b> ship</span>
+        <span><b>50</b> Stripe</span>
+        <span><b>60</b> production</span>
       </div>
     </div>
   );
@@ -77,7 +160,7 @@ export function NowMockup() {
               <span className="now-mockup-num">112,400</span>
               <span className="now-mockup-cursor" />
             </div>
-            <div className="now-mockup-num-sub">Median · Paid Media · NY</div>
+            <div className="now-mockup-num-sub">Median / Paid Media / NY</div>
           </div>
           <div className="now-mockup-delta">
             <span className="now-mockup-delta-arrow">↗</span>
@@ -210,7 +293,7 @@ export function ProjectPreview({ kind }: ProjectPreviewProps) {
             <div className="typing-bubble">
               <span className="d" /><span className="d" /><span className="d" />
             </div>
-            <div className="bubble bot">Cooking up your pack <span className="dots-trail"><span /><span /><span /></span></div>
+            <div className="bubble bot">Generating your pack <span className="dots-trail"><span /><span /><span /></span></div>
           </div>
           <div className="seq-row stickers-row b3">
             <div className="stickers">
@@ -377,58 +460,30 @@ export function WriteIllu({ topic }: WriteIlluProps) {
   return null;
 }
 
-// ─────────── product: ship → rocket launch ───────────
-// Larger, better-proportioned rocket with a smoother arced flight loop.
+// ─────────── product: howtoship.dev site preview ───────────
+// A minimal browser window: the real first post plus dimmed draft rows.
 
 export function HtsIllu() {
   return (
     <div className="hts-illu" aria-hidden="true">
-      <div className="hts-sky">
-        <span className="hts-star a" />
-        <span className="hts-star b" />
-        <span className="hts-star c" />
-        <span className="hts-star d" />
-        <span className="hts-star e" />
-        <span className="hts-star f" />
-        <span className="hts-star g" />
-
-        {/* dotted launch trajectory that draws upward */}
-        <span className="hts-traj" />
-
-        {/* apex badge — the post goes live */}
-        <div className="hts-pill">
-          <span className="hts-pill-check">✓</span>
-          <span>Shipped</span>
+      <div className="hts-site">
+        <div className="hts-site-bar">
+          <div className="hts-site-dots"><span /><span /><span /></div>
+          <span className="hts-site-url">howtoship.dev</span>
         </div>
-
-        {/* the rocket, built from divs */}
-        <div className="hts-rocket">
-          <span className="hts-rk-nose" />
-          <span className="hts-rk-body">
-            <span className="hts-rk-window" />
-            <span className="hts-rk-stripe" />
-          </span>
-          <span className="hts-rk-fin l" />
-          <span className="hts-rk-fin r" />
-          <span className="hts-rk-flame">
-            <span className="hts-rk-flame-core" />
-          </span>
-        </div>
-
-        {/* exhaust smoke at the pad */}
-        <span className="hts-smoke s1" />
-        <span className="hts-smoke s2" />
-        <span className="hts-smoke s3" />
-      </div>
-
-      {/* launchpad terminal — the "ship it" trigger */}
-      <div className="hts-pad">
-        <div className="hts-pad-dots"><span /><span /><span /></div>
-        <div className="hts-pad-line">
-          <span className="hts-pad-prompt">$</span>
-          <span className="hts-pad-cmd">ship it</span>
-          <span className="hts-pad-arr">→</span>
-          <span className="hts-pad-caret" />
+        <div className="hts-site-body">
+          <div className="hts-site-post live">
+            <span className="hts-site-title">A lot of AI bugs are state bugs.</span>
+            <span className="hts-site-meta">4 min</span>
+          </div>
+          <div className="hts-site-post draft">
+            <span className="hts-site-line w-75" />
+            <span className="hts-site-tag">draft</span>
+          </div>
+          <div className="hts-site-post draft">
+            <span className="hts-site-line w-55" />
+            <span className="hts-site-tag">draft</span>
+          </div>
         </div>
       </div>
     </div>

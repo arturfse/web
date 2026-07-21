@@ -19,10 +19,10 @@ export const TIMELINE = [
     co: "Ancor",
     coNote: "Enterprise HR",
     role: "Software Engineer",
-    desc: "Full-stack work on a staffing platform serving 1,000+ concurrent HR professionals. Designed the API surface, wrote the migrations, drew the dashboards. The kind of breadth only a small team gives you.",
+    desc: "Full-stack work on a staffing platform serving 1,000+ concurrent HR professionals. Designed the API surface, wrote the migrations, drew the dashboards.",
     illu: "ancor",
     meta: [
-      { k: "Stack", v: "Node · PG · Vue" },
+      { k: "Stack", v: "Node, PG, Vue" },
       { k: "Role", v: "Full-stack" },
       { k: "Users", v: "1K concurrent" },
     ],

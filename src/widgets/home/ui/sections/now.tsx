@@ -3,23 +3,15 @@ import { Reveal } from "@shared/ui/anim";
 import { SecHead } from "@widgets/home/ui/components";
 import { NowMockup } from "@widgets/home/ui/illustrations";
 import { CURRENT } from "@entities/home-content/model/now";
-import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Now() {
-  const sectionCount = isWorkWithMeExperiment() ? "08" : "07";
-
   return (
     <div className="shell">
-        <SecHead
-          num="02"
-          kicker="Currently"
-          title={<><em>Now</em> playing.</>}
-          meta={[<span className="num">02 / {sectionCount}</span>, "In motion"]}
-        />
+        <SecHead title="Now." />
 
         <div className="now-wrap">
           <Reveal delay={100}>
-            <div className="card card-feature">
+            <div className="now-lede">
               <div className="now-head">
                 <div className="now-status">
                   <span className="dot" />{CURRENT.status}
@@ -29,13 +21,7 @@ export function Now() {
                 </div>
               </div>
 
-              <h3 className="now-title">
-                {CURRENT.company} <em>/ {CURRENT.italic}</em>
-              </h3>
-
-              <div className="eyebrow" style={{ width: "fit-content" }}>
-                <span className="dot" />{CURRENT.role}
-              </div>
+              <h3 className="now-title">{CURRENT.company}</h3>
 
               <p className="now-blurb">{CURRENT.blurb}</p>
 
@@ -56,16 +42,14 @@ export function Now() {
           </Reveal>
         </div>
 
-        <Reveal delay={300} style={{ marginTop: 20 }}>
+        <Reveal delay={300} style={{ marginTop: 48 }}>
           <div className="shipped-grid">
             <div className="shipped-head">
               <h4>Shipped at SalaryGuide</h4>
-              <span className="shipped-sub">Four product surfaces, one rebuild</span>
             </div>
             <div className="shipped-list">
               {CURRENT.shipped.map((s, i) => (
                 <div className="shipped-item" key={i}>
-                  <div className="shipped-num">{String(i + 1).padStart(2, "0")}</div>
                   <div className="shipped-k">{s.k}</div>
                   <div className="shipped-v">{s.v}</div>
                   <div className="shipped-d">{s.desc}</div>

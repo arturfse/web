@@ -5,9 +5,7 @@
   position: relative;
   margin: 14px 0 18px;
   padding: 14px;
-  background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
-    var(--surface-2);
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
@@ -69,8 +67,6 @@
   font-size: 18px;
   font-weight: 400;
   color: var(--text-muted);
-  font-family: var(--font-serif);
-  font-style: italic;
   animation: ws-equals-pulse 3s ease-in-out infinite;
 }
 @keyframes ws-equals-pulse {
@@ -78,8 +74,6 @@
   50%      { color: var(--accent); }
 }
 .ws-result-text {
-  font-family: var(--font-serif);
-  font-style: italic;
   font-size: 14px;
   background: var(--accent-grad);
   -webkit-background-clip: text;
@@ -179,8 +173,6 @@
 }
 .wt-hero { margin-top: 4px; padding-top: 6px; border-top: 1px dashed var(--border); }
 .wt-note {
-  font-family: var(--font-serif);
-  font-style: italic;
   font-size: 12px;
   color: var(--text);
   white-space: nowrap;
@@ -193,49 +185,6 @@
   40%, 100% { opacity: 1; transform: translateX(0); }
 }
 
-/* ──────────────────────────────────────────────
-   CONTACT · SIGNAL RINGS
-   ────────────────────────────────────────────── */
-.cta-banner { position: relative; }
-.cta-signal {
-  position: absolute;
-  top: 32px;
-  right: 32px;
-  width: 80px;
-  height: 80px;
-  pointer-events: none;
-  z-index: 1;
-}
-.cta-signal-core {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: var(--accent-grad);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 70%, transparent);
-}
-.cta-signal-ring {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 0;
-  animation: signal-ring 3.2s ease-out infinite;
-}
-.cta-signal-ring.r1 { animation-delay: 0s; }
-.cta-signal-ring.r2 { animation-delay: 1.05s; }
-.cta-signal-ring.r3 { animation-delay: 2.1s; }
-@keyframes signal-ring {
-  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.8; border-color: var(--accent); }
-  60%  { opacity: 0.25; border-color: var(--accent-2); }
-  100% { transform: translate(-50%, -50%) scale(4.5); opacity: 0; border-color: var(--accent-3); }
-}
-@media (max-width: 720px) {
-  .cta-signal { width: 56px; height: 56px; top: 14px; right: 14px; }
-}
 
 /* ──────────────────────────────────────────────
    WORK ILLUSTRATIONS · IDLE ANIMATIONS
@@ -457,10 +406,10 @@
 .preview-bot .b3 .sticker.s3 { animation-name: sticker-pop-in-3; }
 .preview-bot .b3 .sticker.s4 { animation-name: sticker-pop-in-4; }
 
-.preview-bot .sticker.s1 { background: linear-gradient(135deg, #FF9A56, #FF6B4A); }
+.preview-bot .sticker.s1 { background: linear-gradient(135deg, var(--accent-3), var(--accent)); }
 .preview-bot .sticker.s2 { background: linear-gradient(135deg, var(--accent-3), var(--accent)); }
-.preview-bot .sticker.s3 { background: linear-gradient(135deg, #5C9CFF, #B25CFF); }
-.preview-bot .sticker.s4 { background: linear-gradient(135deg, #B25CFF, var(--accent)); }
+.preview-bot .sticker.s3 { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.preview-bot .sticker.s4 { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
 
 /* fox face on first sticker */
 .preview-bot .sticker .face {

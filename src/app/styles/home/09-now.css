@@ -2,10 +2,18 @@
 .now-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: clamp(28px, 4vw, 64px);
   align-items: stretch;
 }
-@media (max-width: 900px) { .now-wrap { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .now-wrap { grid-template-columns: 1fr; gap: 32px; } }
+
+/* left column sits directly on the page — no card chrome */
+.now-lede {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(4px, 0.8vw, 12px) 0;
+}
 
 .card {
   background: var(--surface);
@@ -19,26 +27,9 @@
 .card:hover { border-color: var(--border-strong); }
 
 .card-feature {
-  background:
-    radial-gradient(ellipse 110% 80% at 0% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse 90% 70% at 100% 100%, color-mix(in srgb, var(--accent-2) 18%, transparent) 0%, transparent 50%),
-    var(--surface);
+  background: var(--surface);
   display: flex; flex-direction: column; gap: 24px;
   position: relative;
-}
-.card-feature::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--r-lg);
-  padding: 1px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 60%, transparent), transparent 40%, color-mix(in srgb, var(--accent-2) 50%, transparent));
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.6;
 }
 
 .now-head {
@@ -70,13 +61,6 @@
   letter-spacing: -0.03em;
   line-height: 1;
 }
-.now-title em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--text-dim);
-}
-
 .now-blurb {
   font-size: 16px;
   line-height: 1.55;

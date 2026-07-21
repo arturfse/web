@@ -1,8 +1,6 @@
 /* ───────── now / dashboard mockup ───────── */
 .now-mockup {
-  background:
-    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%),
-    var(--surface);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
   overflow: hidden;
@@ -106,7 +104,7 @@
   background: var(--surface-3);
 }
 .now-mockup-row .av.acc { background: var(--accent-grad); }
-.now-mockup-row .av.acc2 { background: linear-gradient(135deg, var(--accent-2), #B25CFF); }
+.now-mockup-row .av.acc2 { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
 .now-mockup-row .lbl {
   height: 6px;
   background: var(--surface-3);

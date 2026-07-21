@@ -2,7 +2,7 @@ import { lazy, useEffect } from "react";
 import { useScrollProgress } from "@shared/lib/hooks";
 import type { CSSVarStyle } from "@shared/types/css";
 import { useTweaks } from "@features/tweaks";
-import { Chrome, ACCENT_OPTIONS, type AccentPalette, type Theme } from "@widgets/home/ui/Chrome";
+import { Chrome, ACCENT_OPTIONS, type AccentOption, type Theme } from "@widgets/home/ui/Chrome";
 import { StickyCTA } from "@widgets/home/ui/components";
 import { LazySection } from "@widgets/home/ui/LazySection";
 import { Hero } from "@widgets/home/ui/sections/hero";
@@ -12,14 +12,12 @@ import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment"
 
 type IndexTweaks = {
   theme: Theme;
-  palette: AccentPalette;
-  rotator: boolean;
+  accent: string;
 };
 
 const TWEAK_DEFAULTS: IndexTweaks = /*EDITMODE-BEGIN*/{
-  "theme": "dark",
-  "palette": ["#FFB259", "#FF6B4A", "#FF3D7F", "#B25CFF"],
-  "rotator": true
+  "theme": "paper",
+  "accent": "#FF6B4A"
 }/*EDITMODE-END*/;
 
 const LazyNow = lazy(() => import("@widgets/home/ui/sections/now").then((module) => ({ default: module.Now })));
@@ -36,20 +34,18 @@ export function HomePage() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const progress = useScrollProgress();
   const showEngagements = isWorkWithMeExperiment();
+  const accent: AccentOption =
+    ACCENT_OPTIONS.find(o => o.base === t.accent) ?? ACCENT_OPTIONS[0];
 
   useEffect(() => {
     document.documentElement.dataset.theme = t.theme;
   }, [t.theme]);
 
   useEffect(() => {
-    const pal = t.palette || ACCENT_OPTIONS[0];
-    const [c1, c2, c3, c4] = pal;
-    document.documentElement.style.setProperty("--accent", c2);
-    document.documentElement.style.setProperty("--accent-2", c3);
-    document.documentElement.style.setProperty("--accent-3", c1);
-    document.documentElement.style.setProperty("--accent-grad",
-      `linear-gradient(120deg, ${c1} 0%, ${c2} 35%, ${c3} 75%, ${c4} 100%)`);
-  }, [t.palette]);
+    document.documentElement.style.setProperty("--accent", accent.base);
+    document.documentElement.style.setProperty("--accent-2", accent.deep);
+    document.documentElement.style.setProperty("--accent-3", accent.light);
+  }, [accent]);
 
   return (
     <>
@@ -58,8 +54,8 @@ export function HomePage() {
       <Chrome
         theme={t.theme}
         setTheme={v => setTweak("theme", v)}
-        palette={t.palette}
-        setPalette={v => setTweak("palette", v)}
+        palette={accent}
+        setPalette={v => setTweak("accent", v.base)}
         showEngagements={showEngagements}
       />
 

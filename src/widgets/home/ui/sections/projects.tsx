@@ -4,19 +4,11 @@ import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 import { ProjectPreview } from "@widgets/home/ui/illustrations";
 import { PROJECTS } from "@entities/home-content/model/projects";
-import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Projects() {
-  const sectionNumber = isWorkWithMeExperiment() ? "07" : "06";
-
   return (
     <div className="shell">
-        <SecHead
-          num={sectionNumber}
-          kicker="Shipped"
-          title={<>Nights & <em>weekends.</em></>}
-          meta={[<span className="num">03 projects</span>, "Selected"]}
-        />
+        <SecHead title="Nights & weekends." />
 
         <div className="projects-grid">
           {PROJECTS.map((p, i) => (
@@ -26,9 +18,9 @@ export function Projects() {
                   <ProjectPreview kind={p.preview} />
                 </div>
                 <div className="proj-body">
-                  <div className="proj-tag"><span className="dot" />{p.tag}</div>
+                  <div className="proj-tag">{p.tag}</div>
                   <div className="proj-name">
-                    <h3>{p.title} <em>{p.italic}</em></h3>
+                    <h3>{p.title}</h3>
                     <span className="proj-arr"><ArrowUR size={14} /></span>
                   </div>
                   <p className="proj-desc">{p.desc}</p>

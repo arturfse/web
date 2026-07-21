@@ -1,0 +1,1 @@
+import{t as e}from"./react-DXf8hR2M.js";var t=e(),n=({size:e=14})=>(0,t.jsxs)(`svg`,{width:e,height:e,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,strokeLinejoin:`round`,children:[(0,t.jsx)(`path`,{d:`M7 17L17 7`}),(0,t.jsx)(`path`,{d:`M7 7h10v10`})]});export{n as t};

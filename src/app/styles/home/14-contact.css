@@ -3,16 +3,13 @@
   margin: 0 var(--pad);
   padding: clamp(60px, 10vw, 140px) clamp(32px, 6vw, 96px);
   border-radius: var(--r-xl);
-  background:
-    radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 50%),
-    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--accent-2) 30%, transparent), transparent 50%),
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, #B25CFF 20%, transparent), transparent 70%),
-    var(--surface);
+  background: var(--surface);
   border: 1px solid var(--border-strong);
   position: relative;
   overflow: hidden;
   text-align: center;
 }
+/* graph-paper grid — plain and edge-to-edge, echoing the FIG. 1 drawing */
 .cta-banner::before {
   content: "";
   position: absolute;
@@ -21,35 +18,12 @@
     linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
   pointer-events: none;
 }
 [data-theme="paper"] .cta-banner::before {
   background-image:
     linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
-}
-
-.cta-eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--text) 8%, transparent);
-  border: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text);
-  margin-bottom: 28px;
-  position: relative; z-index: 2;
-}
-.cta-eyebrow .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
 }
 
 .cta-title {
@@ -59,11 +33,6 @@
   letter-spacing: -0.04em;
   position: relative; z-index: 2;
   margin-bottom: 36px;
-}
-.cta-title em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
 }
 .cta-actions {
   display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center;

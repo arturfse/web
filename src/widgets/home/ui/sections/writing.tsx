@@ -4,17 +4,12 @@ import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
 import { WriteIllu } from "@widgets/home/ui/illustrations";
 import { WRITING } from "@entities/home-content/model/writing";
-import { isWorkWithMeExperiment } from "@entities/home-content/model/experiment";
 
 export function Writing() {
-  const sectionNumber = isWorkWithMeExperiment() ? "05" : "04";
-
   return (
     <div className="shell">
         <SecHead
-          num={sectionNumber}
-          kicker="Field notes"
-          title={<><span className="line-keep">Short thoughts.</span><br /><span className="line-keep"><em>Loud</em> opinions.</span></>}
+          title="Writing."
           meta={[<span className="num">700k+ reads</span>, "On LinkedIn"]}
         />
 
@@ -22,18 +17,14 @@ export function Writing() {
           {WRITING.map((w, i) => (
             <Reveal delay={i * 120} key={w.title}>
               <a className="write-card" href={w.href} target="_blank" rel="noopener noreferrer">
-                <div className="write-head">
-                  <span className="write-num">{w.num}</span>
-                  <span className="write-arr"><ArrowUR size={14} /></span>
-                </div>
-                <h3 className="write-title">{w.title}<em>{w.italic}</em></h3>
+                <h3 className="write-title">{w.title}</h3>
                 <p style={{ color: "var(--text-dim)", fontSize: 15, lineHeight: 1.55, flex: 1 }}>{w.blurb}</p>
 
                 <WriteIllu topic={w.topic} />
 
                 <div className="write-foot">
                   <span>{w.meta}</span>
-                  <span className="views"><span className="dot" />{w.views}</span>
+                  <span className="views">{w.views}<ArrowUR size={11} /></span>
                 </div>
               </a>
             </Reveal>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useActiveSection } from "@shared/lib/hooks";
 import { scrollToId } from "@shared/lib/dom";
-import { ArrowUR } from "@shared/ui/icons";
 import {
   EXPERIMENT_NAV,
   EXPERIMENT_SECTION_IDS,
@@ -10,27 +9,26 @@ import {
 } from "@entities/home-content/model/nav";
 
 export type Theme = "dark" | "paper";
-export type AccentPalette = readonly [string, string, string, string];
-
-export const ACCENT_OPTIONS = [
-  ["#FFB259", "#FF6B4A", "#FF3D7F", "#B25CFF"], // sunset (default)
-  ["#7FE6FF", "#5C9CFF", "#7C5CFF", "#FF6BD0"], // electric
-  ["#7CFFB6", "#5CFFE1", "#5CCFFF", "#7C8DFF"], // aurora
-  ["#FFE066", "#FF9F45", "#FF5C8A", "#A055FF"], // candy
-] as const satisfies readonly [AccentPalette, ...AccentPalette[]];
-
-type SwatchProps = {
-  colors: AccentPalette;
+export type AccentOption = {
+  readonly name: string;
+  readonly base: string;
+  readonly deep: string;
+  readonly light: string;
 };
 
-function Swatch({ colors }: SwatchProps) {
-  return (
-    <span className="chrome-swatch" aria-hidden="true">
-      {colors.slice(0, 4).map((c, i) => (
-        <span key={i} style={{ background: c }} />
-      ))}
-    </span>
-  );
+export const ACCENT_OPTIONS = [
+  { name: "Coral", base: "#FF6B4A", deep: "#E4522F", light: "#FF8F73" },
+  { name: "Cobalt", base: "#5C9CFF", deep: "#3D7BE0", light: "#85B5FF" },
+  { name: "Emerald", base: "#34D399", deep: "#1FAE7C", light: "#6FE3B8" },
+  { name: "Amber", base: "#FFB259", deep: "#E89638", light: "#FFC985" },
+] as const satisfies readonly [AccentOption, ...AccentOption[]];
+
+type SwatchProps = {
+  color: string;
+};
+
+function Swatch({ color }: SwatchProps) {
+  return <span className="chrome-swatch" style={{ background: color }} aria-hidden="true" />;
 }
 
 type ThemeButtonProps = {
@@ -66,9 +64,9 @@ function ThemeButton({ theme, setTheme }: ThemeButtonProps) {
 }
 
 type PalettePickerProps = {
-  value: AccentPalette;
+  value: AccentOption;
   options: typeof ACCENT_OPTIONS;
-  onChange: (value: AccentPalette) => void;
+  onChange: (value: AccentOption) => void;
 };
 
 function PalettePicker({ value, options, onChange }: PalettePickerProps) {
@@ -89,29 +87,29 @@ function PalettePicker({ value, options, onChange }: PalettePickerProps) {
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
-  const currentIndex = options.findIndex(o => o.join() === value.join());
+  const currentIndex = options.findIndex(o => o.base === value.base);
   return (
     <div className="chrome-palette" ref={ref}>
       <button
         className="chrome-icon-btn chrome-palette-btn"
         onClick={() => setOpen(o => !o)}
-        aria-label="Color palette"
+        aria-label="Accent color"
         aria-expanded={open}
-        title="Color palette"
+        title="Accent color"
       >
-        <Swatch colors={value} />
+        <Swatch color={value.base} />
       </button>
       <div className={`chrome-palette-menu ${open ? "open" : ""}`} role="menu">
         {options.map((opt, i) => (
           <button
-            key={i}
+            key={opt.base}
             role="menuitemradio"
             aria-checked={i === currentIndex}
             className={`chrome-palette-opt ${i === currentIndex ? "active" : ""}`}
             onClick={() => { onChange(opt); setOpen(false); }}
-            title={["Sunset", "Electric", "Aurora", "Candy"][i] || `Palette ${i + 1}`}
+            title={opt.name}
           >
-            <Swatch colors={opt} />
+            <Swatch color={opt.base} />
           </button>
         ))}
       </div>
@@ -122,8 +120,8 @@ function PalettePicker({ value, options, onChange }: PalettePickerProps) {
 type ChromeProps = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  palette: AccentPalette;
-  setPalette: (palette: AccentPalette) => void;
+  palette: AccentOption;
+  setPalette: (palette: AccentOption) => void;
   showEngagements: boolean;
 };
 
@@ -135,7 +133,7 @@ export function Chrome({ theme, setTheme, palette, setPalette, showEngagements }
     <header className="chrome">
       <div className="chrome-logo">
         <span className="mark">A</span>
-        <span>Arslanov</span>
+        <span>Artur</span>
       </div>
       <nav className="chrome-nav">
         {nav.map(n => (
@@ -144,7 +142,6 @@ export function Chrome({ theme, setTheme, palette, setPalette, showEngagements }
             data-active={active === n.id}
             onClick={() => scrollToId(n.id)}
           >
-            <span className="num">{n.num}</span>
             <span>{n.label}</span>
           </button>
         ))}
@@ -158,7 +155,6 @@ export function Chrome({ theme, setTheme, palette, setPalette, showEngagements }
         onClick={() => scrollToId("contact")}
       >
         <span>Get in touch</span>
-        <span className="arr"><ArrowUR size={11} /></span>
       </button>
     </header>
   );

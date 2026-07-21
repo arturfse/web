@@ -25,9 +25,7 @@
 }
 
 .work-illu-juro {
-  background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
-    var(--bg-2);
+  background: var(--bg-2);
   padding: 14px;
   display: flex; flex-direction: column; gap: 6px;
 }
@@ -61,9 +59,7 @@
 }
 
 .work-illu-ancor {
-  background:
-    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 60%),
-    var(--bg-2);
+  background: var(--bg-2);
   padding: 12px;
   display: flex; flex-direction: column; gap: 4px;
 }
@@ -82,7 +78,7 @@
   background: var(--surface-3);
 }
 .work-illu-ancor .row .av.a { background: var(--accent-grad); }
-.work-illu-ancor .row .av.b { background: linear-gradient(135deg, var(--accent-2), #B25CFF); }
+.work-illu-ancor .row .av.b { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
 .work-illu-ancor .row .lbl {
   height: 5px;
   background: var(--surface-3);
