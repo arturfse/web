@@ -86,11 +86,6 @@
   .card-feature { padding: 24px; gap: 18px; }
   .now-title { font-size: clamp(26px, 7vw, 36px); }
   .now-blurb { font-size: 15px; }
-  .now-mockup-bar { padding: 10px 14px; }
-  .now-mockup-bar .tab { font-size: 9px; padding: 3px 8px; }
-  .now-mockup-body { padding: 18px; gap: 14px; }
-  .now-mockup-num { font-size: 26px; }
-  .now-mockup-row .pill { font-size: 9px; }
   .now-meta {
     flex-direction: column;
     gap: 8px;

@@ -1,5 +1,7 @@
 import { Reveal, SplitWords } from "@shared/ui/anim";
 import { scrollToId } from "@shared/lib/dom";
+import { Obf, ObfText } from "@shared/lib/obfuscate";
+import { CONTACT } from "@entities/home-content/model/contact";
 import { HeroIllustration } from "@widgets/home/ui/illustrations";
 
 export function Hero() {
@@ -21,7 +23,9 @@ export function Hero() {
               <button className="btn" onClick={() => scrollToId("how-i-work")}>
                 See how I work
               </button>
-              <a className="btn-ghost" href="mailto:arthur.arslanoov@gmail.com">Get in touch</a>
+              <Obf className="btn-ghost" d={CONTACT.email} kind="mail" aria-label="Get in touch">
+                <ObfText data={CONTACT.getInTouchText} />
+              </Obf>
             </Reveal>
           </div>
 

@@ -1,4 +1,6 @@
 import { Reveal } from "@shared/ui/anim";
+import { Obf, ObfText } from "@shared/lib/obfuscate";
+import { CONTACT } from "@entities/home-content/model/contact";
 import { SecHead } from "@widgets/home/ui/components";
 
 const ENGAGEMENTS = [
@@ -42,9 +44,9 @@ export function Engagements() {
 
       <div className="engagement-close">
         <p>Remote (CET) - full EU overlap + US mornings. B2B invoicing. English, async-first.</p>
-        <a className="btn" href="mailto:arthur.arslanoov@gmail.com">
-          Get in touch
-        </a>
+        <Obf className="btn" d={CONTACT.email} kind="mail" aria-label="Get in touch">
+          <ObfText data={CONTACT.getInTouchText} />
+        </Obf>
       </div>
     </div>
   );

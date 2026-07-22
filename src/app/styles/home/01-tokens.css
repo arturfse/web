@@ -121,7 +121,7 @@ em {
 .projects-grid > .reveal > .proj-card,
 .write-grid > .reveal > .write-card,
 .now-wrap > .reveal > .now-lede,
-.now-wrap > .reveal > .now-mockup {
+.now-wrap > .reveal > .fig-wrap {
   flex: 1;
   width: 100%;
 }

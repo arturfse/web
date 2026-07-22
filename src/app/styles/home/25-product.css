@@ -1,8 +1,5 @@
 /* ───────── product / howtoship ───────── */
 
-/* let the illustration stretch like the now-mockup does */
-.now-wrap > .reveal > .hts-illu { flex: 1; width: 100%; }
-
 /* feature-card footer: meta + visit link */
 .hts-foot {
   display: flex; align-items: center; justify-content: space-between;
@@ -162,75 +159,7 @@
   50% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(255, 77, 79, 0); }
 }
 
-/* ── illustration: howtoship.dev site preview ── */
-.hts-illu {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-  padding: clamp(24px, 3vw, 40px);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--surface);
-}
-.hts-site {
-  width: 100%;
-  max-width: 360px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-md);
-  background: var(--bg-2);
-  overflow: hidden;
-  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.5);
-}
-.hts-site-bar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.hts-site-dots { display: flex; gap: 4px; }
-.hts-site-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--surface-3); }
-.hts-site-url {
-  font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
-  padding: 3px 10px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--bg-2);
-}
-.hts-site-body {
-  display: flex; flex-direction: column; gap: 10px;
-  padding: 18px 16px;
-}
-.hts-site-post {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  background: var(--surface);
-}
-.hts-site-post.live { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
-.hts-site-post.draft { opacity: 0.6; }
-.hts-site-title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
-.hts-site-meta {
-  font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
-  white-space: nowrap; flex-shrink: 0;
-}
-.hts-site-line { height: 8px; border-radius: 4px; background: var(--surface-3); }
-.hts-site-line.w-75 { width: 75%; }
-.hts-site-line.w-55 { width: 55%; }
-.hts-site-tag {
-  font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--text-muted);
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  flex-shrink: 0;
-}
-
 @media (max-width: 560px) {
-  .hts-illu { min-height: 320px; }
   .hts-posts { padding: 22px 18px; }
   .hts-foot { gap: 12px; }
 }

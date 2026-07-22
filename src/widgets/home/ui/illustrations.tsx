@@ -143,82 +143,113 @@ export function HeroIllustration() {
   );
 }
 
-// ─────────── now / dashboard mockup ───────────
+// ─────────── now: FIG. 2 — job-matching engine ───────────
+// Same patent language as FIG. 1. Jobs ride a rail into a sorting drum,
+// a resume feeds in from the side, a shortlist drops out, the rest goes
+// to the bin. The only numbers near it are the real claims in the copy.
 
-export function NowMockup() {
+export function SalaryGuideFig() {
   return (
-    <div className="now-mockup" aria-hidden="true">
-      <div className="now-mockup-bar">
-        <div className="dots"><span /><span /><span /></div>
-        <div className="tab">salaryguide.app / dashboard</div>
+    <div className="fig-wrap" aria-hidden="true">
+      <svg className="fig" viewBox="0 0 560 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* ground */}
+        <g stroke="currentColor" strokeWidth="1" opacity="0.45" strokeLinecap="round">
+          <path d="M40 396 H530" />
+          <path d="M70 396 l-9 9 M130 396 l-9 9 M190 396 l-9 9 M480 396 l-9 9 M520 396 l-9 9" />
+        </g>
+
+        {/* 10 — jobs rail feeding the funnel; rail ends over the funnel mouth */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M64 42 V52 M64 52 H322" />
+          <path d="M312 76 H360 M312 76 L330 110 M360 76 L344 110 M330 110 V170 M344 110 V170" />
+        </g>
+        {/* static queued blocks on the rail */}
+        <g stroke="currentColor" strokeWidth="1.2">
+          <rect x="86" y="40" width="12" height="10" />
+          <rect x="116" y="40" width="12" height="10" />
+        </g>
+        {/* moving job block */}
+        <rect className="fig2-job" x="150" y="40" width="12" height="10" stroke="currentColor" strokeWidth="1.2" />
+
+        {/* 20 — resume document + duct into the housing */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M58 148 H88 L96 156 V196 H58 Z M88 148 V156 H96" />
+          <path strokeWidth="1" d="M66 162 H88 M66 170 H88 M66 178 H82 M66 186 H88" />
+          <path d="M96 166 L200 206 M96 180 L200 220" />
+        </g>
+
+        {/* 30 — sorting drum inside its housing */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="200" y="170" width="160" height="140" rx="3" />
+          <circle cx="210" cy="180" r="2.2" />
+          <circle cx="350" cy="180" r="2.2" />
+          <circle cx="210" cy="300" r="2.2" />
+          <circle cx="350" cy="300" r="2.2" />
+        </g>
+        <g className="fig2-drum" stroke="currentColor" strokeWidth="1.1" strokeDasharray="4 3">
+          <circle cx="280" cy="240" r="52" />
+          <circle cx="280" cy="240" r="40" />
+          <circle cx="280" cy="240" r="8" strokeDasharray="none" />
+          <path d="M280 232 V188 M287 236 L325 214 M287 244 L325 266 M280 248 V292 M273 244 L235 266 M273 236 L235 214" />
+        </g>
+        {/* housing legs */}
+        <path stroke="currentColor" strokeWidth="1.3" d="M214 310 V396 M346 310 V396" />
+
+        {/* discard bin under the housing */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <path d="M252 364 V396 H308 V364" />
+          <path strokeWidth="0.8" opacity="0.5" d="M257 394 l9 -17 M267 394 l9 -17 M277 394 l9 -17 M287 394 l9 -17 M297 394 l9 -17" />
+        </g>
+        <rect className="fig2-reject" x="272" y="316" width="12" height="10" stroke="currentColor" strokeWidth="1.2" opacity="0" />
+
+        {/* 40 — chute to the shortlist tray */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M360 284 L398 334 M360 300 L390 340" />
+          <path d="M392 340 V366 H456 V340" />
+          <path d="M400 366 V396 M448 366 V396" />
+        </g>
+        {/* blocks already in the tray + the accepted one dropping in (accent) */}
+        <g stroke="currentColor" strokeWidth="1.2">
+          <rect x="398" y="354" width="12" height="10" />
+          <rect x="414" y="354" width="12" height="10" />
+        </g>
+        <rect className="fig2-accept" x="428" y="330" width="12" height="10" fill="var(--accent)" stroke="currentColor" strokeWidth="1.1" />
+
+        {/* 50 — apply kit envelope */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="474" y="364" width="52" height="32" />
+          <path strokeWidth="1" d="M474 364 L500 382 L526 364" />
+          <rect x="512" y="368" width="9" height="7" strokeWidth="1" />
+          <path strokeWidth="1" strokeDasharray="3 4" d="M456 350 Q468 334 486 360" />
+        </g>
+
+        {/* callout leaders */}
+        <g stroke="currentColor" strokeWidth="0.9" opacity="0.5" strokeLinecap="round">
+          <path d="M74 42 L104 50" />
+          <path d="M52 130 L62 146" />
+          <path d="M158 252 L226 246" />
+          <path d="M462 306 L436 342" />
+          <path d="M524 344 L508 362" />
+        </g>
+        <g className="fig-num">
+          <text x="60" y="38">10</text>
+          <text x="40" y="126">20</text>
+          <text x="138" y="258">30</text>
+          <text x="456" y="300">40</text>
+          <text x="518" y="338">50</text>
+        </g>
+      </svg>
+
+      <div className="fig-caption">
+        <span className="fig-no">FIG. 2</span>
+        <span className="fig-title">Job-matching engine, 500K jobs in, a shortlist out</span>
       </div>
-      <div className="now-mockup-body">
-        <div className="now-mockup-head">
-          <div className="now-mockup-headline">
-            <div className="now-mockup-num-wrap">
-              <span className="now-mockup-currency">$</span>
-              <span className="now-mockup-num">112,400</span>
-              <span className="now-mockup-cursor" />
-            </div>
-            <div className="now-mockup-num-sub">Median / Paid Media / NY</div>
-          </div>
-          <div className="now-mockup-delta">
-            <span className="now-mockup-delta-arrow">↗</span>
-            <span className="now-mockup-delta-num">+6.2%</span>
-          </div>
-        </div>
-
-        {/* mini KPI grid */}
-        <div className="now-mockup-kpi">
-          <div className="now-mockup-kpi-cell">
-            <span className="k">Jobs</span>
-            <span className="v">500K+</span>
-            <span className="bar"><span className="fill f1" /></span>
-          </div>
-          <div className="now-mockup-kpi-cell">
-            <span className="k">Matches</span>
-            <span className="v">75K</span>
-            <span className="bar"><span className="fill f2" /></span>
-          </div>
-          <div className="now-mockup-kpi-cell">
-            <span className="k">Resumes</span>
-            <span className="v">1.2K</span>
-            <span className="bar"><span className="fill f3" /></span>
-          </div>
-        </div>
-
-        <div className="now-mockup-chart">
-          <div className="b" style={{ height: "40%" }} />
-          <div className="b" style={{ height: "55%" }} />
-          <div className="b" style={{ height: "48%" }} />
-          <div className="b hi" style={{ height: "72%" }} />
-          <div className="b hi" style={{ height: "65%" }} />
-          <div className="b" style={{ height: "58%" }} />
-          <div className="b hi" style={{ height: "82%" }} />
-          <div className="b hi" style={{ height: "88%" }} />
-          <div className="b hi" style={{ height: "78%" }} />
-          <div className="b" style={{ height: "62%" }} />
-          <div className="b hi" style={{ height: "92%" }} />
-          <div className="b hi" style={{ height: "100%" }} />
-        </div>
-
-        <div className="now-mockup-rows">
-          <div className="now-mockup-row r1">
-            <div className="av acc" />
-            <div className="lbl" style={{ width: "70%" }} />
-            <div className="pill">New York</div>
-          </div>
-          <div className="now-mockup-row r2">
-            <div className="av acc2" />
-            <div className="lbl" style={{ width: "55%" }} />
-            <div className="pill">Austin</div>
-          </div>
-          <div className="now-mockup-row r3">
-            <div className="av" />
-            <div className="lbl" style={{ width: "62%" }} />
-            <div className="pill">San Francisco</div>
-          </div>
-        </div>
+      <div className="fig-legend">
+        <span><b>10</b> jobs</span>
+        <span><b>20</b> resume</span>
+        <span><b>30</b> matcher</span>
+        <span><b>40</b> shortlist</span>
+        <span><b>50</b> apply kit</span>
       </div>
     </div>
   );
@@ -460,31 +491,109 @@ export function WriteIllu({ topic }: WriteIlluProps) {
   return null;
 }
 
-// ─────────── product: howtoship.dev site preview ───────────
-// A minimal browser window: the real first post plus dimmed draft rows.
+// ─────────── product: FIG. 3 — lesson press (howtoship.dev) ───────────
+// A screw press squeezes production incidents into flat one-page lessons.
 
-export function HtsIllu() {
+export function HowtoshipFig() {
   return (
-    <div className="hts-illu" aria-hidden="true">
-      <div className="hts-site">
-        <div className="hts-site-bar">
-          <div className="hts-site-dots"><span /><span /><span /></div>
-          <span className="hts-site-url">howtoship.dev</span>
-        </div>
-        <div className="hts-site-body">
-          <div className="hts-site-post live">
-            <span className="hts-site-title">A lot of AI bugs are state bugs.</span>
-            <span className="hts-site-meta">4 min</span>
-          </div>
-          <div className="hts-site-post draft">
-            <span className="hts-site-line w-75" />
-            <span className="hts-site-tag">draft</span>
-          </div>
-          <div className="hts-site-post draft">
-            <span className="hts-site-line w-55" />
-            <span className="hts-site-tag">draft</span>
-          </div>
-        </div>
+    <div className="fig-wrap" aria-hidden="true">
+      <svg className="fig" viewBox="0 0 560 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* ground */}
+        <g stroke="currentColor" strokeWidth="1" opacity="0.45" strokeLinecap="round">
+          <path d="M50 300 H520" />
+          <path d="M80 300 l-9 9 M130 300 l-9 9 M470 300 l-9 9 M508 300 l-9 9" />
+        </g>
+
+        {/* press frame: crossbeam, columns, base platen on a hatched foundation */}
+        <g stroke="currentColor" strokeWidth="1.3">
+          <rect x="200" y="60" width="160" height="14" rx="2" />
+          <path d="M206 74 V260 M216 74 V260 M344 74 V260 M354 74 V260" />
+          <rect x="190" y="260" width="180" height="16" rx="2" />
+          <rect x="216" y="276" width="128" height="24" />
+          <path
+            strokeWidth="0.8"
+            opacity="0.5"
+            d="M222 298 l10 -20 M234 298 l10 -20 M246 298 l10 -20 M258 298 l10 -20 M270 298 l10 -20 M282 298 l10 -20 M294 298 l10 -20 M306 298 l10 -20 M318 298 l10 -20 M330 298 l10 -20"
+          />
+          <circle cx="208" cy="67" r="2" />
+          <circle cx="352" cy="67" r="2" />
+        </g>
+
+        {/* 20 — screw, handle, ram plate (moves as one) */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M244 48 H316 M280 48 V60" />
+          <circle cx="244" cy="48" r="3" />
+          <circle cx="316" cy="48" r="3" />
+        </g>
+        <g className="fig3-ram" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M280 74 V150" />
+          <path strokeWidth="1" d="M274 84 h12 M274 96 h12 M274 108 h12 M274 120 h12 M274 132 h12" />
+          <rect x="232" y="150" width="96" height="12" rx="2" />
+        </g>
+
+        {/* 10 — incident chute from production, with a small loading ledge */}
+        <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+          <path d="M62 158 V172 M62 172 H84 M84 172 V186 M84 172 L228 226 M84 186 L222 240" />
+        </g>
+        {/* jagged incident block sliding down */}
+        <path
+          className="fig3-bug"
+          d="M120 158 l7 -6 6 5 8 -4 3 8 -4 6 -9 3 -8 -3 z"
+          stroke="currentColor"
+          strokeWidth="1.2"
+        />
+
+        {/* the blob being pressed on the platen */}
+        <path
+          className="fig3-squish"
+          d="M258 244 l8 -10 10 4 9 -6 8 8 4 10 h-42 z"
+          stroke="currentColor"
+          strokeWidth="1.2"
+        />
+
+        {/* 30 — flat lesson page emerging onto the platen edge (static anchor
+            for the callout) plus an animated copy that slides to the stack */}
+        <g stroke="currentColor" strokeWidth="1.2">
+          <rect x="338" y="246" width="44" height="13" />
+          <path d="M344 252.5 H368" stroke="var(--accent)" strokeWidth="2" />
+        </g>
+        <g className="fig3-page">
+          <rect x="338" y="246" width="44" height="13" stroke="currentColor" strokeWidth="1.2" />
+          <path d="M344 252.5 H368" stroke="var(--accent)" strokeWidth="2" />
+        </g>
+
+        {/* 40 — stack of published pages */}
+        <g stroke="currentColor" strokeWidth="1.2">
+          <rect x="424" y="286" width="56" height="14" />
+          <rect x="428" y="272" width="56" height="14" />
+          <rect x="432" y="258" width="56" height="14" />
+          <path d="M440 265 H472" stroke="var(--accent)" strokeWidth="2" />
+        </g>
+
+        {/* callout leaders */}
+        <g stroke="currentColor" strokeWidth="0.9" opacity="0.5" strokeLinecap="round">
+          <path d="M72 148 L92 168" />
+          <path d="M196 42 L240 52" />
+          <path d="M410 210 L388 240" />
+          <path d="M508 240 L490 258" />
+        </g>
+        <g className="fig-num">
+          <text x="58" y="144">10</text>
+          <text x="180" y="38">20</text>
+          <text x="404" y="204">30</text>
+          <text x="502" y="234">40</text>
+        </g>
+      </svg>
+
+      <div className="fig-caption">
+        <span className="fig-no">FIG. 3</span>
+        <span className="fig-title">Lesson press, one page per production incident</span>
+      </div>
+      <div className="fig-legend">
+        <span><b>10</b> incident</span>
+        <span><b>20</b> press</span>
+        <span><b>30</b> lesson</span>
+        <span><b>40</b> published</span>
       </div>
     </div>
   );

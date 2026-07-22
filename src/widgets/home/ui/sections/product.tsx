@@ -2,7 +2,7 @@ import "@app/styles/home/25-product.css";
 import { Reveal } from "@shared/ui/anim";
 import { ArrowUR } from "@shared/ui/icons";
 import { SecHead } from "@widgets/home/ui/components";
-import { HtsIllu, PostIllu } from "@widgets/home/ui/illustrations";
+import { HowtoshipFig, PostIllu } from "@widgets/home/ui/illustrations";
 import { PRODUCT } from "@entities/home-content/model/product";
 
 export function Product() {
@@ -31,7 +31,7 @@ export function Product() {
           </Reveal>
 
           <Reveal delay={200}>
-            <HtsIllu />
+            <HowtoshipFig />
           </Reveal>
         </div>
 

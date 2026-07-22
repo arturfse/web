@@ -8,6 +8,14 @@ export function Contact() {
   return (
     <Reveal>
         <div className="cta-banner">
+          <img
+            className="cta-photo"
+            src="/artur.webp"
+            alt="Artur Arslanov"
+            width={640}
+            height={640}
+            loading="lazy"
+          />
           <h2 className="cta-title">Let's talk.</h2>
           <div className="cta-actions">
             <Obf className="btn" d={CONTACT.email} kind="mail">

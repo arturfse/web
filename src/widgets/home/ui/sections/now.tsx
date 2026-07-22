@@ -1,7 +1,6 @@
-import "@app/styles/home/22-now-mockup-anim.css";
 import { Reveal } from "@shared/ui/anim";
 import { SecHead } from "@widgets/home/ui/components";
-import { NowMockup } from "@widgets/home/ui/illustrations";
+import { SalaryGuideFig } from "@widgets/home/ui/illustrations";
 import { CURRENT } from "@entities/home-content/model/now";
 
 export function Now() {
@@ -38,7 +37,7 @@ export function Now() {
           </Reveal>
 
           <Reveal delay={200}>
-            <NowMockup />
+            <SalaryGuideFig />
           </Reveal>
         </div>
 

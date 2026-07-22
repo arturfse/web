@@ -8,6 +8,15 @@
   color: var(--text);
 }
 
+/* shared wrapper for FIG. 2 / FIG. 3 inside section grids */
+.fig-wrap {
+  width: 100%;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .fig {
   width: 100%;
   height: auto;
@@ -122,11 +131,100 @@
   to { stroke-dashoffset: -96; }
 }
 
+/* ── FIG. 2 motion: rail block in, drum turns, one block to the
+   shortlist tray, one to the bin ── */
+.fig2-drum {
+  transform-box: view-box;
+  transform-origin: 280px 240px;
+  animation: fig-rotate 22s linear infinite;
+}
+.fig2-job {
+  transform-box: view-box;
+  animation: fig2-job 6s linear infinite;
+}
+@keyframes fig2-job {
+  0%   { transform: translate(0, 0); opacity: 0; animation-timing-function: linear; }
+  5%   { opacity: 1; }
+  50%  { transform: translate(155px, 0); opacity: 1; animation-timing-function: ease-in; }
+  60%  { transform: translate(163px, 30px); opacity: 1; }
+  66%  { transform: translate(168px, 46px); opacity: 0; }
+  100% { transform: translate(168px, 46px); opacity: 0; }
+}
+.fig2-reject {
+  transform-box: view-box;
+  animation: fig2-reject 6s ease-in infinite;
+}
+@keyframes fig2-reject {
+  0%, 64% { transform: translateY(0); opacity: 0; }
+  70%  { opacity: 0.6; }
+  80%  { transform: translateY(42px); opacity: 0.6; }
+  86%  { transform: translateY(46px); opacity: 0; }
+  100% { transform: translateY(46px); opacity: 0; }
+}
+.fig2-accept {
+  transform-box: view-box;
+  animation: fig2-accept 6s ease-in infinite;
+}
+@keyframes fig2-accept {
+  0%, 70% { transform: translateY(-8px); opacity: 0; }
+  76%  { transform: translateY(0); opacity: 1; }
+  84%  { transform: translateY(22px); }
+  96%  { transform: translateY(22px); opacity: 1; }
+  100% { transform: translateY(22px); opacity: 0; }
+}
+
+/* ── FIG. 3 motion: incident slides in, ram presses, page joins stack ── */
+.fig3-bug {
+  transform-box: view-box;
+  animation: fig3-bug 6s ease-in infinite;
+}
+@keyframes fig3-bug {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  6%   { opacity: 1; }
+  30%  { transform: translate(122px, 46px); opacity: 1; }
+  36%  { transform: translate(136px, 56px); opacity: 0; }
+  100% { transform: translate(136px, 56px); opacity: 0; }
+}
+.fig3-ram {
+  transform-box: view-box;
+  animation: fig3-ram 6s ease-in-out infinite;
+}
+@keyframes fig3-ram {
+  0%, 38%  { transform: translateY(0); }
+  48%, 56% { transform: translateY(84px); }
+  68%, 100% { transform: translateY(0); }
+}
+.fig3-squish {
+  transform-box: view-box;
+  transform-origin: 280px 260px;
+  animation: fig3-squish 6s ease-in-out infinite;
+}
+@keyframes fig3-squish {
+  0%, 40%  { transform: scaleY(1); }
+  50%, 58% { transform: scaleY(0.45); }
+  68%, 100% { transform: scaleY(1); }
+}
+.fig3-page {
+  transform-box: view-box;
+  animation: fig3-page 6s ease-out infinite;
+}
+@keyframes fig3-page {
+  0%, 56% { transform: translate(0, 0); opacity: 0; }
+  62%  { transform: translate(8px, 1px); opacity: 1; }
+  84%  { transform: translate(94px, 12px); opacity: 1; }
+  92%  { transform: translate(94px, 12px); opacity: 0; }
+  100% { transform: translate(94px, 12px); opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .fig-gear-a, .fig-gear-b, .fig-needle, .fig-drop, .fig-block, .fig-belt {
+  .fig-gear-a, .fig-gear-b, .fig-needle, .fig-drop, .fig-block, .fig-belt,
+  .fig2-drum, .fig2-job, .fig2-accept, .fig2-reject,
+  .fig3-ram, .fig3-bug, .fig3-squish, .fig3-page {
     animation: none;
   }
-  .fig-drop, .fig-block { opacity: 0; }
+  .fig-drop, .fig-block,
+  .fig2-job, .fig2-accept, .fig2-reject,
+  .fig3-bug, .fig3-page { opacity: 0; }
 }
 
 /* narrow screens: the drawing scales down a lot, so the in-SVG callout
